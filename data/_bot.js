@@ -46,7 +46,7 @@ function runCronJob() {
     const findFloor = (bearType = '', index = 0) => {
       console.log(`searching floor for type ${bearType} from index ${index}`)
 
-      // search pre-fetched data for floor price of this warrior type
+      // search pre-fetched data for floor price of this bear type
       // (reminder: data is fetched by sorted price, 1st item found is the floor)
       for (let i = index; i < preFetchedData.length; i++) {
         const preFetchedBear = preFetchedData[i]
@@ -59,7 +59,7 @@ function runCronJob() {
       return null
     }
 
-    // go through every warrior in the list
+    // go through every bear in the list
     for (const bear of bearsData.bears) {
       lastSearchedIndex = 0
       const thisType = bear.type
