@@ -1,0 +1,11 @@
+{
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node _bot.js"
+  },
+  "dependencies": {
+    "axios": "^0.24.0",
+    "node-cron": "^3.0.0"
+  }
+}
