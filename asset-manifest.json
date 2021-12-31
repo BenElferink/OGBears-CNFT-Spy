@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/og-bears-cnft-spy/static/css/main.e116f526.chunk.css",
-    "main.js": "/og-bears-cnft-spy/static/js/main.c1bf7408.chunk.js",
-    "main.js.map": "/og-bears-cnft-spy/static/js/main.c1bf7408.chunk.js.map",
+    "main.js": "/og-bears-cnft-spy/static/js/main.35b1a62f.chunk.js",
+    "main.js.map": "/og-bears-cnft-spy/static/js/main.35b1a62f.chunk.js.map",
     "runtime-main.js": "/og-bears-cnft-spy/static/js/runtime-main.bb2a387e.js",
     "runtime-main.js.map": "/og-bears-cnft-spy/static/js/runtime-main.bb2a387e.js.map",
     "static/css/2.65aefc5a.chunk.css": "/og-bears-cnft-spy/static/css/2.65aefc5a.chunk.css",
@@ -20,6 +20,6 @@
     "static/css/2.65aefc5a.chunk.css",
     "static/js/2.7438a348.chunk.js",
     "static/css/main.e116f526.chunk.css",
-    "static/js/main.c1bf7408.chunk.js"
+    "static/js/main.35b1a62f.chunk.js"
   ]
 }
