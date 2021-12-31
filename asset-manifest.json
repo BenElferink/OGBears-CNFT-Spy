@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/og-bears-cnft-spy/static/css/main.e116f526.chunk.css",
+    "main.js": "/og-bears-cnft-spy/static/js/main.c1bf7408.chunk.js",
+    "main.js.map": "/og-bears-cnft-spy/static/js/main.c1bf7408.chunk.js.map",
+    "runtime-main.js": "/og-bears-cnft-spy/static/js/runtime-main.bb2a387e.js",
+    "runtime-main.js.map": "/og-bears-cnft-spy/static/js/runtime-main.bb2a387e.js.map",
+    "static/css/2.65aefc5a.chunk.css": "/og-bears-cnft-spy/static/css/2.65aefc5a.chunk.css",
+    "static/js/2.7438a348.chunk.js": "/og-bears-cnft-spy/static/js/2.7438a348.chunk.js",
+    "static/js/2.7438a348.chunk.js.map": "/og-bears-cnft-spy/static/js/2.7438a348.chunk.js.map",
+    "index.html": "/og-bears-cnft-spy/index.html",
+    "static/css/2.65aefc5a.chunk.css.map": "/og-bears-cnft-spy/static/css/2.65aefc5a.chunk.css.map",
+    "static/css/main.e116f526.chunk.css.map": "/og-bears-cnft-spy/static/css/main.e116f526.chunk.css.map",
+    "static/js/2.7438a348.chunk.js.LICENSE.txt": "/og-bears-cnft-spy/static/js/2.7438a348.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/og-bears-cnft-spy/static/media/bg.9bd2ad1b.png",
+    "static/media/logo.10122411.png": "/og-bears-cnft-spy/static/media/logo.10122411.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.bb2a387e.js",
+    "static/css/2.65aefc5a.chunk.css",
+    "static/js/2.7438a348.chunk.js",
+    "static/css/main.e116f526.chunk.css",
+    "static/js/main.c1bf7408.chunk.js"
+  ]
+}
