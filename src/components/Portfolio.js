@@ -186,7 +186,7 @@ function Portfolio({ floorData }) {
               </span>
               <div className='flex-col' style={{ marginLeft: '0.5rem' }}>
                 <ChangeGreenRed
-                  value={((100 / totalBalance ? totalBalance : 100) * (totalBalance - totalPayed)).toFixed(0)}
+                  value={((100 / totalBalance) * (totalBalance - totalPayed)).toFixed(0)}
                   suffix='%'
                   invert
                   withCaret
