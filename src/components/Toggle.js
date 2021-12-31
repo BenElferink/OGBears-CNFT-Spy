@@ -11,7 +11,7 @@ function Toggle({
   state: { value, setValue },
   style = {},
 }) {
-  const [toggle, setToggle] = useLocalStorage(`toggle-key-${name}`, value ?? false)
+  const [toggle, setToggle] = useLocalStorage(`ogb-toggle-key-${name}`, value ?? false)
 
   const styles = {
     label: {
