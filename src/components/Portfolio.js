@@ -272,7 +272,7 @@ function Portfolio({ floorData }) {
               />
             )}
             {assets.map(({ id, name, type, image, payed }) => {
-              const priceDiff = floorData[type][floorData[type].length - 1]?.floor ?? 0 - payed
+              const priceDiff = floorData[type][floorData[type].length - 1]?.floor - payed
 
               return (
                 <div key={id} style={{ position: 'relative' }}>
