@@ -240,7 +240,7 @@ function Portfolio({ floorData }) {
             }}
           />
           <Typography variant='h6' sx={{ textAlign: 'center' }}>
-            My Assets
+            My Assets ({assets.length})
           </Typography>
           <div
             style={{
