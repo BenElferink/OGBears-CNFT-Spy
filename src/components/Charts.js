@@ -35,7 +35,16 @@ function Charts({ bearsData, floorData, isDesktop }) {
       <Chart
         width={chartWidth}
         type='line'
-        options={chartOptions}
+        options={{
+          ...chartOptions,
+          colors: [
+            'rgb(127, 92, 71)',
+            'rgb(57, 51, 42)',
+            'rgb(237, 221, 203)',
+            'rgb(252, 214, 217)',
+            'rgb(171, 209, 237)',
+          ],
+        }}
         series={chartSeries}
       />
     </section>
