@@ -9,7 +9,7 @@ import {
   BLOCKFROST_CARDANO_TEST,
   BLOCKFROST_IPFS,
 } from './urls'
-import { GREEN, RED } from './colors'
+import { GREEN, RED, BROWN, BLACK, POLAR_MALE, POLAR_FEMALE, ICY } from './colors'
 
 export {
   BLOCKFROST_KEY,
@@ -24,4 +24,9 @@ export {
   BLOCKFROST_IPFS,
   GREEN,
   RED,
+  BROWN,
+  BLACK,
+  POLAR_MALE,
+  POLAR_FEMALE,
+  ICY,
 }

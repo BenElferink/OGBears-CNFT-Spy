@@ -3,11 +3,15 @@ import Chart from 'react-apexcharts'
 import Toggle from './Toggle'
 import styles from '../styles/Charts.module.css'
 import { getChartOptions, getChartSeries } from '../functions'
+import { useLocalStorage } from '../hooks'
+import { MenuItem, Select } from '@mui/material'
+import { BLACK, BROWN, ICY, POLAR_FEMALE, POLAR_MALE } from '../constants'
 
 function Charts({ bearsData, floorData, isDesktop }) {
   const generateChartWidth = (width = window.innerWidth) => width - (isDesktop ? 750 : 70)
   const [chartWidth, setChartWidth] = useState(generateChartWidth())
   const [showThirtyDay, setShowThirtyDay] = useState(false)
+  const [selectedType, setSelectedType] = useLocalStorage('ogb-selected-type', 'All')
 
   useEffect(() => {
     const handler = () => setChartWidth(generateChartWidth())
@@ -16,7 +20,11 @@ function Charts({ bearsData, floorData, isDesktop }) {
   }, []) // eslint-disable-line
 
   const chartOptions = getChartOptions(floorData, showThirtyDay)
-  const chartSeries = getChartSeries(bearsData, floorData, showThirtyDay)
+  const chartSeries = getChartSeries(
+    selectedType === 'All' ? bearsData.bears : bearsData.bears.filter(({ type }) => type === selectedType),
+    floorData,
+    showThirtyDay,
+  )
 
   return (
     <section className={styles.chartContainer}>
@@ -30,6 +38,15 @@ function Charts({ bearsData, floorData, isDesktop }) {
             setValue: setShowThirtyDay,
           }}
         />
+
+        <Select value={selectedType} onChange={(e) => setSelectedType(e.target.value)}>
+          <MenuItem value='All'>All</MenuItem>
+          {bearsData.bears.map(({ type }) => (
+            <MenuItem key={type} value={type}>
+              {type}
+            </MenuItem>
+          ))}
+        </Select>
       </div>
 
       <Chart
@@ -37,13 +54,20 @@ function Charts({ bearsData, floorData, isDesktop }) {
         type='line'
         options={{
           ...chartOptions,
-          colors: [
-            'rgb(127, 92, 71)',
-            'rgb(57, 51, 42)',
-            'rgb(237, 221, 203)',
-            'rgb(252, 214, 217)',
-            'rgb(171, 209, 237)',
-          ],
+          colors:
+            selectedType === 'All'
+              ? [BROWN, BLACK, POLAR_MALE, POLAR_FEMALE, ICY]
+              : selectedType === 'Brown'
+              ? [BROWN]
+              : selectedType === 'Black'
+              ? [BLACK]
+              : selectedType === 'Polar Bear (Male)'
+              ? [POLAR_MALE]
+              : selectedType === 'Polar Bear (Female)'
+              ? [POLAR_FEMALE]
+              : selectedType === 'Icy'
+              ? [ICY]
+              : [],
         }}
         series={chartSeries}
       />

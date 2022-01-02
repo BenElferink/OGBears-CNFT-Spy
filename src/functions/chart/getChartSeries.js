@@ -1,5 +1,5 @@
-function getChartSeries(bearsData, floorData, isMonth) {
-  const series = bearsData.bears
+function getChartSeries(bears, floorData, isMonth) {
+  const series = bears
     .map(({ type }) => {
       const payload = {
         name: type,
