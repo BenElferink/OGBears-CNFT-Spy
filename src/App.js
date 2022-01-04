@@ -24,7 +24,7 @@ function App() {
     return (
       <div className='App'>
         <Listings title='Recently Listed' options={{ sold: false }} />
-        {bearsData && floorData && <Main bearsData={bearsData} floorData={floorData} isDesktop />}
+        <Main bearsData={bearsData} floorData={floorData} isDesktop />
         <Listings title='Recently Sold' options={{ sold: true }} />
       </div>
     )
@@ -32,7 +32,7 @@ function App() {
 
   return (
     <div className='App'>
-      {bearsData && floorData && <Main bearsData={bearsData} floorData={floorData} isDesktop={false} />}
+      <Main bearsData={bearsData} floorData={floorData} isDesktop={false} />
       <Listings title='Recently Listed' options={{ sold: false }} />
       <Listings title='Recently Sold' options={{ sold: true }} />
     </div>
