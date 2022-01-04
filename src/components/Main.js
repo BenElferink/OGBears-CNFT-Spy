@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import Header from './Header'
 import Charts from './Charts'
 import Footer from './Footer'
