@@ -1,5 +1,5 @@
 import { BLOCKFROST_KEY } from './keys'
-import { ADA_SYMBOL, ADA_ADDRESS } from './ada'
+import { ADA_SYMBOL, ADA_ADDRESS, ADA_ADDRESS_QR } from './ada'
 import { POLICY_ID } from './og-bears'
 import {
   CNFT_URL,
@@ -15,6 +15,7 @@ export {
   BLOCKFROST_KEY,
   ADA_SYMBOL,
   ADA_ADDRESS,
+  ADA_ADDRESS_QR,
   POLICY_ID,
   CNFT_URL,
   FLOOR_DATA_URL,

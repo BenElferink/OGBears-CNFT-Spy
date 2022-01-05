@@ -2,8 +2,7 @@ import { useState } from 'react'
 import { Button, Chip, useMediaQuery } from '@mui/material'
 import { CreditCard, ContentCopy } from '@mui/icons-material'
 import Modal from './Modal'
-import qrCode from '../assets/images/YoroiQR.png'
-import { ADA_ADDRESS } from '../constants'
+import { ADA_ADDRESS, ADA_ADDRESS_QR } from '../constants'
 
 function Donate() {
   const isMobile = useMediaQuery('(max-width: 768px)')
@@ -41,7 +40,7 @@ function Donate() {
             borderRadius: '11px',
             backgroundColor: 'whitesmoke',
           }}>
-          <img src={qrCode} alt='' />
+          <img src={ADA_ADDRESS_QR} alt='' />
         </div>
 
         <Chip
