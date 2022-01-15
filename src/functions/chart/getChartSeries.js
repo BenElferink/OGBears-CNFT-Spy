@@ -16,7 +16,6 @@ function getChartSeries(bears, floorData, isMonth) {
 
       return payload
     })
-    .sort((a, b) => a.data[0] - b.data[0])
 
   return series
 }
