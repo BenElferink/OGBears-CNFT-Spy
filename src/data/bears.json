@@ -1,0 +1,22 @@
+{
+  "bears": [
+    {
+      "type": "Brown"
+    },
+    {
+      "type": "Black"
+    },
+    {
+      "type": "Polar Bear (Male)"
+    },
+    {
+      "type": "Polar Bear (Female)"
+    },
+    {
+      "type": "Zombie"
+    },
+    {
+      "type": "Icy"
+    }
+  ]
+}
