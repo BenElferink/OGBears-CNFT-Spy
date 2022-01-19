@@ -11,8 +11,8 @@ object-assign
 */
 
 /*!
- * ApexCharts v3.32.1
- * (c) 2018-2021 ApexCharts
+ * ApexCharts v3.33.0
+ * (c) 2018-2022 ApexCharts
  * Released under the MIT License.
  */
 
@@ -24,7 +24,7 @@ object-assign
 * https://github.com/wout/svg.filter.js
 * Copyright (c) 2016 Wout Fierens; Licensed MIT */
 
-/** @license MUI v5.2.6
+/** @license MUI v5.3.0
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
