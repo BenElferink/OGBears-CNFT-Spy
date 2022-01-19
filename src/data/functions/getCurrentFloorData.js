@@ -1,9 +1,6 @@
 import crawlCNFT from './crawlCNFT.js'
-import { createRequire } from 'module'
-const require = createRequire(import.meta.url)
-const bearTypes = require('../bears.json')
 
-const getCurrentFloorData = async () => {
+const getCurrentFloorData = async (bearsJsonFile) => {
   let page = 0
   let lastSearchedIndex = 0
   const preFetchedData = []
@@ -26,7 +23,7 @@ const getCurrentFloorData = async () => {
   }
 
   // go through every bear in the list
-  for (const bear of bearTypes.bears) {
+  for (const bear of bearsJsonFile.bears) {
     lastSearchedIndex = 0
     const thisType = bear.type
     let foundFloorForThisType = preFetchedData.length ? findFloor(thisType, lastSearchedIndex) : null

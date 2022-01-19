@@ -1,22 +1,28 @@
 import { useEffect, useState } from 'react'
-import Axios from 'axios'
 import { useMediaQuery } from '@mui/material'
 import Listings from './components/Listings'
 import Main from './components/Main'
-import { FLOOR_DATA_URL, BEAR_DATA_URL } from './constants'
+import bearsJsonFile from './data/bears'
+import floorSnapshots from './data/floor-data'
+import getCurrentFloorData from './data/functions/getCurrentFloorData'
 
 function App() {
-  const [bearsData, setBearsData] = useState(null)
-  const [floorData, setFloorData] = useState(null)
+  const [floorData, setFloorData] = useState(floorSnapshots)
   const isDesktop = useMediaQuery('(min-width: 1024px)')
 
   useEffect(() => {
-    Axios.get(BEAR_DATA_URL)
-      .then((response) => setBearsData(response.data))
-      .catch((error) => console.error(error))
+    getCurrentFloorData(bearsJsonFile)
+      .then((obj) =>
+        setFloorData((prev) => {
+          const newState = { ...prev }
 
-    Axios.get(FLOOR_DATA_URL)
-      .then((response) => setFloorData(response.data))
+          Object.entries(obj).forEach(([key, val]) => {
+            newState[key].push({ ...val, timestamp: 'LIVE' })
+          })
+
+          return newState
+        }),
+      )
       .catch((error) => console.error(error))
   }, [])
 
@@ -24,7 +30,7 @@ function App() {
     return (
       <div className='App'>
         <Listings title='Recently Listed' options={{ sold: false }} />
-        <Main bearsData={bearsData} floorData={floorData} isDesktop />
+        <Main bearsData={bearsJsonFile} floorData={floorData} isDesktop />
         <Listings title='Recently Sold' options={{ sold: true }} />
       </div>
     )
@@ -32,7 +38,7 @@ function App() {
 
   return (
     <div className='App'>
-      <Main bearsData={bearsData} floorData={floorData} isDesktop={false} />
+      <Main bearsData={bearsJsonFile} floorData={floorData} isDesktop={false} />
       <Listings title='Recently Listed' options={{ sold: false }} />
       <Listings title='Recently Sold' options={{ sold: true }} />
     </div>

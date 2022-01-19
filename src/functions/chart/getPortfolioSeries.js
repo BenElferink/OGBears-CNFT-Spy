@@ -3,18 +3,25 @@ import getTypeSeries from './getTypeSeries'
 function getPortfolioSeries(assets, floorData, isMonth) {
   const floorSeries = {
     name: 'Market Floors',
-    data: new Array(isMonth ? 30 : 7).fill(0),
+    data: new Array(isMonth ? 30 : 7).fill(null),
   }
   const assetSeries = {
     name: 'Expenses',
-    data: new Array(isMonth ? 30 : 7).fill(0),
+    data: new Array(isMonth ? 30 : 7).fill(null),
   }
 
   assets.forEach(({ type, payed, timestamp }) => {
     const typeObjects = floorData[type]
     const typeSeries = getTypeSeries(typeObjects, isMonth)[0]
-    const isTimestampValid = (idx) =>
-      typeObjects[typeObjects.length - ((isMonth ? 30 : 7) - idx)]?.timestamp >= timestamp
+    const isTimestampValid = (idx) => {
+      const thisStamp = typeObjects[typeObjects.length - ((isMonth ? 30 : 7) - idx)]?.timestamp
+
+      if (thisStamp === 'LIVE' || thisStamp >= timestamp) {
+        return true
+      }
+
+      return false
+    }
 
     floorSeries.data = floorSeries.data.map((num, i) => {
       if (isTimestampValid(i)) return num + typeSeries.data[i]

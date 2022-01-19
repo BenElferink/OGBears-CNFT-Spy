@@ -5,7 +5,7 @@ import styles from '../styles/Charts.module.css'
 import { getChartOptions, getChartSeries } from '../functions'
 import { useLocalStorage } from '../hooks'
 import { MenuItem, Select } from '@mui/material'
-import { BLACK, BROWN, ICY, POLAR_FEMALE, POLAR_MALE } from '../constants'
+import { BLACK, BROWN, POLAR_MALE, POLAR_FEMALE, ZOMBIE, ICY } from '../constants'
 
 function Charts({ bearsData, floorData, isDesktop }) {
   const generateChartWidth = (width = window.innerWidth) => width - (isDesktop ? 750 : 70)
@@ -56,7 +56,7 @@ function Charts({ bearsData, floorData, isDesktop }) {
           ...chartOptions,
           colors:
             selectedType === 'All'
-              ? [BROWN, BLACK, POLAR_MALE, POLAR_FEMALE, ICY]
+              ? [BROWN, BLACK, POLAR_MALE, POLAR_FEMALE, ZOMBIE, ICY]
               : selectedType === 'Brown'
               ? [BROWN]
               : selectedType === 'Black'
@@ -65,6 +65,8 @@ function Charts({ bearsData, floorData, isDesktop }) {
               ? [POLAR_MALE]
               : selectedType === 'Polar Bear (Female)'
               ? [POLAR_FEMALE]
+              : selectedType === 'Zombie'
+              ? [ZOMBIE]
               : selectedType === 'Icy'
               ? [ICY]
               : [],

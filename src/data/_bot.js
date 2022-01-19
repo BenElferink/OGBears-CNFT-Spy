@@ -2,6 +2,9 @@ import cron from 'node-cron'
 import fs from 'fs'
 import { exec } from 'child_process'
 import getCurrentFloorData from './functions/getCurrentFloorData.js'
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
+const bearsJsonFile = require('../bears.json')
 
 const runCronJob = () => {
   console.log('running cron job')
@@ -15,7 +18,7 @@ const runCronJob = () => {
 
   // manage git pull
   exec('cd .. && git fetch && git pull --no-rebase', async (gitPullError, gitPullStdout, gitPullStderr) => {
-    const floorData = await getCurrentFloorData()
+    const floorData = await getCurrentFloorData(bearsJsonFile)
 
     Object.entries(floorData).forEach(([key, val]) => {
       const thisType = key

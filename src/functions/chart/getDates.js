@@ -1,5 +1,7 @@
 function getDates(floorData, isMonth) {
   const dates = Object.values(floorData)[0].map((obj) => {
+    if (obj.timestamp === 'LIVE') return obj.timestamp
+
     const timestamp = new Date(obj.timestamp)
     const month = timestamp.getMonth()
     const day = timestamp.getDate()
