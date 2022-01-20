@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import styles from '../styles/Charts.module.css'
+import { useEffect, useState } from 'react'
+import { useScreenSize } from '../contexts/ScreenSizeContext'
+import { useLocalStorage } from '../hooks'
+import { getChartOptions, getChartSeries } from '../functions'
+import { MenuItem, Select } from '@mui/material'
 import Chart from 'react-apexcharts'
 import Toggle from './Toggle'
-import styles from '../styles/Charts.module.css'
-import { getChartOptions, getChartSeries } from '../functions'
-import { useLocalStorage } from '../hooks'
-import { MenuItem, Select } from '@mui/material'
+import bearsJsonFile from '../data/bears'
 import { BLACK, BROWN, POLAR_MALE, POLAR_FEMALE, ZOMBIE, ICY } from '../constants'
 
-function Charts({ bearsData, floorData, isDesktop }) {
+function Charts({ floorData }) {
+  const { isDesktop } = useScreenSize()
+  
   const generateChartWidth = (width = window.innerWidth) => width - (isDesktop ? 750 : 70)
   const [chartWidth, setChartWidth] = useState(generateChartWidth())
+  
   const [showThirtyDay, setShowThirtyDay] = useState(false)
   const [selectedType, setSelectedType] = useLocalStorage('ogb-selected-type', 'All')
 
@@ -21,7 +26,7 @@ function Charts({ bearsData, floorData, isDesktop }) {
 
   const chartOptions = getChartOptions(floorData, showThirtyDay)
   const chartSeries = getChartSeries(
-    selectedType === 'All' ? bearsData.bears : bearsData.bears.filter(({ type }) => type === selectedType),
+    selectedType === 'All' ? bearsJsonFile.bears : bearsJsonFile.bears.filter(({ type }) => type === selectedType),
     floorData,
     showThirtyDay,
   )
@@ -41,7 +46,7 @@ function Charts({ bearsData, floorData, isDesktop }) {
 
         <Select value={selectedType} onChange={(e) => setSelectedType(e.target.value)}>
           <MenuItem value='All'>All</MenuItem>
-          {bearsData.bears.map(({ type }) => (
+          {bearsJsonFile.bears.map(({ type }) => (
             <MenuItem key={type} value={type}>
               {type}
             </MenuItem>

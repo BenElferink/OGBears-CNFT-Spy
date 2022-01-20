@@ -22,18 +22,18 @@ function Listings({ title = 'Listings', options = {} }) {
             // if there is no pre-fetched data, just return the current fetched data
             if (!prev.length) return bears
             // a verification method to add only new data to the front of the array
-            const bewBears = []
+            const newBears = []
             for (const currentBear of bears) {
               if (currentBear._id === prev[0]._id) break
-              bewBears.push(currentBear)
+              newBears.push(currentBear)
             }
-            return [...bewBears, ...prev]
+            return [...newBears, ...prev]
           })
         })
         .catch((error) => {
           console.error(error)
         })
-    }, 1000 * 10)
+    }, 1000 * 60)
 
     return () => {
       clearInterval(interval)
@@ -53,13 +53,13 @@ function Listings({ title = 'Listings', options = {} }) {
         .then((bears) => {
           setData((prev) => {
             // a verification method to add only new data to the end of the array
-            const bewBears = []
+            const newBears = []
             for (let i = bears.length - 1; i >= 0; i--) {
               const currentBear = bears[i]
               if (currentBear._id === prev[prev.length - 1]?._id) break
-              bewBears.unshift(currentBear)
+              newBears.unshift(currentBear)
             }
-            return [...prev, ...bewBears]
+            return [...prev, ...newBears]
           })
           setIsLoadingMore(false)
         })

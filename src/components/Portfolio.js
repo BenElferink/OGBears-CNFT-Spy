@@ -1,5 +1,14 @@
-import { useEffect, useState } from 'react'
-import { Button, Drawer, IconButton, TextField, Typography, useMediaQuery } from '@mui/material'
+import styles from '../styles/Charts.module.css'
+import { Fragment, useEffect, useState } from 'react'
+import { useScreenSize } from '../contexts/ScreenSizeContext'
+import { useLocalStorage } from '../hooks'
+import {
+  formatNumber,
+  getImageFromIPFS,
+  getChartOptions,
+  getPortfolioSeries,
+} from '../functions'
+import { Button, Drawer, IconButton, TextField, Typography } from '@mui/material'
 import {
   Fingerprint,
   AddCircle,
@@ -14,22 +23,14 @@ import Toggle from './Toggle'
 import Loading from './Loading'
 import ListItem from './ListItem'
 import ChangeGreenRed from './ChangeGreenRed'
-import { useLocalStorage } from '../hooks'
-import {
-  formatNumber,
-  getAssetFromBlockfrost,
-  getImageFromIPFS,
-  getChartOptions,
-  getPortfolioSeries,
-} from '../functions'
-import { ADA_SYMBOL, GREEN, POLICY_ID, RED } from '../constants'
 import addImage from '../assets/images/add.png'
-import styles from '../styles/Charts.module.css'
-
-const OPACITY_WHITE = 'rgba(250, 250, 250, 0.4)'
+import { ADA_SYMBOL, GREEN, RED, OPACITY_WHITE } from '../constants'
+import { BEARS_POLICY_ID } from '../data/constants'
+import getAssetFromBlockfrost from '../data/functions/getAssetFromBlockfrost'
 
 function Portfolio({ floorData }) {
-  const isMobile = useMediaQuery('(max-width: 768px)')
+  const { isMobile } = useScreenSize()
+
   const [assets, setAssets] = useLocalStorage('ogb-assets', [])
 
   const [openModal, setOpenModal] = useState(false)
@@ -46,9 +47,9 @@ function Portfolio({ floorData }) {
     setAdding(true)
     let idValid = false
     let priceValid = false
-    const addBearrIdTrimmed = Number(addBearId.replace('#', ''))
+    const addBearIdTrimmed = Number(addBearId.replace('#', ''))
 
-    if (addBearrIdTrimmed >= 1 && addBearrIdTrimmed <= 10000) idValid = true
+    if (addBearIdTrimmed >= 1 && addBearIdTrimmed <= 10000) idValid = true
     if (addBearPrice) priceValid = true
 
     if (!idValid || !priceValid) {
@@ -58,7 +59,7 @@ function Portfolio({ floorData }) {
       return
     }
 
-    const assetData = await getAssetFromBlockfrost(addBearrIdTrimmed)
+    const assetData = await getAssetFromBlockfrost(addBearIdTrimmed)
     if (!assetData) {
       setAdding(false)
       return
@@ -81,7 +82,7 @@ function Portfolio({ floorData }) {
     const timestamp = newDate.getTime()
 
     const payload = {
-      id: Number(addBearrIdTrimmed),
+      id: Number(addBearIdTrimmed),
       name,
       type: Type,
       image: getImageFromIPFS(image),
@@ -144,7 +145,7 @@ function Portfolio({ floorData }) {
   const chartSeries = getPortfolioSeries(assets, floorData, showThirtyDay)
 
   return (
-    <>
+    <Fragment>
       <Button
         variant='contained'
         color='secondary'
@@ -287,7 +288,7 @@ function Portfolio({ floorData }) {
                     name={name}
                     price={formatNumber(payed)}
                     imageSrc={image}
-                    itemUrl={`https://pool.pm/${POLICY_ID}.${id}`}
+                    itemUrl={`https://pool.pm/${BEARS_POLICY_ID}.${id}`}
                     iconArray={[
                       {
                         icon:
@@ -357,7 +358,7 @@ function Portfolio({ floorData }) {
           )}
         </div>
       </Drawer>
-    </>
+    </Fragment>
   )
 }
 

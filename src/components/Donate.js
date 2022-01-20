@@ -1,11 +1,12 @@
-import { useState } from 'react'
-import { Button, Chip, useMediaQuery } from '@mui/material'
+import { Fragment, useState } from 'react'
+import { Button, Chip } from '@mui/material'
 import { CreditCard, ContentCopy } from '@mui/icons-material'
 import Modal from './Modal'
 import { ADA_ADDRESS, ADA_ADDRESS_QR } from '../constants'
+import { useScreenSize } from '../contexts/ScreenSizeContext'
 
 function Donate() {
-  const isMobile = useMediaQuery('(max-width: 768px)')
+  const { isMobile } = useScreenSize()
   const [open, setOpen] = useState(false)
   const [isCopied, setIsCopied] = useState(false)
 
@@ -20,7 +21,7 @@ function Donate() {
   }
 
   return (
-    <>
+    <Fragment>
       <Button
         variant='contained'
         color='secondary'
@@ -61,7 +62,7 @@ function Donate() {
           deleteIcon={<ContentCopy />}
         />
       </Modal>
-    </>
+    </Fragment>
   )
 }
 

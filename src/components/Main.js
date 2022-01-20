@@ -1,21 +1,25 @@
-import React, { Fragment } from 'react'
-import Header from './Header'
-import Charts from './Charts'
-import Footer from './Footer'
+import { useFloor } from '../contexts/FloorContext'
+import logo from '../assets/images/logo.png'
 import Loading from './Loading'
+import Charts from './Charts'
+import Portfolio from './Portfolio'
+import Donate from './Donate'
 
-function Main({ bearsData, floorData, isDesktop }) {
+function Main() {
+  const { floorData } = useFloor()
+
   return (
     <main className='main'>
-      <Header />
-      {bearsData && floorData ? (
-        <Fragment>
-          <Charts bearsData={bearsData} floorData={floorData} isDesktop={isDesktop} />
-          <Footer floorData={floorData} isDesktop={isDesktop} />
-        </Fragment>
-      ) : (
-        <Loading />
-      )}
+      <header className='flex-evenly'>
+        <img src={logo} alt='logo' style={{ maxWidth: '80vw' }} />
+      </header>
+
+      {floorData ? <Charts floorData={floorData} /> : <Loading />}
+
+      <footer className='flex-evenly'>
+        {floorData && <Portfolio floorData={floorData} />}
+        <Donate />
+      </footer>
     </main>
   )
 }
