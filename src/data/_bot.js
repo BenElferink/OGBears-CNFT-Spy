@@ -1,3 +1,4 @@
+import { config } from 'dotenv'
 import cron from 'node-cron'
 import fs from 'fs'
 import { exec } from 'child_process'
@@ -5,6 +6,8 @@ import getCurrentFloorData from './functions/getCurrentFloorData.js'
 import { createRequire } from 'module'
 const require = createRequire(import.meta.url)
 const bearsJsonFile = require('./bears.json')
+
+config()
 
 const runCronJob = () => {
   console.log('running cron job')
