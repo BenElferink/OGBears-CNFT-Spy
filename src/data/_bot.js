@@ -18,7 +18,7 @@ const runCronJob = () => {
 
   // manage git pull
   exec('cd ../../ && git fetch && git pull --no-rebase', async (gitPullError, gitPullStdout, gitPullStderr) => {
-    const floorData = await getCurrentFloorData(bearsJsonFile)
+    const floorData = await getCurrentFloorData(bearsJsonFile, true)
 
     Object.entries(floorData).forEach(([key, val]) => {
       const thisType = key
