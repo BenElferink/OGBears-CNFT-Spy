@@ -37,7 +37,7 @@ const runCronJob = () => {
 
     // manage git push
     exec(
-      'cd ../../ && git add data/floor-data.json && git commit -m "🤖 BOT: updated database" && git push',
+      'cd ../../ && git add ./src/data/floor-data.json && git commit -m "🤖 BOT: updated database" && git push',
       (gitPushError, gitPushStdout, gitPushStderr) => {
         console.log('cron job finished')
       },
