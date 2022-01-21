@@ -2,10 +2,9 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import bearsJsonFile from '../server/data/bears'
 import blockfrostJsonFile from '../server/data/blockfrost'
-import getCurrentFloors from '../server/data/functions/getCurrentFloors'
 
-const FLOOR_DATA_URI =
-  'https://raw.githubusercontent.com/belferink1996/og-bears-cnft-spy/main/src/server/data/floor.json'
+const FLOOR_DATA_URI = 'https://raw.githubusercontent.com/belferink1996/og-bears-cnft-spy/main/src/server/data/floor.json'
+const FLOOR_DATA_LIVE_URI = 'https://og-bears-cnft-spy.vercel.app/current-floor'
 
 // init context
 const DataContext = createContext()
@@ -25,16 +24,17 @@ export function DataProvider({ children }) {
     // get the 24h snapshots floor data
     axios
       .get(FLOOR_DATA_URI)
-      .then((response) => {
-        setFloorData(response.data)
+      .then(({ data }) => {
+        setFloorData(data)
 
         // then add LIVE floor data to the fetched snapshots
-        getCurrentFloors(bearsData, blockfrostData)
-          .then((obj) =>
+        axios
+          .get(FLOOR_DATA_LIVE_URI)
+          .then(({ data }) =>
             setFloorData((prev) => {
               const newState = { ...prev }
 
-              Object.entries(obj).forEach(([key, val]) => {
+              Object.entries(data).forEach(([key, val]) => {
                 newState[key].push({ ...val, timestamp: 'LIVE' })
               })
 
@@ -47,8 +47,6 @@ export function DataProvider({ children }) {
   }, []) // eslint-disable-line
 
   return (
-    <DataContext.Provider value={{ bearsData, blockfrostData, floorData }}>
-      {children}
-    </DataContext.Provider>
+    <DataContext.Provider value={{ bearsData, blockfrostData, floorData }}>{children}</DataContext.Provider>
   )
 }
