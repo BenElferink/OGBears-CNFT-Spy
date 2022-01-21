@@ -1,4 +1,4 @@
-import { useFloor } from '../contexts/FloorContext'
+import { useData } from '../contexts/DataContext'
 import logo from '../assets/images/logo.png'
 import Loading from './Loading'
 import Charts from './Charts'
@@ -6,7 +6,7 @@ import Portfolio from './Portfolio'
 import Donate from './Donate'
 
 function Main() {
-  const { floorData } = useFloor()
+  const { floorData } = useData()
 
   return (
     <main className='main'>
@@ -14,10 +14,10 @@ function Main() {
         <img src={logo} alt='logo' style={{ maxWidth: '80vw' }} />
       </header>
 
-      {floorData ? <Charts floorData={floorData} /> : <Loading />}
+      {floorData ? <Charts /> : <Loading />}
 
       <footer className='flex-evenly'>
-        {floorData && <Portfolio floorData={floorData} />}
+        {floorData && <Portfolio />}
         <Donate />
       </footer>
     </main>

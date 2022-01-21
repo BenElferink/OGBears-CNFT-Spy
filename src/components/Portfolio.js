@@ -1,13 +1,9 @@
 import styles from '../styles/Charts.module.css'
 import { Fragment, useEffect, useState } from 'react'
 import { useScreenSize } from '../contexts/ScreenSizeContext'
+import { useData } from '../contexts/DataContext'
 import { useLocalStorage } from '../hooks'
-import {
-  formatNumber,
-  getImageFromIPFS,
-  getChartOptions,
-  getPortfolioSeries,
-} from '../functions'
+import { formatNumber, getImageFromIPFS, getChartOptions, getPortfolioSeries, toHex } from '../functions'
 import { Button, Drawer, IconButton, TextField, Typography } from '@mui/material'
 import {
   Fingerprint,
@@ -24,12 +20,11 @@ import Loading from './Loading'
 import ListItem from './ListItem'
 import ChangeGreenRed from './ChangeGreenRed'
 import addImage from '../assets/images/add.png'
-import { ADA_SYMBOL, GREEN, RED, OPACITY_WHITE } from '../constants'
-import { BEARS_POLICY_ID } from '../data/constants'
-import getAssetFromBlockfrost from '../data/functions/getAssetFromBlockfrost'
+import { ADA_SYMBOL, BEARS_POLICY_ID, GREEN, RED, OPACITY_WHITE } from '../constants'
 
-function Portfolio({ floorData }) {
+function Portfolio() {
   const { isMobile } = useScreenSize()
+  const { blockfrostData, floorData } = useData()
 
   const [assets, setAssets] = useLocalStorage('ogb-assets', [])
 
@@ -59,8 +54,10 @@ function Portfolio({ floorData }) {
       return
     }
 
-    const assetData = await getAssetFromBlockfrost(addBearIdTrimmed)
-    if (!assetData) {
+    const assetId = `${BEARS_POLICY_ID}${toHex(addBearIdTrimmed)}`
+    const blockfrostAsset = blockfrostData.assets.find((item) => item.asset === assetId)
+
+    if (!blockfrostAsset) {
       setAdding(false)
       return
     }
@@ -71,7 +68,7 @@ function Portfolio({ floorData }) {
         image,
         attributes: { Type },
       },
-    } = assetData
+    } = blockfrostAsset
 
     const newDate = new Date()
     newDate.setHours(0)

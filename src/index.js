@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom'
 import './styles/index.css'
 import App from './App'
 import { ScreenSizeProvider } from './contexts/ScreenSizeContext'
-import { FloorProvider } from './contexts/FloorContext'
+import { DataProvider } from './contexts/DataContext'
 
 ReactDOM.render(
   <React.StrictMode>
     <ScreenSizeProvider>
-      <FloorProvider>
+      <DataProvider>
         <App />
-      </FloorProvider>
+      </DataProvider>
     </ScreenSizeProvider>
   </React.StrictMode>,
   document.getElementById('root'),

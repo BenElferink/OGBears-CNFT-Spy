@@ -1,16 +1,17 @@
 import styles from '../styles/Charts.module.css'
 import { useEffect, useState } from 'react'
 import { useScreenSize } from '../contexts/ScreenSizeContext'
+import { useData } from '../contexts/DataContext'
 import { useLocalStorage } from '../hooks'
 import { getChartOptions, getChartSeries } from '../functions'
 import { MenuItem, Select } from '@mui/material'
 import Chart from 'react-apexcharts'
 import Toggle from './Toggle'
-import bearsJsonFile from '../data/bears'
 import { BLACK, BROWN, POLAR_MALE, POLAR_FEMALE, ZOMBIE, ICY } from '../constants'
 
-function Charts({ floorData }) {
+function Charts() {
   const { isDesktop } = useScreenSize()
+  const { floorData, bearsData } = useData()
   
   const generateChartWidth = (width = window.innerWidth) => width - (isDesktop ? 750 : 70)
   const [chartWidth, setChartWidth] = useState(generateChartWidth())
@@ -26,7 +27,7 @@ function Charts({ floorData }) {
 
   const chartOptions = getChartOptions(floorData, showThirtyDay)
   const chartSeries = getChartSeries(
-    selectedType === 'All' ? bearsJsonFile.bears : bearsJsonFile.bears.filter(({ type }) => type === selectedType),
+    selectedType === 'All' ? bearsData.bears : bearsData.bears.filter(({ type }) => type === selectedType),
     floorData,
     showThirtyDay,
   )
@@ -46,7 +47,7 @@ function Charts({ floorData }) {
 
         <Select value={selectedType} onChange={(e) => setSelectedType(e.target.value)}>
           <MenuItem value='All'>All</MenuItem>
-          {bearsJsonFile.bears.map(({ type }) => (
+          {bearsData.bears.map(({ type }) => (
             <MenuItem key={type} value={type}>
               {type}
             </MenuItem>
