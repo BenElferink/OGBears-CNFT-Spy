@@ -1,12 +1,28 @@
-import { exec } from 'child_process'
-import fs from 'fs'
+import express from 'express'
 import cron from 'node-cron'
+import cors from 'cors'
+import fs from 'fs'
+import { exec } from 'child_process'
 import getCurrentFloors from './functions/getCurrentFloors.js'
 
 import { createRequire } from 'module'
 const require = createRequire(import.meta.url)
 const bearsJsonFile = require('./bears.json')
 const blockfrostJsonFile = require('./blockfrost.json')
+
+const app = express()
+app.use(express.json())
+app.use(cors({ origin: '*'}))
+
+app.get('/current-floor', async (req, res) => {
+  try {
+    const floorData = await getCurrentFloors(bearsJsonFile, blockfrostJsonFile)
+    res.status(200).json(floorData)
+  } catch (error) {
+    console.error(error)
+    res.status(500).send(error.message)
+  }
+})
 
 const runCronJob = () => {
   console.log('running cron job')
@@ -54,3 +70,5 @@ cron.schedule('0 0 * * *', runCronJob, {
   scheduled: true,
   timezone: 'Asia/Jerusalem',
 })
+
+app.listen(8080, () => console.log('server running on port 8080'))
