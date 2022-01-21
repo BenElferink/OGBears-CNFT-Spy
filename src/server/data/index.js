@@ -20,7 +20,7 @@ const runCronJob = () => {
 
   // manage git pull
   exec(
-    'cd ../../ && git fetch && git pull --no-rebase',
+    'cd ../../../ && git fetch && git pull --no-rebase',
     async (gitPullError, gitPullStdout, gitPullStderr) => {
       const floorData = await getCurrentFloors(bearsJsonFile, blockfrostJsonFile)
 
@@ -41,7 +41,7 @@ const runCronJob = () => {
 
       // manage git push
       exec(
-        'cd ../../ && git add ./src/data/floor.json && git commit -m "🤖 BOT: updated database" && git push',
+        'cd ../../../ && git add ./src/server/data/floor.json && git commit -m "🤖 BOT: updated database" && git push',
         (gitPushError, gitPushStdout, gitPushStderr) => {
           console.log('cron job finished')
         },
