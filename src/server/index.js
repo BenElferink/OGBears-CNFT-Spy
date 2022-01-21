@@ -1,13 +1,13 @@
 import dotenv from 'dotenv'
 import express from 'express'
 import cors from 'cors'
-import getCurrentFloors from './_data/functions/getCurrentFloors.js'
-import crawlJPG from './_data/functions/crawlJPG.js'
+import getCurrentFloors from './data/functions/getCurrentFloors.js'
+import crawlJPG from './data/functions/crawlJPG.js'
 
 import { createRequire } from 'module'
 const require = createRequire(import.meta.url)
-const bearsJsonFile = require('./_data/bears.json')
-const blockfrostJsonFile = require('./_data/blockfrost.json')
+const bearsJsonFile = require('./data/bears.json')
+const blockfrostJsonFile = require('./data/blockfrost.json')
 
 dotenv.config()
 const app = express()

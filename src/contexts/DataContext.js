@@ -1,11 +1,11 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import axios from 'axios'
-import bearsJsonFile from '../_server/_data/bears'
-import blockfrostJsonFile from '../_server/_data/blockfrost'
-import getCurrentFloors from '../_server/_data/functions/getCurrentFloors'
+import bearsJsonFile from '../server/data/bears'
+import blockfrostJsonFile from '../server/data/blockfrost'
+import getCurrentFloors from '../server/data/functions/getCurrentFloors'
 
 const FLOOR_DATA_URI =
-  'https://raw.githubusercontent.com/belferink1996/og-bears-cnft-spy/main/src/_server/_data/floor.json'
+  'https://raw.githubusercontent.com/belferink1996/og-bears-cnft-spy/main/src/server/data/floor.json'
 
 // init context
 const DataContext = createContext()
