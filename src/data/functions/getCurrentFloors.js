@@ -1,9 +1,8 @@
 import crawlCNFT from './crawlCNFT.js'
 import crawlJPG from './crawlJPG.js'
-import getAssetFromBlockfrost from './getAssetFromBlockfrost.js'
 
-const getCurrentFloorData = async (bearsJsonFile, withJpgStore = false) => {
-  let floorData = {}
+const getCurrentFloors = async (bearsJsonFile, blockfrostJsonFile) => {
+  const floorData = {}
   const cnftFloorData = {}
   const jpgFloorData = {}
 
@@ -73,74 +72,50 @@ const getCurrentFloorData = async (bearsJsonFile, withJpgStore = false) => {
     cnftFloorData[thisType] = { floor: thisFloor, timestamp: Date.now() }
   }
 
-  if (withJpgStore) {
-    console.log('crawling jpg.store for all listings')
+  console.log('crawling jpg.store for all listings')
+  const jpgFetchedData = (await crawlJPG({ sold: false })).sort((a, b) => a.price_lovelace - b.price_lovelace)
+  console.log(`got ${jpgFetchedData.length} listings from jpg.store`)
 
-    const blockfrostPreFetchedData = []
-    const jpgFetchedData = (await crawlJPG({ sold: false })).sort(
-      (a, b) => a.price_lovelace - b.price_lovelace,
-    )
+  for (const bear of bearsJsonFile.bears) {
+    let thisFloor = null
+    const thisType = bear.type
 
-    console.log(`got ${jpgFetchedData.length} listings from jpg.store`)
+    for (const listing of jpgFetchedData) {
+      const blockfrostAsset = blockfrostJsonFile.assets.find((item) => item.asset === listing.asset)
 
-    for (const bear of bearsJsonFile.bears) {
-      let thisFloor = null
-      const thisType = bear.type
-
-      for (const listing of jpgFetchedData) {
-        let thisAsset = null
-        const foundBlockfrostAsset = blockfrostPreFetchedData.find((item) => item.asset === listing.asset)
-
-        if (foundBlockfrostAsset) {
-          thisAsset = foundBlockfrostAsset
-        } else {
-          const newBlockfrostAsset = await getAssetFromBlockfrost(
-            listing.asset_display_name.replace('BEAR', ''),
-          )
-
-          blockfrostPreFetchedData.push(newBlockfrostAsset)
-          thisAsset = newBlockfrostAsset
-        }
-
-        if (thisAsset.onchain_metadata.attributes.Type === thisType) {
-          thisFloor = listing.price_lovelace / 1000000
-          break
-        }
-      }
-
-      console.log(`found floor for ${thisType}! floor is ${thisFloor}`)
-      jpgFloorData[thisType] = { floor: thisFloor, timestamp: Date.now() }
-    }
-
-    console.log('comparing floors between cnft.io and jpg.store results')
-
-    for (const bear of bearsJsonFile.bears) {
-      const thisType = bear.type
-      const thisJpgFloor = jpgFloorData[thisType].floor
-      const thisCnftFloor = cnftFloorData[thisType].floor
-
-      if (
-        (thisJpgFloor && thisCnftFloor && thisJpgFloor < thisCnftFloor) ||
-        (thisJpgFloor && !thisCnftFloor)
-      ) {
-        console.log(`real floor for type ${thisType} is ${thisJpgFloor} from jpg.store`)
-        floorData[thisType] = jpgFloorData[thisType]
-      } else if (
-        (thisJpgFloor && thisCnftFloor && thisJpgFloor > thisCnftFloor) ||
-        (!thisJpgFloor && thisCnftFloor)
-      ) {
-        console.log(`real floor for type ${thisType} is ${thisCnftFloor} from cnft.io`)
-        floorData[thisType] = cnftFloorData[thisType]
-      } else {
-        console.log(`real floor for type ${thisType} is ${null} because none are listed`)
-        floorData[thisType] = { floor: null, timestamp: Date.now() }
+      if (blockfrostAsset.onchain_metadata.attributes.Type === thisType) {
+        thisFloor = listing.price_lovelace / 1000000
+        break
       }
     }
-  } else {
-    floorData = cnftFloorData
+
+    console.log(`found floor for ${thisType}! floor is ${thisFloor}`)
+    jpgFloorData[thisType] = { floor: thisFloor, timestamp: Date.now() }
+  }
+
+  console.log('comparing floors between cnft.io and jpg.store')
+
+  for (const bear of bearsJsonFile.bears) {
+    const thisType = bear.type
+    const thisJpgFloor = jpgFloorData[thisType].floor
+    const thisCnftFloor = cnftFloorData[thisType].floor
+
+    if ((thisJpgFloor && thisCnftFloor && thisJpgFloor < thisCnftFloor) || (thisJpgFloor && !thisCnftFloor)) {
+      console.log(`real floor for type ${thisType} is ${thisJpgFloor} from jpg.store`)
+      floorData[thisType] = jpgFloorData[thisType]
+    } else if (
+      (thisJpgFloor && thisCnftFloor && thisJpgFloor > thisCnftFloor) ||
+      (!thisJpgFloor && thisCnftFloor)
+    ) {
+      console.log(`real floor for type ${thisType} is ${thisCnftFloor} from cnft.io`)
+      floorData[thisType] = cnftFloorData[thisType]
+    } else {
+      console.log(`real floor for type ${thisType} is ${null} because none are listed`)
+      floorData[thisType] = { floor: null, timestamp: Date.now() }
+    }
   }
 
   return floorData
 }
 
-export default getCurrentFloorData
+export default getCurrentFloors

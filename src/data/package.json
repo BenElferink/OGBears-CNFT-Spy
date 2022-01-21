@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node _bot.js"
+    "start": "node _bot.js",
+    "blockfrost": "node _blockfrost.js"
   },
   "dependencies": {
     "axios": "^0.25.0",
