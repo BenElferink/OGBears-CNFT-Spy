@@ -1,8 +1,9 @@
-import { Modal as MuiModal, IconButton, Typography, useMediaQuery } from '@mui/material'
+import { Modal as MuiModal, IconButton, Typography } from '@mui/material'
 import { CloseRounded } from '@mui/icons-material'
+import { useScreenSize } from '../contexts/ScreenSizeContext'
 
 function Modal({ open, onClose, title = 'Title', children }) {
-  const isMobile = useMediaQuery('(max-width: 768px)')
+  const { isMobile } = useScreenSize()
 
   return (
     <MuiModal
