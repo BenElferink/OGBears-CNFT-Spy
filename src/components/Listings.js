@@ -1,74 +1,82 @@
-import { useEffect, useRef, useState } from 'react'
-import { Typography, useMediaQuery } from '@mui/material'
-import { Favorite as FavoriteIcon, Visibility as VisibilityIcon } from '@mui/icons-material'
-import Loading from './Loading'
-import crawlCNFT from '../server/data/functions/crawlCNFT'
-import { getImageFromIPFS } from '../functions'
 import styles from '../styles/Listings.module.css'
+import { useEffect, useState } from 'react'
+import { useData } from '../contexts/DataContext'
+import { getImageFromIPFS, toHex } from '../functions'
+import { Typography } from '@mui/material'
+import Loading from './Loading'
 import ListItem from './ListItem'
+import { BEARS_POLICY_ID } from '../constants'
 
 function Listings({ title = 'Listings', options = {} }) {
+  const { blockfrostData, getCnftListed, getCnftSold, getJpgListed, getJpgSold } = useData()
   const [data, setData] = useState([])
-  const [isLoadingMore, setIsLoadingMore] = useState(false)
-  const pageRef = useRef(1)
-  const isDesktop = useMediaQuery('(min-width: 1024px)')
 
-  useEffect(() => {
-    // keep looking for new data every 10 seconds
-    const interval = setInterval(() => {
-      crawlCNFT(options)
-        .then((bears) => {
-          setData((prev) => {
-            // if there is no pre-fetched data, just return the current fetched data
-            if (!prev.length) return bears
-            // a verification method to add only new data to the front of the array
-            const newBears = []
-            for (const currentBear of bears) {
-              if (currentBear._id === prev[0]._id) break
-              newBears.push(currentBear)
-            }
-            return [...newBears, ...prev]
-          })
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-    }, 1000 * 60)
+  const getCnftItem = (item) => {
+    const assetId = `${BEARS_POLICY_ID}${toHex(item.asset.assetId)}`
+    const {
+      onchain_metadata: { name, image },
+    } = blockfrostData.assets.find(({ asset }) => asset === assetId)
 
-    return () => {
-      clearInterval(interval)
-    }
-  }, [options])
-
-  const handleScroll = (e) => {
-    const { scrollTop, scrollHeight, clientHeight, scrollLeft, clientWidth, scrollWidth } = e.target
-    const isScrolledToBottom = scrollTop === scrollHeight - clientHeight
-    const isScrolledToRight = scrollLeft === scrollWidth - clientWidth
-
-    // fetch next page of data when scrolled to bottom
-    if (!isLoadingMore && ((isDesktop && isScrolledToBottom) || (!isDesktop && isScrolledToRight))) {
-      pageRef.current += 1
-      setIsLoadingMore(true)
-      crawlCNFT({ ...options, page: pageRef.current })
-        .then((bears) => {
-          setData((prev) => {
-            // a verification method to add only new data to the end of the array
-            const newBears = []
-            for (let i = bears.length - 1; i >= 0; i--) {
-              const currentBear = bears[i]
-              if (currentBear._id === prev[prev.length - 1]?._id) break
-              newBears.unshift(currentBear)
-            }
-            return [...prev, ...newBears]
-          })
-          setIsLoadingMore(false)
-        })
-        .catch((error) => {
-          console.error(error)
-          setIsLoadingMore(false)
-        })
+    return {
+      assetId,
+      name,
+      price: item.price / 1000000,
+      imageUrl: getImageFromIPFS(image),
+      itemUrl: options.sold
+        ? `https://pool.pm/${BEARS_POLICY_ID}.${item.asset.assetId}`
+        : `https://cnft.io/token/${item._id}`,
+      store: 'cnft.io',
+      date: new Date(item.createdAt),
     }
   }
+
+  const getJpgItem = (item) => {
+    const assetId = item.asset
+    const {
+      onchain_metadata: { name, image },
+    } = blockfrostData.assets.find(({ asset }) => asset === assetId)
+
+    return {
+      assetId,
+      name,
+      price: item.price_lovelace / 1000000,
+      imageUrl: getImageFromIPFS(image),
+      itemUrl: options.sold
+        ? `https://pool.pm/${BEARS_POLICY_ID}.${name.replace('BEAR', '')}`
+        : `https://jpg.store/asset/${assetId}`,
+      store: 'jpg.store',
+      date: new Date(options.sold ? item.purchased_at : item.listed_at),
+    }
+  }
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const cnftItems = (options.sold ? await getCnftSold() : await getCnftListed()).map((item) =>
+          getCnftItem(item),
+        )
+        const jpgItems = (options.sold ? await getJpgSold() : await getJpgListed()).map((item) =>
+          getJpgItem(item),
+        )
+        const items = cnftItems.concat(jpgItems).sort((a, b) => new Date(b.date) - new Date(a.date))
+
+        setData((prev) => {
+          // if there is no pre-fetched data, just return the current fetched data
+          if (!prev.length) return items
+          // a verification method to add only new data to the front of the array
+          const newItems = []
+          for (const currentItem of items) {
+            if (currentItem._id === prev[0]._id) break
+            newItems.push(currentItem)
+          }
+
+          return [...newItems, ...prev]
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    })()
+  }, []) // eslint-disable-line
 
   return (
     <div className={styles.listingsContainer}>
@@ -85,36 +93,21 @@ function Listings({ title = 'Listings', options = {} }) {
         {title}
       </Typography>
 
-      <div className={`scroll ${styles.list}`} onScroll={handleScroll}>
+      <div className={`scroll ${styles.list}`}>
         {data.length ? (
-          data.map((listing) => (
+          data.map(({ assetId, name, price, imageUrl, itemUrl, store, date }) => (
             <ListItem
-              key={`${title}-${listing._id}`}
-              name={listing.asset.metadata.name}
-              price={listing.price / 1000000}
-              imageSrc={getImageFromIPFS(listing.asset.metadata.image)}
-              itemUrl={
-                options.sold
-                  ? `https://pool.pm/${listing.asset.unit}`
-                  : `https://cnft.io/token/${listing._id}`
-              }
-              spanArray={[`Listed: ${new Date(listing.createdAt).toLocaleString()}`]}
-              iconArray={[
-                {
-                  icon: VisibilityIcon,
-                  txt: listing.views.length,
-                },
-                {
-                  icon: FavoriteIcon,
-                  txt: listing.favouriteCount,
-                },
-              ]}
+              key={`${store}-${options.sold ? 'sold' : 'listed'}-${assetId}-${date}`}
+              name={name}
+              price={price}
+              imageSrc={imageUrl}
+              itemUrl={itemUrl}
+              spanArray={[store, `${options.sold ? 'Sold:' : 'Listed:'} ${new Date(date).toLocaleString()}`]}
             />
           ))
         ) : (
           <Loading />
         )}
-        {isLoadingMore && <Loading />}
       </div>
     </div>
   )

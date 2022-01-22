@@ -46,16 +46,18 @@ function ListItem({
                   <br />
                 </Fragment>
               ))}
-            <br />
             {iconArray && (
-              <span className={styles.iconsWrapper}>
-                {iconArray.map(({ icon: Icon, txt }, i) => (
-                  <span className={styles.iconItem} key={`${i}-${txt}`}>
-                    <Icon fontSize={iconSize} />
-                    &nbsp;{txt}
-                  </span>
-                ))}
-              </span>
+              <Fragment>
+                <br />
+                <span className={styles.iconsWrapper}>
+                  {iconArray.map(({ icon: Icon, txt }, i) => (
+                    <span className={styles.iconItem} key={`${i}-${txt}`}>
+                      <Icon fontSize={iconSize} />
+                      &nbsp;{txt}
+                    </span>
+                  ))}
+                </span>
+              </Fragment>
             )}
           </Typography>
         </CardContent>
