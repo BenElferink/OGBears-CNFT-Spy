@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 import express from 'express'
 import cors from 'cors'
 import getCurrentFloors from './data/functions/getCurrentFloors.js'
+import crawlCNFT from './data/functions/crawlCNFT.js'
 import crawlJPG from './data/functions/crawlJPG.js'
 
 import { createRequire } from 'module'
@@ -26,20 +27,58 @@ app.get('/current-floor', async (req, res) => {
   }
 })
 
-app.get('/jpg-listings', async (req, res) => {
+app.get('/cnft-listed', async (req, res) => {
   try {
-    const result = await crawlJPG({ sold: false })
-    res.status(200).json(result)
+    const data = []
+
+    for (let page = 1; true; page++) {
+      const results = await crawlCNFT({ sold: false, sort: { price: 1 }, page })
+
+      if (!results.length) break
+      results.forEach((item) => data.push(item))
+    }
+
+    res.status(200).json(data)
   } catch (error) {
     console.error(error)
     res.status(500).send(error.message)
   }
 })
 
-app.get('/jpg-sales', async (req, res) => {
+app.get('/cnft-sold', async (req, res) => {
   try {
-    const result = await crawlJPG({ sold: true })
-    res.status(200).json(result)
+    const data = []
+
+    for (let page = 1; true; page++) {
+      const results = await crawlCNFT({ sold: true, sort: { price: 1 }, page })
+
+      if (!results.length) break
+      results.forEach((item) => data.push(item))
+    }
+
+    res.status(200).json(data)
+  } catch (error) {
+    console.error(error)
+    res.status(500).send(error.message)
+  }
+})
+
+app.get('/jpg-listed', async (req, res) => {
+  try {
+    const data = await crawlJPG({ sold: false })
+
+    res.status(200).json(data)
+  } catch (error) {
+    console.error(error)
+    res.status(500).send(error.message)
+  }
+})
+
+app.get('/jpg-sold', async (req, res) => {
+  try {
+    const data = await crawlJPG({ sold: true })
+
+    res.status(200).json(data)
   } catch (error) {
     console.error(error)
     res.status(500).send(error.message)
