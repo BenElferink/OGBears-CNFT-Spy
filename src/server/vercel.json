@@ -1,5 +1,8 @@
 {
   "version": 2,
+  "github": {
+    "autoJobCancelation": true
+  },
   "builds": [
     {
       "src": "index.js",
