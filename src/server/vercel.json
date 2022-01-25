@@ -1,7 +1,7 @@
 {
   "version": 2,
   "github": {
-    "autoJobCancelation": true
+    "autoJobCancelation": false
   },
   "builds": [
     {
