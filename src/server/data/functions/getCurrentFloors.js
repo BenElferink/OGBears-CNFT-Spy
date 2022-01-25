@@ -115,6 +115,11 @@ const getCurrentFloors = async (bearsJsonFile, blockfrostJsonFile) => {
     } else if (thisCnftFloor < thisJpgFloor) {
       console.log(`real floor for type ${thisType} is ${thisCnftFloor} from cnft.io`)
       floorData[thisType] = cnftFloorData[thisType]
+    } else if (thisCnftFloor < thisJpgFloor) {
+      console.log(`real floor for type ${thisType} is ${thisCnftFloor} from both cnft.io and jpg.store`)
+      floorData[thisType] = cnftFloorData[thisType]
+    } else {
+      console.error('unexpected result, not floor found')
     }
   }
 
