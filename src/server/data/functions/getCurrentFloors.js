@@ -100,18 +100,21 @@ const getCurrentFloors = async (bearsJsonFile, blockfrostJsonFile) => {
     const thisJpgFloor = jpgFloorData[thisType].floor
     const thisCnftFloor = cnftFloorData[thisType].floor
 
-    if ((thisJpgFloor && thisCnftFloor && thisJpgFloor < thisCnftFloor) || (thisJpgFloor && !thisCnftFloor)) {
-      console.log(`real floor for type ${thisType} is ${thisJpgFloor} from jpg.store`)
-      floorData[thisType] = jpgFloorData[thisType]
-    } else if (
-      (thisJpgFloor && thisCnftFloor && thisJpgFloor > thisCnftFloor) ||
-      (!thisJpgFloor && thisCnftFloor)
-    ) {
-      console.log(`real floor for type ${thisType} is ${thisCnftFloor} from cnft.io`)
-      floorData[thisType] = cnftFloorData[thisType]
-    } else {
+    if (thisJpgFloor === null && thisCnftFloor === null) {
       console.log(`real floor for type ${thisType} is ${null} because none are listed`)
       floorData[thisType] = { floor: null, timestamp: Date.now() }
+    } else if (thisJpgFloor === null && thisCnftFloor !== null) {
+      console.log(`real floor for type ${thisType} is ${thisCnftFloor} from cnft.io`)
+      floorData[thisType] = cnftFloorData[thisType]
+    } else if (thisJpgFloor !== null && thisCnftFloor === null) {
+      console.log(`real floor for type ${thisType} is ${thisJpgFloor} from jpg.store`)
+      floorData[thisType] = jpgFloorData[thisType]
+    } else if (thisJpgFloor < thisCnftFloor) {
+      console.log(`real floor for type ${thisType} is ${thisJpgFloor} from jpg.store`)
+      floorData[thisType] = jpgFloorData[thisType]
+    } else if (thisCnftFloor < thisJpgFloor) {
+      console.log(`real floor for type ${thisType} is ${thisCnftFloor} from cnft.io`)
+      floorData[thisType] = cnftFloorData[thisType]
     }
   }
 
