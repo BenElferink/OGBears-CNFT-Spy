@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/og-bears-cnft-spy/static/css/main.c6736ed1.css",
-    "main.js": "/og-bears-cnft-spy/static/js/main.7a1074a0.js",
+    "main.css": "/og-bears-cnft-spy/static/css/main.bf697dc4.css",
+    "main.js": "/og-bears-cnft-spy/static/js/main.743393c2.js",
     "static/media/IndieFlower-Regular.ttf": "/og-bears-cnft-spy/static/media/IndieFlower-Regular.9bd64a340a69779c0571.ttf",
     "static/media/logo.png": "/og-bears-cnft-spy/static/media/logo.101224115dc9cf43329a.png",
     "index.html": "/og-bears-cnft-spy/index.html",
-    "main.c6736ed1.css.map": "/og-bears-cnft-spy/static/css/main.c6736ed1.css.map",
-    "main.7a1074a0.js.map": "/og-bears-cnft-spy/static/js/main.7a1074a0.js.map"
+    "main.bf697dc4.css.map": "/og-bears-cnft-spy/static/css/main.bf697dc4.css.map",
+    "main.743393c2.js.map": "/og-bears-cnft-spy/static/js/main.743393c2.js.map"
   },
   "entrypoints": [
-    "static/css/main.c6736ed1.css",
-    "static/js/main.7a1074a0.js"
+    "static/css/main.bf697dc4.css",
+    "static/js/main.743393c2.js"
   ]
 }
