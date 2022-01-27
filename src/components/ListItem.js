@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react'
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material'
 import { ADA_SYMBOL } from '../constants'
-import styles from '../styles/Listings.module.css'
 
 function ListItem({
   style = {},
@@ -49,9 +48,9 @@ function ListItem({
             {iconArray && (
               <Fragment>
                 <br />
-                <span className={styles.iconsWrapper}>
+                <span className='icons-wrapper'>
                   {iconArray.map(({ icon: Icon, txt }, i) => (
-                    <span className={styles.iconItem} key={`${i}-${txt}`}>
+                    <span className='icon-item' key={`${i}-${txt}`}>
                       <Icon fontSize={iconSize} />
                       &nbsp;{txt}
                     </span>

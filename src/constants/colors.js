@@ -1,5 +1,3 @@
-export const OPACITY_WHITE = 'rgba(250, 250, 250, 0.4)'
-
 export const GREEN = 'rgb(0, 227, 150)'
 export const RED = 'rgb(233, 30, 99)'
 

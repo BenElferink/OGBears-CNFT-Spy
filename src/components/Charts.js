@@ -1,9 +1,8 @@
-import styles from '../styles/Charts.module.css'
 import { useEffect, useState } from 'react'
 import { useScreenSize } from '../contexts/ScreenSizeContext'
 import { useData } from '../contexts/DataContext'
 import { useLocalStorage } from '../hooks'
-import { getChartOptions, getChartSeries } from '../functions'
+import { generateChartWidth, getChartOptions, getChartSeries } from '../functions'
 import { MenuItem, Select } from '@mui/material'
 import Chart from 'react-apexcharts'
 import Toggle from './Toggle'
@@ -12,15 +11,14 @@ import { BLACK, BROWN, POLAR_MALE, POLAR_FEMALE, ZOMBIE, ICY } from '../constant
 function Charts() {
   const { isDesktop } = useScreenSize()
   const { floorData, bearsData } = useData()
-  
-  const generateChartWidth = (width = window.innerWidth) => width - (isDesktop ? 750 : 70)
-  const [chartWidth, setChartWidth] = useState(generateChartWidth())
-  
+
   const [showThirtyDay, setShowThirtyDay] = useState(false)
   const [selectedType, setSelectedType] = useLocalStorage('ogb-selected-type', 'All')
 
+  const [chartWidth, setChartWidth] = useState(generateChartWidth(window.innerWidth, isDesktop))
+
   useEffect(() => {
-    const handler = () => setChartWidth(generateChartWidth())
+    const handler = () => setChartWidth(generateChartWidth(window.innerWidth, isDesktop))
     window.addEventListener('resize', handler)
     return () => window.removeEventListener('resize', handler)
   }, []) // eslint-disable-line
@@ -33,8 +31,8 @@ function Charts() {
   )
 
   return (
-    <section className={styles.chartContainer}>
-      <div className={styles.controls}>
+    <section className='chart-container'>
+      <div className='floor-chart-controls'>
         <Toggle
           name='chart-days'
           labelLeft='7d'
@@ -76,6 +74,12 @@ function Charts() {
               : selectedType === 'Icy'
               ? [ICY]
               : [],
+          grid: {
+            show: false,
+            row: {
+              colors: ['var(--opacity-white)', 'transparent'],
+            },
+          },
         }}
         series={chartSeries}
       />

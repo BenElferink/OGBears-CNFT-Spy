@@ -1,4 +1,3 @@
-import styles from '../styles/Listings.module.css'
 import { useEffect, useState } from 'react'
 import { useData } from '../contexts/DataContext'
 import { getImageFromIPFS, toHex } from '../functions'
@@ -50,7 +49,7 @@ function Listings({ title = 'Listings', options = {} }) {
   }
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       try {
         const cnftItems = (options.sold ? await getCnftSold() : await getCnftListed()).map((item) =>
           getCnftItem(item),
@@ -79,7 +78,7 @@ function Listings({ title = 'Listings', options = {} }) {
   }, []) // eslint-disable-line
 
   return (
-    <div className={styles.listingsContainer}>
+    <div className='listings-container'>
       <Typography
         variant='h4'
         component='div'
@@ -93,7 +92,7 @@ function Listings({ title = 'Listings', options = {} }) {
         {title}
       </Typography>
 
-      <div className={`scroll ${styles.list}`}>
+      <div className='scroll listings'>
         {data.length ? (
           data.map(({ assetId, name, price, imageUrl, itemUrl, store, date }) => (
             <ListItem

@@ -1,9 +1,15 @@
-import styles from '../styles/Charts.module.css'
 import { Fragment, useEffect, useState } from 'react'
 import { useScreenSize } from '../contexts/ScreenSizeContext'
 import { useData } from '../contexts/DataContext'
 import { useLocalStorage } from '../hooks'
-import { formatNumber, getImageFromIPFS, getChartOptions, getPortfolioSeries, toHex } from '../functions'
+import {
+  formatNumber,
+  getImageFromIPFS,
+  getChartOptions,
+  getPortfolioSeries,
+  toHex,
+  generateChartWidth,
+} from '../functions'
 import { Button, Drawer, IconButton, TextField, Typography } from '@mui/material'
 import {
   Fingerprint,
@@ -20,10 +26,10 @@ import Loading from './Loading'
 import ListItem from './ListItem'
 import ChangeGreenRed from './ChangeGreenRed'
 import addImage from '../assets/images/add.png'
-import { ADA_SYMBOL, BEARS_POLICY_ID, GREEN, RED, OPACITY_WHITE } from '../constants'
+import { ADA_SYMBOL, BEARS_POLICY_ID, GREEN, RED } from '../constants'
 
 function Portfolio() {
-  const { isMobile } = useScreenSize()
+  const { isMobile, isDesktop } = useScreenSize()
   const { blockfrostData, floorData } = useData()
 
   const [assets, setAssets] = useLocalStorage('ogb-assets', [])
@@ -126,14 +132,10 @@ function Portfolio() {
     return totalBalance
   })()
 
-  const generateChartWidth = (width = window.innerWidth) => {
-    const x = width - (width < 768 ? 50 : 420)
-    return x > 1700 ? 1700 : x
-  }
-  const [chartWidth, setChartWidth] = useState(generateChartWidth())
+  const [chartWidth, setChartWidth] = useState(generateChartWidth(window.innerWidth, isDesktop))
 
   useEffect(() => {
-    const handler = () => setChartWidth(generateChartWidth())
+    const handler = () => setChartWidth(generateChartWidth(window.innerWidth, isDesktop))
     window.addEventListener('resize', handler)
     return () => window.removeEventListener('resize', handler)
   }, []) // eslint-disable-line
@@ -158,7 +160,7 @@ function Portfolio() {
             className='flex-col'
             style={{
               padding: '0.5rem 1rem',
-              backgroundColor: OPACITY_WHITE,
+              backgroundColor: 'var(--opacity-white)',
               borderRadius: '0.5rem',
             }}>
             <p style={{ marginBottom: '11px' }}>Total Payed</p>
@@ -173,7 +175,7 @@ function Portfolio() {
             className='flex-col'
             style={{
               padding: '0.5rem 1rem',
-              backgroundColor: OPACITY_WHITE,
+              backgroundColor: 'var(--opacity-white)',
               borderRadius: '0.5rem',
             }}>
             <p style={{ marginBottom: '11px' }}>Current Balance</p>
@@ -200,7 +202,7 @@ function Portfolio() {
           </div>
         </div>
 
-        <section className={styles.chartContainer}>
+        <section className='chart-container'>
           <div className='flex-row' style={{ width: '100%', justifyContent: 'space-evenly' }}>
             <Toggle
               name='chart-days'
@@ -222,6 +224,9 @@ function Portfolio() {
                 'var(--yellow)',
                 chartSeries[1].data[0] < chartSeries[1].data[chartSeries[1].data.length - 1] ? GREEN : RED,
               ],
+              grid: {
+                show: false,
+              },
             }}
             series={chartSeries}
           />
@@ -242,7 +247,7 @@ function Portfolio() {
           </Typography>
           <div
             style={{
-              width: isMobile ? 'calc(100vw - 2rem)' : `${generateChartWidth(window.innerWidth) + 100}px`,
+              width: isMobile ? 'calc(100vw - 2rem)' : `${generateChartWidth(window.innerWidth, isDesktop) + 100}px`,
               height: 'fit-content',
               display: 'flex',
               flexFlow: 'row wrap',
@@ -254,7 +259,7 @@ function Portfolio() {
             ) : (
               <ListItem
                 htmlToolTipContent={<div>add new asset</div>}
-                style={{ margin: '1rem', backgroundColor: OPACITY_WHITE }}
+                style={{ margin: '1rem', backgroundColor: 'var(--opacity-white)' }}
                 flipToSide={isMobile}
                 price='DD NEW'
                 name='Click to add new asset'
@@ -280,7 +285,7 @@ function Portfolio() {
                     <CloseRounded />
                   </IconButton>
                   <ListItem
-                    style={{ margin: '1rem', backgroundColor: OPACITY_WHITE }}
+                    style={{ margin: '1rem', backgroundColor: 'var(--opacity-white)' }}
                     flipToSide={isMobile}
                     name={name}
                     price={formatNumber(payed)}
