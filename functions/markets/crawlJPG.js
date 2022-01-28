@@ -1,10 +1,10 @@
 const Axios = require('axios')
-const policyIds = require('../../constants/policy-ids')
+const { BEARS_POLICY_ID } = require('../../constants/policy-ids')
 
 const JPG_URI = 'https://jpg.store/api/policy'
 
 const crawlJPG = (options = {}) => {
-  const policyId = options.policyId ?? policyIds.OGB_POLICY_ID
+  const policyId = options.policyId ?? BEARS_POLICY_ID
   const sold = options.sold ?? false
 
   return new Promise((resolve, reject) => {

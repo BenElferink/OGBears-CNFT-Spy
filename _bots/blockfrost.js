@@ -1,11 +1,11 @@
 const dotenv = require('dotenv')
 const fs = require('fs')
 const Axios = require('axios')
-const policyIds = require('../constants/policy-ids.js')
+const { BEARS_POLICY_ID } = require('../constants/policy-ids.js')
 
 dotenv.config()
 
-const OGB_POLICY_ID = policyIds.OGB_POLICY_ID
+const OGB_POLICY_ID = BEARS_POLICY_ID
 const BLOCKFROST_KEY = process.env.BLOCKFROST_KEY ?? ''
 const BLOCKFROST_API = 'https://cardano-mainnet.blockfrost.io/api/v0'
 
@@ -63,7 +63,7 @@ const run = async () => {
 
     console.log('saving all assets to JSON file')
     fs.writeFileSync(
-      './blockfrost.json',
+      './data/blockfrost.json',
       JSON.stringify({
         _wen: Date.now(),
         policyId: OGB_POLICY_ID,
