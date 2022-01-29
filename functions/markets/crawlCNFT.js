@@ -5,7 +5,7 @@ const CNFT_URI = 'https://api.cnft.io/market/listings'
 const crawlCNFT = (options = {}) => {
   const payload = {
     project: options.project ?? 'OG Bears',
-    types: options.types ?? ['listing', 'offer'],
+    types: options.types ?? ['listing'],
     search: options.search ?? undefined,
     sort: options.sort ?? undefined,
     page: options.page ?? 1,
@@ -18,7 +18,7 @@ const crawlCNFT = (options = {}) => {
 
   return new Promise((resolve, reject) => {
     Axios.post(CNFT_URI, payload, { headers: { 'Content-Type': 'application/json' } })
-      .then((response) => resolve(response.data.results))
+      .then((response) => resolve(response.data.results.filter((item) => item.assets.length === 1)))
       .catch((error) => reject(error))
   })
 }

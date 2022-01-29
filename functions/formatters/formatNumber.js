@@ -1,4 +1,4 @@
-function formatNumber(num) {
+const formatNumber = (num) => {
   const strNum = String(num)
 
   // thousands (k)
@@ -20,4 +20,4 @@ function formatNumber(num) {
   return strNum
 }
 
-export default formatNumber
+module.exports = formatNumber
