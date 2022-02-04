@@ -1,11 +1,11 @@
-import dynamic from 'next/dynamic'
+// import dynamic from 'next/dynamic'
 import Head from 'next/head'
-import { useScreenSize } from '../contexts/ScreenSizeContext'
-const Main = dynamic(() => import('../components/Main'), { ssr: false })
-const Listings = dynamic(() => import('../components/Listings'), { ssr: false })
+// import { useScreenSize } from '../contexts/ScreenSizeContext'
+// const Main = dynamic(() => import('../components/Main'), { ssr: false })
+// const Listings = dynamic(() => import('../components/Listings'), { ssr: false })
 
 export default function Home() {
-  const { isDesktop } = useScreenSize()
+  // const { isDesktop } = useScreenSize()
 
   return (
     <div>
@@ -20,7 +20,7 @@ export default function Home() {
         <link rel='manifest' href='/manifest.json' />
       </Head>
 
-      {isDesktop ? (
+      {/* {isDesktop ? (
         <div className='App'>
           <Listings title='Recently Listed' sold={false} />
           <Main />
@@ -32,7 +32,11 @@ export default function Home() {
           <Listings title='Recently Listed' sold={false} />
           <Listings title='Recently Sold' sold={true} />
         </div>
-      )}
+      )} */}
+
+      <div className='maintenance'>
+        Down for maintenance...
+      </div>
     </div>
   )
 }
