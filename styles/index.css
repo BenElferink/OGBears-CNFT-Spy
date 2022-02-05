@@ -28,18 +28,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-.maintenance {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--opacity-white);
-  -webkit-backdrop-filter: blur(11px);
-  backdrop-filter: blur(11px);
-}
-
 .App {
   width: 100vw;
   min-height: 100vh;
