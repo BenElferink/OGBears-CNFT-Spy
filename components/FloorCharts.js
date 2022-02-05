@@ -14,7 +14,7 @@ function FloorCharts() {
   const { chartWidth } = useScreenSize()
   const { floorData, bearsData } = useData()
 
-  const [showThirtyDay, setShowThirtyDay] = useState(false)
+  const [showThirtyDay, setShowThirtyDay] = useState(true)
   const [selectedType, setSelectedType] = useLocalStorage('ogb-selected-type', 'All')
 
   const chartOptions = getChartOptions(floorData, showThirtyDay)
