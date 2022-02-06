@@ -4,9 +4,23 @@ const getImageFromIPFS = require('../../functions/getImageFromIPFS')
 
 const formatJpgItem = (item, { sold }) => {
   const assetId = item.asset
+  const blockfrostAsset = blockfrostJsonFile.assets.find(({ asset }) => asset === assetId)
+
+  if (!blockfrostAsset) {
+    return {
+      assetId,
+      name: 'BEAR',
+      price: 0,
+      imageUrl: '',
+      itemUrl: `https://pool.pm/tokens/${BEARS_POLICY_ID}`,
+      store: 'blockfrost.io',
+      date: new Date(0, 0, 0),
+    }
+  }
+
   const {
     onchain_metadata: { name, image },
-  } = blockfrostJsonFile.assets.find(({ asset }) => asset === assetId)
+  } = blockfrostAsset
 
   return {
     assetId,
