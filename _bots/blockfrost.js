@@ -41,7 +41,7 @@ const run = async () => {
 
     for (let idx = 0; idx < policyAssets.length; idx++) {
       const { asset } = policyAssets[idx]
-      console.log(`populating asset ${asset}`)
+      console.log(`populating: index ${idx}, asset ${asset}`)
 
       populatedAssets.push(
         (
