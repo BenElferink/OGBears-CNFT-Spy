@@ -15,9 +15,14 @@ It is capable of following features:
 
 ## Public API
 
-GET current (live) floor prices:
+GET current (live) floor prices - for Bears:
 ```
 https://ogbears.vercel.app/api/floor
+```
+
+GET current (live) floor prices - for Salmon Trophy:
+```
+https://ogbears.vercel.app/api/floor/salmon
 ```
 
 GET listed items on [cnft.io](https://cnft.io):
