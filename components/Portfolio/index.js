@@ -1,14 +1,12 @@
 import dynamic from 'next/dynamic'
 import { Fragment, useState } from 'react'
-import { useScreenSize } from '../contexts/ScreenSizeContext'
-import { useData } from '../contexts/DataContext'
-import { useLocalStorage } from '../hooks'
-import toHex from '../functions/toHex'
-import formatNumber from '../functions/formatters/formatNumber'
-import getImageFromIPFS from '../functions/getImageFromIPFS'
-import getChartOptions from '../functions/chart/getChartOptions'
-import getPortfolioSeries from '../functions/chart/getPortfolioSeries'
-import { Button, Drawer, IconButton, TextField, Typography } from '@mui/material'
+import { useScreenSize } from '../../contexts/ScreenSizeContext'
+import { useData } from '../../contexts/DataContext'
+import { useLocalStorage } from '../../hooks'
+import formatNumber from '../../functions/formatters/formatNumber'
+import getChartOptions from '../../functions/chart/getChartOptions'
+import getPortfolioSeries from '../../functions/chart/getPortfolioSeries'
+import { Button, IconButton, Typography } from '@mui/material'
 import {
   Fingerprint,
   AddCircle,
@@ -17,99 +15,27 @@ import {
   ArrowCircleDown,
   CircleOutlined,
 } from '@mui/icons-material'
-import Modal from './Modal'
-import Toggle from './Toggle'
-import Loading from './Loading'
-import ListItem from './ListItem'
-import ChangeGreenRed from './ChangeGreenRed'
-import { ADA_SYMBOL } from '../constants/ada'
-import { BEARS_POLICY_ID } from '../constants/policy-ids'
-import { GREEN, RED } from '../constants/colors'
+import Modal from '../Modal'
+import Toggle from '../Toggle'
+import Loading from '../Loading'
+import ListItem from '../ListItem'
+import ChangeGreenRed from '../ChangeGreenRed'
+import { ADA_SYMBOL } from '../../constants/ada'
+import { BEARS_POLICY_ID } from '../../constants/policy-ids'
+import { GREEN, RED } from '../../constants/colors'
+import AddAsset from './AddAsset'
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
 function Portfolio() {
-  const { isMobile, isDesktop, chartWidth } = useScreenSize()
-  const { blockfrostData, floorData } = useData()
+  const { isMobile, chartWidth } = useScreenSize()
+  const { floorData } = useData()
 
   const [assets, setAssets] = useLocalStorage('ogb-assets', [])
+  const [adding, setAdding] = useState(false)
 
   const [openModal, setOpenModal] = useState(false)
   const [openDrawer, setOpenDrawer] = useState(false)
   const [showThirtyDay, setShowThirtyDay] = useState(false)
-
-  const [adding, setAdding] = useState(false)
-  const [addBearId, setAddBearId] = useState('')
-  const [addBearIdError, setAddBearIdError] = useState(false)
-  const [addBearPrice, setAddBearPrice] = useState('')
-  const [addBearPriceError, setAddBearPriceError] = useState(false)
-
-  const addAsset = async () => {
-    setAdding(true)
-    let idValid = false
-    let priceValid = false
-    const addBearIdTrimmed = Number(addBearId.replace('#', ''))
-
-    if (addBearIdTrimmed >= 1 && addBearIdTrimmed <= 10000) idValid = true
-    if (addBearPrice) priceValid = true
-
-    if (!idValid || !priceValid) {
-      setAddBearIdError(!idValid)
-      setAddBearPriceError(!priceValid)
-      setAdding(false)
-      return
-    }
-
-    const assetId = `${BEARS_POLICY_ID}${toHex(addBearIdTrimmed)}`
-    const blockfrostAsset = blockfrostData.assets.find((item) => item.asset === assetId)
-
-    if (!blockfrostAsset) {
-      setAdding(false)
-      return
-    }
-
-    const {
-      onchain_metadata: {
-        name,
-        image,
-        attributes: { Type },
-      },
-    } = blockfrostAsset
-
-    const newDate = new Date()
-    newDate.setHours(0)
-    newDate.setMinutes(0)
-    newDate.setSeconds(0)
-    newDate.setMilliseconds(0)
-    newDate.setDate(newDate.getDate() - 1)
-    const timestamp = newDate.getTime()
-
-    const payload = {
-      id: Number(addBearIdTrimmed),
-      name,
-      type: Type,
-      image: getImageFromIPFS(image),
-      payed: Number(addBearPrice),
-      timestamp,
-    }
-
-    setAssets((prev) => {
-      if (prev.some((obj) => obj.id === payload.id)) {
-        return prev.map((obj) => {
-          if (obj.id === payload.id) {
-            return { ...obj, payed: payload.payed }
-          }
-
-          return obj
-        })
-      }
-
-      return [...prev, payload].sort((a, b) => a.id - b.id)
-    })
-    setAdding(false)
-    setOpenDrawer(false)
-    setAddBearId('')
-    setAddBearPrice('')
-  }
 
   const removeAsset = (id) => {
     setAssets((prev) => prev.filter((obj) => obj.id !== id))
@@ -177,7 +103,7 @@ function Portfolio() {
               </span>
               <div className='flex-col' style={{ marginLeft: '0.5rem' }}>
                 <ChangeGreenRed
-                  value={formatNumber((totalBalance - totalPayed) / totalPayed * 100)}
+                  value={formatNumber(((totalBalance - totalPayed) / totalPayed) * 100)}
                   suffix='%'
                   invert
                   withCaret
@@ -297,60 +223,13 @@ function Portfolio() {
         </div>
       </Modal>
 
-      <Drawer
-        anchor='bottom'
-        open={openDrawer}
-        onClose={() => setOpenDrawer(false)}
-        sx={{ zIndex: '999999' }}>
-        <div
-          className='flex-col'
-          style={{
-            maxWidth: '550px',
-            width: '100%',
-            margin: '1rem auto',
-            padding: '0.5rem 1rem',
-            alignItems: 'unset',
-          }}>
-          <TextField
-            label='Bear ID'
-            placeholder='#5935'
-            varient='outlined'
-            value={addBearId}
-            onChange={(e) => {
-              setAddBearId(e.target.value)
-              setAddBearIdError(false)
-            }}
-            error={addBearIdError}
-            sx={{ margin: '0.4rem 0' }}
-          />
-          <TextField
-            label='ADA Payed'
-            placeholder={`${ADA_SYMBOL}200`}
-            varient='outlined'
-            value={addBearPrice}
-            onChange={(e) => {
-              setAddBearPrice(e.target.value)
-              setAddBearPriceError(false)
-            }}
-            error={addBearPriceError}
-            sx={{ margin: '0.4rem 0' }}
-          />
-
-          {adding ? (
-            <Loading />
-          ) : (
-            <Button
-              variant='contained'
-              color='secondary'
-              size='large'
-              startIcon={<AddCircle />}
-              onClick={addAsset}
-              sx={{ margin: '0.4rem 0' }}>
-              Add
-            </Button>
-          )}
-        </div>
-      </Drawer>
+      <AddAsset
+        openDrawer={openDrawer}
+        setOpenDrawer={setOpenDrawer}
+        adding={adding}
+        setAdding={setAdding}
+        setAssets={setAssets}
+      />
     </Fragment>
   )
 }
