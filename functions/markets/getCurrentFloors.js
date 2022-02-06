@@ -83,6 +83,11 @@ const getCurrentFloors = async (bearsJsonFile, blockfrostJsonFile) => {
     for (const listing of jpgFetchedData) {
       const blockfrostAsset = blockfrostJsonFile.assets.find((item) => item.asset === listing.asset)
 
+      if (!blockfrostAsset) {
+        thisFloor = null
+        break
+      }
+
       if (blockfrostAsset.onchain_metadata.attributes.Type === thisType) {
         thisFloor = listing.price_lovelace / 1000000
         break
