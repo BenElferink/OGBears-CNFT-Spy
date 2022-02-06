@@ -103,13 +103,13 @@ function Portfolio() {
               </span>
               <div className='flex-col' style={{ marginLeft: '0.5rem' }}>
                 <ChangeGreenRed
-                  value={formatNumber(((totalBalance - totalPayed) / totalPayed) * 100)}
+                  value={formatNumber((((totalBalance - totalPayed) / totalPayed) * 100).toFixed(0))}
                   suffix='%'
                   invert
                   withCaret
                 />
                 <ChangeGreenRed
-                  value={formatNumber(totalBalance - totalPayed)}
+                  value={formatNumber((totalBalance - totalPayed).toFixed(0))}
                   prefix={ADA_SYMBOL}
                   invert
                   withCaret
