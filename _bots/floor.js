@@ -1,7 +1,7 @@
 const cron = require('node-cron')
 const fs = require('fs')
 const { exec } = require('child_process')
-const getCurrentFloors = require('../functions/markets/getCurrentFloors')
+const getBearsFloor = require('../functions/markets/getBearsFloor')
 const bearsJsonFile = require('../data/bears')
 const blockfrostJsonFile = require('../data/blockfrost')
 
@@ -17,7 +17,7 @@ const runCronJob = async () => {
 
   // manage git pull
   exec('git fetch && git pull --no-rebase', async (gitPullError, gitPullStdout, gitPullStderr) => {
-    const floorData = await getCurrentFloors(bearsJsonFile, blockfrostJsonFile)
+    const floorData = await getBearsFloor(bearsJsonFile, blockfrostJsonFile)
 
     Object.entries(floorData).forEach(([key, val]) => {
       const thisType = key

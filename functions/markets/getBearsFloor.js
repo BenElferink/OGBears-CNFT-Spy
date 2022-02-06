@@ -1,7 +1,7 @@
 const crawlCNFT = require('./crawlCNFT')
 const crawlJPG = require('./crawlJPG')
 
-const getCurrentFloors = async (bearsJsonFile, blockfrostJsonFile) => {
+const getBearsFloor = async (bearsJsonFile, blockfrostJsonFile) => {
   const floorData = {}
   const cnftFloorData = {}
   const jpgFloorData = {}
@@ -131,4 +131,4 @@ const getCurrentFloors = async (bearsJsonFile, blockfrostJsonFile) => {
   return floorData
 }
 
-module.exports = getCurrentFloors
+module.exports = getBearsFloor
