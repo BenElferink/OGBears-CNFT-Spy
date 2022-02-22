@@ -1,11 +1,11 @@
 import { Fragment, useState } from 'react'
 import { Button, Chip } from '@mui/material'
 import { CreditCard, ContentCopy } from '@mui/icons-material'
-import Modal from './Modal'
-import { ADA_ADDRESS, ADA_ADDRESS_QR } from '../constants/ada'
-import { useScreenSize } from '../contexts/ScreenSizeContext'
+import Modal from '../Modal'
+import { ADA_ADDRESS, ADA_ADDRESS_QR } from '../../constants/ada'
+import { useScreenSize } from '../../contexts/ScreenSizeContext'
 
-function Donate() {
+function Tip() {
   const { isMobile } = useScreenSize()
   const [open, setOpen] = useState(false)
   const [isCopied, setIsCopied] = useState(false)
@@ -28,10 +28,15 @@ function Donate() {
         size={isMobile ? 'medium' : 'large'}
         startIcon={<CreditCard />}
         onClick={() => setOpen(true)}>
-        Donate
+        Tip
       </Button>
 
-      <Modal title='Donate (ADA address)' open={open} onClose={() => setOpen(false)}>
+      <Modal title='Tip Jar' open={open} onClose={() => setOpen(false)}>
+        <p style={{ textAlign: 'center', marginTop: '1rem' }}>
+          Please consider supporting the development and hosting of this FREE TO USE market tool.<br />
+          Below is my ADA address, any tips and donations are welcome and appreciated!
+        </p>
+
         <div
           style={{
             width: 'fit-content',
@@ -66,4 +71,4 @@ function Donate() {
   )
 }
 
-export default Donate
+export default Tip

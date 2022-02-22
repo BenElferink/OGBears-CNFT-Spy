@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material'
 import { ADA_SYMBOL } from '../constants/ada'
 
-function ListItem({
+function AssetCard({
   style = {},
   name,
   price,
@@ -65,4 +65,4 @@ function ListItem({
   )
 }
 
-export default ListItem
+export default AssetCard

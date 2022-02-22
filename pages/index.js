@@ -1,11 +1,19 @@
-import dynamic from 'next/dynamic'
 import Head from 'next/head'
+import dynamic from 'next/dynamic'
 import { useScreenSize } from '../contexts/ScreenSizeContext'
-const Main = dynamic(() => import('../components/Main'), { ssr: false })
-const Listings = dynamic(() => import('../components/Listings'), { ssr: false })
+import Header from '../components/Header'
+const FloorCharts = dynamic(() => import('../components/FloorCharts'), { ssr: false })
+const ScrollableMarketAssetsList = dynamic(() => import('../components/ScrollableMarketAssetsList'), { ssr: false })
 
 export default function Home() {
   const { isDesktop } = useScreenSize()
+
+  const RenderMain = () => (
+    <main className='main'>
+      <Header />
+      <FloorCharts />
+    </main>
+  )
 
   return (
     <div>
@@ -22,15 +30,15 @@ export default function Home() {
 
       {isDesktop ? (
         <div className='App'>
-          <Listings title='Recently Listed' sold={false} />
-          <Main />
-          <Listings title='Recently Sold' sold={true} />
+          <ScrollableMarketAssetsList />
+          <RenderMain />
+          <ScrollableMarketAssetsList sold />
         </div>
       ) : (
         <div className='App'>
-          <Main />
-          <Listings title='Recently Listed' sold={false} />
-          <Listings title='Recently Sold' sold={true} />
+          <RenderMain />
+          <ScrollableMarketAssetsList />
+          <ScrollableMarketAssetsList sold />
         </div>
       )}
     </div>

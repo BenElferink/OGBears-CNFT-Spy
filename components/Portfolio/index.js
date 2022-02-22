@@ -18,7 +18,7 @@ import {
 import Modal from '../Modal'
 import Toggle from '../Toggle'
 import Loading from '../Loading'
-import ListItem from '../ListItem'
+import AssetCard from '../AssetCard'
 import ChangeGreenRed from '../ChangeGreenRed'
 import { ADA_SYMBOL } from '../../constants/ada'
 import { BEARS_POLICY_ID } from '../../constants/policy-ids'
@@ -103,13 +103,13 @@ function Portfolio() {
               </span>
               <div className='flex-col' style={{ marginLeft: '0.5rem' }}>
                 <ChangeGreenRed
-                  value={formatNumber((((totalBalance - totalPayed) / totalPayed) * 100).toFixed(0))}
+                  value={totalPayed ? formatNumber((((totalBalance - totalPayed) / totalPayed) * 100).toFixed(0)) : '0'}
                   suffix='%'
                   invert
                   withCaret
                 />
                 <ChangeGreenRed
-                  value={formatNumber((totalBalance - totalPayed).toFixed(0))}
+                  value={totalPayed ? formatNumber((totalBalance - totalPayed).toFixed(0)) : '0'}
                   prefix={ADA_SYMBOL}
                   invert
                   withCaret
@@ -174,7 +174,7 @@ function Portfolio() {
             {adding ? (
               <Loading />
             ) : (
-              <ListItem
+              <AssetCard
                 htmlToolTipContent={<div>add new asset</div>}
                 style={{ margin: '1rem', backgroundColor: 'var(--opacity-white)' }}
                 flipToSide={isMobile}
@@ -201,7 +201,7 @@ function Portfolio() {
                     sx={{ position: 'absolute', top: '1rem', right: '1rem', zIndex: '1' }}>
                     <CloseRounded />
                   </IconButton>
-                  <ListItem
+                  <AssetCard
                     style={{ margin: '1rem', backgroundColor: 'var(--opacity-white)' }}
                     flipToSide={isMobile}
                     name={name}

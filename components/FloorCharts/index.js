@@ -1,13 +1,13 @@
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
-import { useScreenSize } from '../contexts/ScreenSizeContext'
-import { useData } from '../contexts/DataContext'
-import { useLocalStorage } from '../hooks'
-import getChartOptions from '../functions/chart/getChartOptions'
-import getChartSeries from '../functions/chart/getChartSeries'
+import { useScreenSize } from '../../contexts/ScreenSizeContext'
+import { useData } from '../../contexts/DataContext'
+import { useLocalStorage } from '../../hooks'
+import getChartOptions from '../../functions/chart/getChartOptions'
+import getChartSeries from '../../functions/chart/getChartSeries'
 import { MenuItem, Select } from '@mui/material'
-import Toggle from './Toggle'
-import { BLACK, BROWN, POLAR_MALE, POLAR_FEMALE, ZOMBIE, ICY } from '../constants/colors'
+import Toggle from '../Toggle'
+import { BLACK, BROWN, POLAR_MALE, POLAR_FEMALE, ZOMBIE, ICY } from '../../constants/colors'
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
 function FloorCharts() {
