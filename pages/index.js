@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
         <meta name='description' content='OGBears NFT community market tool' />
         <title>CNFT Spy | OGBears</title>
         <link rel='icon' type='image/x-icon' href='/favicon.ico' />
