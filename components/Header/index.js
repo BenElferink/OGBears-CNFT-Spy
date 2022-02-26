@@ -12,7 +12,7 @@ import {
   MenuRounded,
   Star,
 } from '@mui/icons-material'
-import BaseButton from '../Basebutton'
+import BaseButton from '../BaseButton'
 import Modal from '../Modal'
 import Tip from '../Modal/Tip'
 const Portfolio = dynamic(() => import('../Modal/Portfolio'), { ssr: false })
