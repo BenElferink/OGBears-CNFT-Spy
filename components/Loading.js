@@ -1,9 +1,9 @@
 import { CircularProgress } from '@mui/material'
 
-function Loading() {
+function Loading({ color = 'var(--yellow)' }) {
   return (
     <div style={{ width: '100%', display: 'grid', placeItems: 'center' }}>
-      <CircularProgress color='secondary' />
+      <CircularProgress style={{ color }} />
     </div>
   )
 }

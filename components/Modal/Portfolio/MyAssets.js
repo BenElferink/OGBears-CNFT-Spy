@@ -38,7 +38,7 @@ function MyAssets({ assets, setAssets, setOpenDrawer, adding }) {
         }}
       >
         {adding ? (
-          <Loading />
+          <Loading color='var(--brown)' />
         ) : (
           <AssetCard
             htmlToolTipContent={<div>add new asset</div>}

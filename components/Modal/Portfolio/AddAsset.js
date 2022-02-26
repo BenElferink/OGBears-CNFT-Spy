@@ -121,7 +121,7 @@ function AddAsset({ openDrawer, setOpenDrawer, adding, setAdding, setAssets }) {
         />
 
         {adding ? (
-          <Loading />
+          <Loading color='var(--brown)' />
         ) : (
           <Button
             variant='contained'
