@@ -1,9 +1,13 @@
 import { Modal as MuiModal, IconButton, Typography } from '@mui/material'
 import { CloseRounded } from '@mui/icons-material'
-import { useScreenSize } from '../contexts/ScreenSizeContext'
+import { useScreenSize } from '../../contexts/ScreenSizeContext'
 
-function Modal({ open, onClose, title = 'Title', children }) {
+function Modal({ open, onClose, title = 'Title', hideElement, children }) {
   const { isMobile } = useScreenSize()
+
+  if (hideElement) {
+    return children
+  }
 
   return (
     <MuiModal
@@ -12,7 +16,8 @@ function Modal({ open, onClose, title = 'Title', children }) {
       sx={{
         display: 'grid',
         placeItems: 'center',
-      }}>
+      }}
+    >
       <div
         className='scroll'
         style={{
@@ -29,7 +34,8 @@ function Modal({ open, onClose, title = 'Title', children }) {
           flexDirection: 'column',
           alignItems: 'center',
           position: 'relative',
-        }}>
+        }}
+      >
         <IconButton
           sx={{
             margin: '7px',
@@ -38,7 +44,8 @@ function Modal({ open, onClose, title = 'Title', children }) {
             right: '0',
             zIndex: '9',
           }}
-          onClick={onClose}>
+          onClick={onClose}
+        >
           <CloseRounded color='error' />
         </IconButton>
         <Typography variant='h5'>{title}</Typography>

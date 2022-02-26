@@ -11,10 +11,10 @@ import { BLACK, BROWN, POLAR_MALE, POLAR_FEMALE, ZOMBIE, ICY } from '../../const
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
 function FloorCharts() {
-  const { chartWidth } = useScreenSize()
+  const { isMobile, chartWidth } = useScreenSize()
   const { floorData, bearsData } = useData()
 
-  const [showThirtyDay, setShowThirtyDay] = useState(true)
+  const [showThirtyDay, setShowThirtyDay] = useState(!isMobile)
   const [selectedType, setSelectedType] = useLocalStorage('ogb-selected-type', 'All')
 
   const chartOptions = getChartOptions(floorData, showThirtyDay)

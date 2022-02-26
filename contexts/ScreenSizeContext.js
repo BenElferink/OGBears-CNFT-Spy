@@ -14,9 +14,9 @@ export function ScreenSizeProvider({ children }) {
   const { width } = useWindowDimensions()
 
   const isMobile = width ? width <= 768 : true
-  const isDesktop = width ? width >= 1024 : false
+  const isDesktop = width ? width >= 1440 : false
   const chartWidth = (() => {
-    const val = width ? (width - (isDesktop ? 750 : 70)) : 0
+    const val = width ? (width - (isDesktop ? 750 : 100)) : 0
     if (isDesktop && val >= 700) return 700
     return val
   })()

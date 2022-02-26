@@ -1,6 +1,7 @@
 :root {
   --opacity-white: rgba(250, 250, 250, 0.5);
   --yellow: #ffc008;
+  --brown: #8e6a53;
   --purple: #ab199f;
 }
 
@@ -49,7 +50,7 @@ code {
   display: none;
 } */
 
-.main {
+.home-main {
   width: 95vw;
   width: calc(100vw - 50px);
   margin: 0 auto;
@@ -145,7 +146,7 @@ code {
   background-color: var(--opacity-white) !important;
 }
 
-@media only screen and (min-width: 1024px) {
+@media only screen and (min-width: 1440px) {
   .App {
     flex-direction: row;
   }
