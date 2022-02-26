@@ -52,7 +52,6 @@ function Portfolio({ open, onClose }) {
             style={{ width: '100%', justifyContent: 'space-evenly' }}
           >
             <Toggle
-              name='chart-days'
               labelLeft='7d'
               labelRight='30d'
               state={{

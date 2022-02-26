@@ -6,8 +6,8 @@ const FloorCharts = dynamic(
   () => import('../components/FloorCharts'),
   { ssr: false }
 )
-const ScrollableMarketAssetsList = dynamic(
-  () => import('../components/ScrollableMarketAssetsList'),
+const ScrollAssetsList = dynamic(
+  () => import('../components/ScrollAssetsList'),
   { ssr: false }
 )
 
@@ -16,15 +16,15 @@ export default function Home() {
 
   return (
     <Fragment>
-      {isDesktop && <ScrollableMarketAssetsList />}
+      {isDesktop && <ScrollAssetsList />}
 
       <main className='home-main'>
         <Header />
         <FloorCharts />
       </main>
 
-      {!isDesktop && <ScrollableMarketAssetsList />}
-      <ScrollableMarketAssetsList sold />
+      {!isDesktop && <ScrollAssetsList />}
+      <ScrollAssetsList sold />
     </Fragment>
   )
 }

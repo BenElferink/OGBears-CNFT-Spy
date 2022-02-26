@@ -2,7 +2,6 @@
   --opacity-white: rgba(250, 250, 250, 0.5);
   --yellow: #ffc008;
   --brown: #8e6a53;
-  --purple: #ab199f;
 }
 
 @font-face {
@@ -134,11 +133,11 @@ code {
 }
 
 .react-toggle .react-toggle-track {
-  background-color: var(--purple) !important;
+  background-color: var(--yellow) !important;
 }
 
 .react-toggle--checked .react-toggle-track {
-  background-color: var(--purple) !important;
+  background-color: var(--yellow) !important;
 }
 
 .MuiSelect-select {

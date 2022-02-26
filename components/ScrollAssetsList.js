@@ -5,7 +5,7 @@ import { Typography } from '@mui/material'
 import Loading from './Loading'
 import AssetCard from './AssetCard'
 
-function ScrollableMarketAssetsList({ sold = false }) {
+function ScrollAssetsList({ sold = false }) {
   const { isDesktop } = useScreenSize()
   const { listedAssets, soldAssets } = useMarket()
   const [displayNum, setDisplayNum] = useState(10)
@@ -60,4 +60,4 @@ function ScrollableMarketAssetsList({ sold = false }) {
   )
 }
 
-export default ScrollableMarketAssetsList
+export default ScrollAssetsList

@@ -28,7 +28,6 @@ function FloorCharts() {
     <section className='chart-container'>
       <div className='floor-chart-controls'>
         <Toggle
-          name='chart-days'
           labelLeft='7d'
           labelRight='30d'
           state={{

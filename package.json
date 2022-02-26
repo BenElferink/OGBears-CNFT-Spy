@@ -8,8 +8,9 @@
     "build": "next build",
     "start": "next start",
     "floor-bot": "node --trace-warnings ./_bots/floor.js",
+    "sync-bot": "node --trace-warnings ./_bots/jpg-sync-assets.js",
     "blockfrost-bot": "node --trace-warnings ./_bots/blockfrost.js",
-    "sync-bot": "node --trace-warnings ./_bots/jpg-sync-assets.js"
+    "traits-bot": "node --trace-warnings ./_bots/get-traits-from-blockfrost.js"
   },
   "dependencies": {
     "@emotion/react": "^11.7.1",

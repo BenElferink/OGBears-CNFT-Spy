@@ -1,17 +1,15 @@
-import React, { useEffect } from 'react'
-import { useLocalStorage } from '../hooks'
+import React, { useEffect, useState } from 'react'
 import ReactToggle from 'react-toggle'
 import 'react-toggle/style.css'
 
 function Toggle({
-  name = 'default',
   labelLeft = 'off',
   labelRight = 'on',
   showIcons = false,
   state: { value, setValue },
   style = {},
 }) {
-  const [toggle, setToggle] = useLocalStorage(`ogb-toggle-key-${name}`, value ?? false)
+  const [toggle, setToggle] = useState(value ?? false)
 
   const styles = {
     label: {

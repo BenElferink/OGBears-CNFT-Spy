@@ -1,6 +1,13 @@
 import { useScreenSize } from '../../../contexts/ScreenSizeContext'
+import { useData } from '../../../contexts/DataContext'
 import { IconButton, Typography } from '@mui/material'
-import { AddCircle } from '@mui/icons-material'
+import {
+  AddCircle,
+  ArrowCircleDown,
+  ArrowCircleUp,
+  CircleOutlined,
+  CloseRounded,
+} from '@mui/icons-material'
 import Loading from '../../Loading'
 import AssetCard from '../../AssetCard'
 import formatNumber from '../../../functions/formatters/formatNumber'
@@ -8,6 +15,7 @@ import { BEARS_POLICY_ID } from '../../../constants/policy-ids'
 
 function MyAssets({ assets, setAssets, setOpenDrawer, adding }) {
   const { isMobile, chartWidth } = useScreenSize()
+  const { floorData } = useData()
 
   const removeAsset = (id) => {
     setAssets((prev) => prev.filter((obj) => obj.id !== id))

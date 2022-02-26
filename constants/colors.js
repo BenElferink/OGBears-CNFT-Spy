@@ -1,6 +1,6 @@
 module.exports = {
-  GREEN: 'rgb(0, 227, 150)',
-  RED: 'rgb(233, 30, 99)',
+  GREEN: '#44b700',
+  RED: '#b74400',
 
   BROWN: 'rgb(127, 92, 71)',
   BLACK: 'rgb(57, 51, 42)',
