@@ -6,7 +6,7 @@ import AssetCard from './AssetCard'
 const INCREASE = 15
 
 function MarketAssets({ data }) {
-  const { isDesktop } = useScreenSize()
+  const { isMobile } = useScreenSize()
   const [displayNum, setDisplayNum] = useState(INCREASE)
 
   const handleScroll = (e) => {
@@ -24,12 +24,12 @@ function MarketAssets({ data }) {
       className='scroll'
       onScroll={handleScroll}
       style={{
-        width: '90vw',
-        maxHeight: `calc(100vh - ${isDesktop ? '200px' : '100px'})`,
+        width: '95vw',
+        maxHeight: isMobile ? '60vh' : 'calc(100vh - 250px)',
         display: 'flex',
-        flexFlow: isDesktop ? 'row wrap' : 'column nowrap',
+        flexFlow: isMobile ? 'column nowrap' : 'row wrap',
         alignItems: 'center',
-        justifyContent: isDesktop ? 'space-evenly' : 'unset',
+        justifyContent: isMobile ? 'unset' : 'space-evenly',
       }}
     >
       {data.length ? (

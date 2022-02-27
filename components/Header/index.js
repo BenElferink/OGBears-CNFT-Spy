@@ -19,10 +19,12 @@ const Portfolio = dynamic(() => import('../Modal/Portfolio'), { ssr: false })
 
 function Header() {
   const router = useRouter()
-  const { isMobile, chartWidth } = useScreenSize()
+  const { isMobile, isDesktop, chartWidth } = useScreenSize()
   const [openMobileMenu, setOpenMobileMenu] = useState(false)
   const [openPortfolio, setOpenPortfolio] = useState(false)
   const [openTip, setOpenTip] = useState(false)
+
+  const logoMultiplier = isMobile ? 0.777 : isDesktop ? 0.555 : 0.42069
 
   return (
     <header
@@ -37,8 +39,8 @@ function Header() {
         <Image
           src='/assets/images/logo.png'
           alt='OG Bears logo'
-          width={chartWidth * 0.555}
-          height={chartWidth * (0.555 / 4.555)}
+          width={chartWidth * logoMultiplier}
+          height={chartWidth * (logoMultiplier / 4.555)}
         />
       </a>
 
@@ -64,7 +66,7 @@ function Header() {
             isMobile
               ? {
                   width: '100%',
-                  height: '100%',
+                  height: '69vh',
                   flexDirection: 'column',
                   justifyContent: 'space-evenly',
                 }

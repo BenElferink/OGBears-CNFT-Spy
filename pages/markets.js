@@ -1,40 +1,71 @@
 import { useState } from 'react'
 import { useMarket } from '../contexts/MarketContext'
+import { useData } from '../contexts/DataContext'
+import { useScreenSize } from '../contexts/ScreenSizeContext'
 import traits from '../data/traits'
 import { MenuItem, Select } from '@mui/material'
 import Header from '../components/Header'
 import Toggle from '../components/Toggle'
 import MarketAssets from '../components/MarketAssets'
 
-export default function Markets() {
-  const { listedAssets, soldAssets } = useMarket()
-  const sold = false
-  const [highToLow, setHighToLow] = useState(false)
-  const [filters, setFilters] = useState({})
+const BLANK = '-'
 
-  const sortedAssets = (sold ? soldAssets : listedAssets).sort((a, b) =>
-    highToLow ? b.price - a.price : a.price - b.price
-  )
+export default function Markets() {
+  const { listedAssets } = useMarket()
+  const { blockfrostData } = useData()
+  const { isMobile } = useScreenSize()
+  const [filters, setFilters] = useState({})
+  const [highToLow, setHighToLow] = useState(false)
+
+  const renderAssets = () => {
+    const assetsWithMetaData = listedAssets.map((obj) => ({
+      ...obj,
+      attributes: blockfrostData.assets.find(
+        ({ asset }) => asset === obj.assetId
+      ).onchain_metadata.attributes,
+    }))
+
+    const filteredAssets = assetsWithMetaData.filter((obj) => {
+      let isOk = true
+
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value && value !== BLANK && obj.attributes[key] !== value) {
+          isOk = false
+        }
+      })
+
+      return isOk
+    })
+
+    const sortedAssets = filteredAssets.sort((a, b) =>
+      highToLow ? b.price - a.price : a.price - b.price
+    )
+
+    return sortedAssets
+  }
 
   return (
     <main className='home-main'>
       <Header />
-      <div className='flex-row' style={{ flexWrap: 'wrap' }}>
+      <div className='flex-evenly' style={{ flexWrap: 'wrap' }}>
         {Object.entries(traits).map(([key, val]) => (
           <Select
             key={`select-${key}`}
-            value={filters[key] ?? '-'}
+            value={filters[key] ?? BLANK}
             onChange={(e) =>
               setFilters((prev) => ({ ...prev, [key]: e.target.value }))
             }
+            style={{
+              fontSize: isMobile ? '0.8rem' : '1rem',
+              backgroundColor: filters[key] && filters[key] !== BLANK ? 'var(--yellow)' : 'unset',
+            }}
           >
-            <MenuItem value='-'>{key}</MenuItem>
-            {/* {val.map(({ value, percent }) => (
+            <MenuItem value={BLANK}>{key}</MenuItem>
+            {val.map(({ value, percent }) => (
               <MenuItem key={`select-${key}-item-${value}`} value={value}>
                 {percent.toFixed(2)}% - {value}
               </MenuItem>
-            ))} */}
-            <MenuItem value='soon'>Coming soon...</MenuItem>
+            ))}
           </Select>
         ))}
 
@@ -48,6 +79,7 @@ export default function Markets() {
             backgroundColor: 'var(--opacity-white)',
             border: '1px solid black',
             borderRadius: '4px',
+            fontSize: isMobile ? '0.8rem' : '1rem',
           }}
         >
           <Toggle
@@ -60,7 +92,7 @@ export default function Markets() {
           />
         </div>
       </div>
-      <MarketAssets data={sortedAssets} />
+      <MarketAssets data={renderAssets()} />
     </main>
   )
 }
