@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer')
 const crawlJPG = require('../functions/markets/crawlJPG')
 
-const POLICY_ID = require('../constants/policy-ids').BEARS_POLICY_ID
+const POLICY_ID = require('../constants/policy-ids').BEAR_POLICY_ID
 const SYNC_X_PATH = '//*[@id="app"]/div[2]/section[1]/div/div[2]/div[1]/div[2]/img'
 
 const syncAsset = async (page, asset) => {

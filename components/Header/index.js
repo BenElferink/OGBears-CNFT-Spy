@@ -2,23 +2,30 @@ import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { useData } from '../../contexts/DataContext'
+import { TickerProvider, useTicker } from '../../contexts/TickerContext'
 import { useScreenSize } from '../../contexts/ScreenSizeContext'
-import { IconButton } from '@mui/material'
+import { IconButton, Tooltip } from '@mui/material'
 import {
+  AccountBalanceWallet,
   CreditCard,
   Fingerprint,
   HomeRounded,
   LocalGroceryStore,
   MenuRounded,
+  Pets,
   Star,
 } from '@mui/icons-material'
 import BaseButton from '../BaseButton'
 import Modal from '../Modal'
 import Tip from '../Modal/Tip'
+import ChangeGreenRed from '../ChangeGreenRed'
+import { ADA_SYMBOL } from '../../constants/ada'
 const Portfolio = dynamic(() => import('../Modal/Portfolio'), { ssr: false })
 
 function Header() {
   const router = useRouter()
+  const { onChainData } = useData()
   const { isMobile, isDesktop, chartWidth } = useScreenSize()
   const [openMobileMenu, setOpenMobileMenu] = useState(false)
   const [openPortfolio, setOpenPortfolio] = useState(false)
@@ -26,25 +33,103 @@ function Header() {
 
   const logoMultiplier = isMobile ? 0.777 : isDesktop ? 0.555 : 0.42069
 
+  const OGBearLogo = () => (
+    <a href='https://ogbears.com' target='_blank' rel='noopener noreferrer'>
+      <Image
+        src='/assets/images/logo.png'
+        alt='OGBears logo'
+        width={chartWidth * logoMultiplier}
+        height={chartWidth * (logoMultiplier / 4.555)}
+      />
+    </a>
+  )
+
+  const OnChainData = () => (
+    <div
+      className={isMobile ? 'flex-evenly' : 'flex-col'}
+      style={{ color: 'white' }}
+    >
+      <Tooltip followCursor title='Number of minted assets'>
+        <div
+          className='flex-evenly'
+          style={{ margin: isMobile ? '0.3rem 0 0 0' : '0.3rem 0' }}
+        >
+          <Pets />
+          &nbsp;{onChainData.asset_minted}
+        </div>
+      </Tooltip>
+      <Tooltip followCursor title='Number of asset holders'>
+        <div
+          className='flex-evenly'
+          style={{ margin: isMobile ? '0.3rem 0 0 0' : '0.3rem 0' }}
+        >
+          <AccountBalanceWallet />
+          &nbsp;{onChainData.asset_holders}
+        </div>
+      </Tooltip>
+    </div>
+  )
+
+  const TickerData = () => {
+    const { adaUsdTicker, adaUsdChange24 } = useTicker()
+
+    return (
+      <div
+        className='flex-col'
+        style={{
+          width: '100px',
+          padding: '0.5rem',
+          backgroundColor: 'var(--opacity-white)',
+          borderRadius: '1rem',
+        }}
+      >
+        <Image
+          src='/assets/images/cardano-logo-1024x1024.png'
+          alt='Cardano logo'
+          width={50}
+          height={50}
+        />
+        <ChangeGreenRed
+          value={adaUsdTicker}
+          prefix={ADA_SYMBOL}
+          scale='1.2'
+          style={{
+            width: '100%',
+            marginTop: '0.3rem',
+            color: 'var(--cardano-blue)',
+          }}
+        />
+        <ChangeGreenRed
+          value={adaUsdChange24}
+          suffix='%'
+          invert
+          withCaret
+          scale='0.7'
+        />
+      </div>
+    )
+  }
+
   return (
     <header
       className='flex-evenly'
       style={{
-        width: chartWidth,
+        width: isMobile ? '100%' : chartWidth,
         margin: '2rem 0',
-        flexDirection: !isMobile ? 'column' : 'row',
+        flexDirection: isMobile ? 'row' : 'column',
       }}
     >
-      <a href='https://ogbears.com' target='_blank' rel='noopener noreferrer'>
-        <Image
-          src='/assets/images/logo.png'
-          alt='OG Bears logo'
-          width={chartWidth * logoMultiplier}
-          height={chartWidth * (logoMultiplier / 4.555)}
-        />
-      </a>
+      {isMobile && <div style={{ width: '3rem' }} />}
 
-      <br />
+      <div className={isMobile ? 'flex-col' : 'flex-evenly'}>
+        {!isMobile && (
+          <TickerProvider>
+            <TickerData />
+          </TickerProvider>
+        )}
+        <OGBearLogo />
+        <OnChainData />
+      </div>
 
       {isMobile ? (
         <IconButton onClick={() => setOpenMobileMenu(true)}>

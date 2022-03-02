@@ -11,7 +11,7 @@ import {
 import Loading from '../../Loading'
 import AssetCard from '../../AssetCard'
 import formatNumber from '../../../functions/formatters/formatNumber'
-import { BEARS_POLICY_ID } from '../../../constants/policy-ids'
+import { BEAR_POLICY_ID } from '../../../constants/policy-ids'
 
 function MyAssets({ assets, setAssets, setOpenDrawer, adding }) {
   const { isMobile, chartWidth } = useScreenSize()
@@ -94,7 +94,7 @@ function MyAssets({ assets, setAssets, setOpenDrawer, adding }) {
                 name={name}
                 price={formatNumber(payed)}
                 imageSrc={image}
-                itemUrl={`https://pool.pm/${BEARS_POLICY_ID}.${id}`}
+                itemUrl={`https://pool.pm/${BEAR_POLICY_ID}.${id}`}
                 iconArray={[
                   {
                     icon:

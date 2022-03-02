@@ -1,12 +1,12 @@
 const dotenv = require('dotenv')
 const fs = require('fs')
 const Axios = require('axios')
-const { BEARS_POLICY_ID } = require('../constants/policy-ids')
+const { BEAR_POLICY_ID } = require('../constants/policy-ids')
 const blockfrostJsonFile = require('../data/blockfrost')
 
 dotenv.config()
 
-const OGB_POLICY_ID = BEARS_POLICY_ID
+const OGB_POLICY_ID = BEAR_POLICY_ID
 const BLOCKFROST_KEY = process.env.BLOCKFROST_KEY ?? ''
 const BLOCKFROST_API = 'https://cardano-mainnet.blockfrost.io/api/v0'
 

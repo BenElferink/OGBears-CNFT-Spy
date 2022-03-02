@@ -6,7 +6,7 @@ import { Button, Drawer, TextField } from '@mui/material'
 import { AddCircle } from '@mui/icons-material'
 import Loading from '../../Loading'
 import { ADA_SYMBOL } from '../../../constants/ada'
-import { BEARS_POLICY_ID } from '../../../constants/policy-ids'
+import { BEAR_POLICY_ID } from '../../../constants/policy-ids'
 
 function AddAsset({ openDrawer, setOpenDrawer, adding, setAdding, setAssets }) {
   const { blockfrostData } = useData()
@@ -32,7 +32,7 @@ function AddAsset({ openDrawer, setOpenDrawer, adding, setAdding, setAssets }) {
       return
     }
 
-    const assetId = `${BEARS_POLICY_ID}${toHex(addBearIdTrimmed)}`
+    const assetId = `${BEAR_POLICY_ID}${toHex(addBearIdTrimmed)}`
     const blockfrostAsset = blockfrostData.assets.find((item) => item.asset === assetId)
 
     if (!blockfrostAsset) {

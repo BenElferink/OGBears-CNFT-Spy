@@ -1,5 +1,5 @@
 const blockfrostJsonFile = require('../../data/blockfrost')
-const { BEARS_POLICY_ID } = require('../../constants/policy-ids')
+const { BEAR_POLICY_ID } = require('../../constants/policy-ids')
 const getImageFromIPFS = require('../../functions/getImageFromIPFS')
 
 const formatJpgItem = (item, { sold }) => {
@@ -12,7 +12,7 @@ const formatJpgItem = (item, { sold }) => {
       name: 'BEAR',
       price: 0,
       imageUrl: '',
-      itemUrl: `https://pool.pm/tokens/${BEARS_POLICY_ID}`,
+      itemUrl: `https://pool.pm/tokens/${BEAR_POLICY_ID}`,
       store: 'blockfrost.io',
       date: new Date(0, 0, 0),
     }
@@ -28,7 +28,7 @@ const formatJpgItem = (item, { sold }) => {
     price: item.price_lovelace / 1000000,
     imageUrl: getImageFromIPFS(image),
     itemUrl: sold
-      ? `https://pool.pm/${BEARS_POLICY_ID}.${name.replace('BEAR', '')}`
+      ? `https://pool.pm/${BEAR_POLICY_ID}.${name.replace('BEAR', '')}`
       : `https://jpg.store/asset/${assetId}`,
     store: 'jpg.store',
     date: new Date(sold ? item.purchased_at : item.listed_at),

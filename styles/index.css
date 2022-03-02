@@ -1,7 +1,8 @@
 :root {
-  --opacity-white: rgba(250, 250, 250, 0.5);
+  --opacity-white: rgba(250, 250, 250, 0.555);
   --yellow: #ffc008;
   --brown: #8e6a53;
+  --cardano-blue: #1231a6;
 }
 
 @font-face {

@@ -1,6 +1,5 @@
 import { GREEN, RED } from '../constants/colors'
 
-const invertColor = '#f9f9f9'
 
 export default function ChangeGreenRed({
   value = 0,
@@ -9,7 +8,10 @@ export default function ChangeGreenRed({
   invert = false,
   withCaret = false,
   scale = 1,
+  style = {},
+  neutral = false,
 }) {
+  const invertColor = '#f9f9f9'
   const changeColor =
     typeof value === 'number' && value > 0
       ? GREEN
@@ -21,24 +23,26 @@ export default function ChangeGreenRed({
       ? RED
       : 'unset'
 
-  const style = {
+  const itemStyle = {
     margin: invert ? `${2 * scale}px ${4 * scale}px` : 'unset',
     padding: invert ? `${4 * scale}px ${7 * scale}px` : 'unset',
     backgroundColor: invert ? changeColor : 'unset',
-    color: invert ? invertColor : changeColor,
+    color: neutral || invert ? invertColor : changeColor,
     fontSize: `${16 * scale}px`,
     fontWeight: '500',
     borderRadius: '7px',
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'center',
+    ...style,
   }
 
   return (
-    <span style={style}>
+    <span style={itemStyle}>
       {withCaret && value > 0 ? (
-        <CaretUp size={10 * scale} fill={invertColor} style={{ marginRight: `${2 * scale}px` }} />
+        <CaretUp size={10 * scale} style={{ marginRight: `${2 * scale}px` }} />
       ) : withCaret && value < 0 ? (
-        <CaretDown size={10 * scale} fill={invertColor} style={{ marginRight: `${2 * scale}px` }} />
+        <CaretDown size={10 * scale} style={{ marginRight: `${2 * scale}px` }} />
       ) : null}
       {prefix}
       {value}
