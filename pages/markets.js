@@ -6,14 +6,15 @@ import traits from '../data/traits'
 import { MenuItem, Select } from '@mui/material'
 import Header from '../components/Header'
 import Toggle from '../components/Toggle'
+import Loading from '../components/Loading'
 import MarketAssets from '../components/MarketAssets'
 
 const BLANK = '-'
 
 export default function Markets() {
-  const { listedAssets } = useMarket()
-  const { blockfrostData } = useData()
   const { isMobile } = useScreenSize()
+  const { blockfrostData } = useData()
+  const { listedAssets } = useMarket()
   const [filters, setFilters] = useState({})
   const [highToLow, setHighToLow] = useState(false)
 
@@ -47,7 +48,8 @@ export default function Markets() {
   return (
     <main className='home-main'>
       <Header />
-      <div className='flex-evenly' style={{ flexWrap: 'wrap' }}>
+
+      <div className='flex-row' style={{ flexWrap: 'wrap' }}>
         {Object.entries(traits).map(([key, val]) => (
           <Select
             key={`select-${key}`}
@@ -57,7 +59,10 @@ export default function Markets() {
             }
             style={{
               fontSize: isMobile ? '0.8rem' : '1rem',
-              backgroundColor: filters[key] && filters[key] !== BLANK ? 'var(--yellow)' : 'unset',
+              backgroundColor:
+                filters[key] && filters[key] !== BLANK
+                  ? 'var(--yellow)'
+                  : 'unset',
             }}
           >
             <MenuItem value={BLANK}>{key}</MenuItem>
@@ -92,7 +97,16 @@ export default function Markets() {
           />
         </div>
       </div>
-      <MarketAssets data={renderAssets()} />
+
+      {listedAssets.length ? (
+        <MarketAssets
+          data={renderAssets()}
+          extraHeightMobile={220}
+          extraHeightDesktop={58}
+        />
+      ) : (
+        <Loading />
+      )}
     </main>
   )
 }

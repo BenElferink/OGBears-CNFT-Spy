@@ -6,6 +6,7 @@ function AssetCard({
   style = {},
   name,
   price,
+  rank,
   imageSrc,
   imageStyle = {},
   itemUrl = 'https://pool.pm',
@@ -33,7 +34,8 @@ function AssetCard({
         />
         <CardContent style={{ maxWidth: flipToSide ? '100px' : 'unset', width: '100%' }}>
           <Typography gutterBottom variant='h5'>
-            {ADA_SYMBOL + price}
+            {price ? (ADA_SYMBOL + price) : null}
+            {rank ? ('Rank: ' + rank) : null}
           </Typography>
           <Typography variant='body2' color='text.secondary'>
             {name}

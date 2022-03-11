@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import bearsJsonFile from '../data/bears'
 import blockfrostJsonFile from '../data/blockfrost'
+import cnftToolsRanksJsonFile from '../data/cnftToolsRanks'
 import floorJsonFile from '../data/floor'
 import { BEAR_POLICY_ID } from '../constants/policy-ids'
 
@@ -21,6 +22,7 @@ export function useData() {
 export function DataProvider({ children }) {
   const bearsData = bearsJsonFile
   const blockfrostData = blockfrostJsonFile
+  const cnftToolsRanks = cnftToolsRanksJsonFile
   const [floorData, setFloorData] = useState(floorJsonFile)
   const [onChainData, setOnChainData] = useState({})
 
@@ -73,6 +75,7 @@ export function DataProvider({ children }) {
       value={{
         bearsData,
         blockfrostData,
+        cnftToolsRanks,
         floorData,
         onChainData,
       }}

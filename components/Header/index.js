@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useData } from '../../contexts/DataContext'
-import { TickerProvider, useTicker } from '../../contexts/TickerContext'
+import { useTicker } from '../../contexts/TickerContext'
 import { useScreenSize } from '../../contexts/ScreenSizeContext'
 import { IconButton, Tooltip } from '@mui/material'
 import {
@@ -25,7 +25,6 @@ const Portfolio = dynamic(() => import('../Modal/Portfolio'), { ssr: false })
 
 function Header() {
   const router = useRouter()
-  const { onChainData } = useData()
   const { isMobile, isDesktop, chartWidth } = useScreenSize()
   const [openMobileMenu, setOpenMobileMenu] = useState(false)
   const [openPortfolio, setOpenPortfolio] = useState(false)
@@ -44,31 +43,44 @@ function Header() {
     </a>
   )
 
-  const OnChainData = () => (
-    <div
-      className={isMobile ? 'flex-evenly' : 'flex-col'}
-      style={{ color: 'white' }}
-    >
-      <Tooltip followCursor title='Number of minted assets'>
-        <div
-          className='flex-evenly'
-          style={{ margin: isMobile ? '0.3rem 0 0 0' : '0.3rem 0' }}
-        >
-          <Pets />
-          &nbsp;{onChainData.asset_minted}
-        </div>
-      </Tooltip>
-      <Tooltip followCursor title='Number of asset holders'>
-        <div
-          className='flex-evenly'
-          style={{ margin: isMobile ? '0.3rem 0 0 0' : '0.3rem 0' }}
-        >
-          <AccountBalanceWallet />
-          &nbsp;{onChainData.asset_holders}
-        </div>
-      </Tooltip>
-    </div>
-  )
+  const OnChainData = () => {
+    const { onChainData } = useData()
+
+    return (
+      <div
+        className={isMobile ? 'flex-evenly' : 'flex-col'}
+        style={{ color: 'white' }}
+      >
+        {onChainData.asset_minted ? (
+          <Tooltip followCursor title='Number of minted assets'>
+            <div
+              className='flex-evenly'
+              style={{ margin: isMobile ? '0.3rem 0 0 0' : '0.3rem 0' }}
+            >
+              <Pets />
+              &nbsp;{onChainData.asset_minted}
+            </div>
+          </Tooltip>
+        ) : (
+          <div style={{ flex: '1' }} />
+        )}
+
+        {onChainData.asset_holders ? (
+          <Tooltip followCursor title='Number of asset holders'>
+            <div
+              className='flex-evenly'
+              style={{ margin: isMobile ? '0.3rem 0 0 0' : '0.3rem 0' }}
+            >
+              <AccountBalanceWallet />
+              &nbsp;{onChainData.asset_holders}
+            </div>
+          </Tooltip>
+        ) : (
+          <div style={{ flex: '1' }} />
+        )}
+      </div>
+    )
+  }
 
   const TickerData = () => {
     const { adaUsdTicker, adaUsdChange24 } = useTicker()
@@ -115,20 +127,17 @@ function Header() {
       className='flex-evenly'
       style={{
         width: isMobile ? '100%' : chartWidth,
-        margin: '2rem 0',
+        height: isMobile ? '150px' : '250px',
         flexDirection: isMobile ? 'row' : 'column',
+        justifyContent: 'center',
       }}
     >
       {isMobile && <div style={{ width: '3rem' }} />}
 
       <div className={isMobile ? 'flex-col' : 'flex-evenly'}>
-        {!isMobile && (
-          <TickerProvider>
-            <TickerData />
-          </TickerProvider>
-        )}
-        <OGBearLogo />
         <OnChainData />
+        <OGBearLogo />
+        {!isMobile && <TickerData />}
       </div>
 
       {isMobile ? (
