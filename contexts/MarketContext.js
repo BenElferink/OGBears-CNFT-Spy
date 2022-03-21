@@ -22,10 +22,10 @@ export function MarketProvider({ children }) {
   const [listedAssets, setListedAssets] = useState([])
   const [soldAssets, setSoldAssets] = useState([])
 
-  const getCnftItems = async ({ page = 1, sold = false }) => {
+  const getCnftItems = async ({ sold, page }) => {
     try {
       const res = (
-        await axios.get(`${CNFT_ENDPOINT}?page=${page}&sold=${sold}`)
+        await axios.get(`${CNFT_ENDPOINT}?sold=${sold}&page=${page}`)
       ).data
       return res
     } catch (error) {
@@ -34,9 +34,9 @@ export function MarketProvider({ children }) {
     }
   }
 
-  const getJpgItems = async ({ page = 0, sold = false }) => {
+  const getJpgItems = async ({ sold, page }) => {
     try {
-      const res = (await axios.get(`${JPG_ENDPOINT}?page=${page}&sold=${sold}`))
+      const res = (await axios.get(`${JPG_ENDPOINT}?sold=${sold}&page=${page}`))
         .data
       return res
     } catch (error) {

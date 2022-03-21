@@ -1,10 +1,10 @@
 const crawlCNFT = require('./crawlCNFT')
-// const crawlJPG = require('./crawlJPG')
+const crawlJPG = require('./crawlJPG')
 
 const getBearsFloor = async (bearsJsonFile, blockfrostJsonFile) => {
-  // const floorData = {}
+  const floorData = {}
   const cnftFloorData = {}
-  // const jpgFloorData = {}
+  const jpgFloorData = {}
 
   const cnftPreFetchedData = []
   let cnftLastSearchedIndex = 0
