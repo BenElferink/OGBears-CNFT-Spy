@@ -27,22 +27,22 @@ https://ogbears.vercel.app/api/floor/salmon
 
 GET listed items on [cnft.io](https://cnft.io):
 ```
-https://ogbears.vercel.app/api/listings/cnft
+https://ogbears.vercel.app/api/listings/cnft?page=0
 ```
 
 GET sold items from [cnft.io](https://cnft.io):
 ```
-https://ogbears.vercel.app/api/listings/cnft?sold=true
+https://ogbears.vercel.app/api/listings/cnft?page=0&sold=true
 ```
 
 GET listed items on [jpg.store](https://jpg.store):
 ```
-https://ogbears.vercel.app/api/listings/jpg
+https://ogbears.vercel.app/api/listings/jpg?page=1
 ```
 
 GET sold items from [jpg.store](https://jpg.store):
 ```
-https://ogbears.vercel.app/api/listings/jpg?sold=true
+https://ogbears.vercel.app/api/listings/jpg?page=1&sold=true
 ```
 
 ## Access AWS virtual machine

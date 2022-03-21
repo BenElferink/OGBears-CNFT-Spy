@@ -1,10 +1,13 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 
-const CNFT_LISTED_URI = '/api/listings/cnft'
-const CNFT_SOLD_URI = '/api/listings/cnft?sold=true'
-const JPG_LISTED_URI = '/api/listings/jpg'
-const JPG_SOLD_URI = '/api/listings/jpg?sold=true'
+const CNFT_LISTED_URI = '/api/listings/cnft?page=0'
+const CNFT_SOLD_URI = '/api/listings/cnft?page=0&sold=true'
+const JPG_LISTED_URI = '/api/listings/jpg?page=0'
+const JPG_SOLD_URI = '/api/listings/jpg?page=0&sold=true'
+
+const CNFT_ENDPOINT = '/api/listings/cnft'
+const JPG_ENDPOINT = '/api/listings/jpg'
 
 // init context
 const MarketContext = createContext()
@@ -19,55 +22,34 @@ export function MarketProvider({ children }) {
   const [listedAssets, setListedAssets] = useState([])
   const [soldAssets, setSoldAssets] = useState([])
 
-  const getCnftItems = async ({ sold }) => {
-    let items = []
-
-    if (sold) {
-      try {
-        const res = (await axios.get(CNFT_SOLD_URI)).data
-        items = items.concat(res)
-      } catch (error) {
-        console.error(error)
-      }
-    } else {
-      try {
-        const res = (await axios.get(CNFT_LISTED_URI)).data
-        items = items.concat(res)
-      } catch (error) {
-        console.error(error)
-      }
+  const getCnftItems = async ({ page = 1, sold = false }) => {
+    try {
+      const res = (
+        await axios.get(`${CNFT_ENDPOINT}?page=${page}&sold=${sold}`)
+      ).data
+      return res
+    } catch (error) {
+      console.error(error)
+      return []
     }
-
-    return items
   }
 
-  const getJpgItems = async ({ sold }) => {
-    let items = []
-
-    if (sold) {
-      try {
-        const res = (await axios.get(JPG_SOLD_URI)).data
-        items = items.concat(res)
-      } catch (error) {
-        console.error(error)
-      }
-    } else {
-      try {
-        const res = (await axios.get(JPG_LISTED_URI)).data
-        items = items.concat(res)
-      } catch (error) {
-        console.error(error)
-      }
+  const getJpgItems = async ({ page = 0, sold = false }) => {
+    try {
+      const res = (await axios.get(`${JPG_ENDPOINT}?page=${page}&sold=${sold}`))
+        .data
+      return res
+    } catch (error) {
+      console.error(error)
+      return []
     }
-
-    return items
   }
 
   const fetchAndSetListed = () => {
     // Get all LIVE listings from marketplaces
-    getJpgItems({ sold: false }).then((jpgItems) => {
+    getJpgItems({ sold: false, page: 0 }).then((jpgItems) => {
       setListedAssets(jpgItems)
-      getCnftItems({ sold: false }).then((cnftItems) => {
+      getCnftItems({ sold: false, page: 1 }).then((cnftItems) => {
         setListedAssets((prev) =>
           [...prev, ...cnftItems].sort(
             (a, b) => new Date(b.date) - new Date(a.date)
@@ -79,9 +61,9 @@ export function MarketProvider({ children }) {
 
   const fetchAndSetSold = () => {
     // Get all SOLD listings from marketplaces
-    getJpgItems({ sold: true }).then((jpgItems) => {
+    getJpgItems({ sold: true, page: 0 }).then((jpgItems) => {
       setSoldAssets(jpgItems)
-      getCnftItems({ sold: true }).then((cnftItems) => {
+      getCnftItems({ sold: true, page: 1 }).then((cnftItems) => {
         setSoldAssets((prev) =>
           [...prev, ...cnftItems].sort(
             (a, b) => new Date(b.date) - new Date(a.date)
