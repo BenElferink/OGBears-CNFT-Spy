@@ -3,12 +3,14 @@ const { BEAR_POLICY_ID } = require('../../constants/policy-ids')
 const getImageFromIPFS = require('../../functions/getImageFromIPFS')
 
 const formatJpgItem = (item, { sold }) => {
-  const assetId = item.asset
-  const blockfrostAsset = blockfrostJsonFile.assets.find(({ asset }) => asset === assetId)
+  const { asset_id, listing_id } = item
+  const blockfrostAsset = blockfrostJsonFile.assets.find(
+    ({ asset }) => asset === asset_id
+  )
 
   if (!blockfrostAsset) {
     return {
-      assetId,
+      assetId: asset_id,
       name: 'BEAR',
       price: 0,
       imageUrl: '',
@@ -23,15 +25,15 @@ const formatJpgItem = (item, { sold }) => {
   } = blockfrostAsset
 
   return {
-    assetId,
+    assetId: asset_id,
     name,
     price: item.price_lovelace / 1000000,
     imageUrl: getImageFromIPFS(image),
     itemUrl: sold
       ? `https://pool.pm/${BEAR_POLICY_ID}.${name.replace('BEAR', '')}`
-      : `https://jpg.store/asset/${assetId}`,
+      : `https://jpg.store/listing/${listing_id}`,
     store: 'jpg.store',
-    date: new Date(sold ? item.purchased_at : item.listed_at),
+    date: new Date(sold ? item.confirmed_at : item.listed_at),
   }
 }
 
