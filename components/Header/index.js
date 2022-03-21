@@ -1,126 +1,31 @@
 import dynamic from 'next/dynamic'
-import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { useData } from '../../contexts/DataContext'
-import { useTicker } from '../../contexts/TickerContext'
 import { useScreenSize } from '../../contexts/ScreenSizeContext'
-import { IconButton, Tooltip } from '@mui/material'
+import { IconButton } from '@mui/material'
 import {
-  AccountBalanceWallet,
   CreditCard,
   Fingerprint,
   HomeRounded,
   LocalGroceryStore,
   MenuRounded,
-  Pets,
   Star,
 } from '@mui/icons-material'
 import BaseButton from '../BaseButton'
 import Modal from '../Modal'
 import Tip from '../Modal/Tip'
-import ChangeGreenRed from '../ChangeGreenRed'
-import { ADA_SYMBOL } from '../../constants/ada'
+import OnChainData from './OnChainData'
+import OGBearLogo from './OGBearLogo'
+import TickerData from './TickerData'
+
 const Portfolio = dynamic(() => import('../Modal/Portfolio'), { ssr: false })
 
 function Header() {
   const router = useRouter()
-  const { isMobile, isDesktop, chartWidth } = useScreenSize()
+  const { isMobile, chartWidth } = useScreenSize()
   const [openMobileMenu, setOpenMobileMenu] = useState(false)
   const [openPortfolio, setOpenPortfolio] = useState(false)
   const [openTip, setOpenTip] = useState(false)
-
-  const logoMultiplier = isMobile ? 0.777 : isDesktop ? 0.555 : 0.42069
-
-  const OGBearLogo = () => (
-    <a href='https://ogbears.com' target='_blank' rel='noopener noreferrer'>
-      <Image
-        src='/assets/images/logo.png'
-        alt='OGBears logo'
-        width={chartWidth * logoMultiplier}
-        height={chartWidth * (logoMultiplier / 4.555)}
-      />
-    </a>
-  )
-
-  const OnChainData = () => {
-    const { onChainData } = useData()
-
-    return (
-      <div
-        className={isMobile ? 'flex-evenly' : 'flex-col'}
-        style={{ color: 'white' }}
-      >
-        {onChainData.asset_minted ? (
-          <Tooltip followCursor title='Number of minted assets'>
-            <div
-              className='flex-evenly'
-              style={{ margin: isMobile ? '0.3rem 0 0 0' : '0.3rem 0' }}
-            >
-              <Pets />
-              &nbsp;{onChainData.asset_minted}
-            </div>
-          </Tooltip>
-        ) : (
-          <div style={{ flex: '1' }} />
-        )}
-
-        {onChainData.asset_holders ? (
-          <Tooltip followCursor title='Number of asset holders'>
-            <div
-              className='flex-evenly'
-              style={{ margin: isMobile ? '0.3rem 0 0 0' : '0.3rem 0' }}
-            >
-              <AccountBalanceWallet />
-              &nbsp;{onChainData.asset_holders}
-            </div>
-          </Tooltip>
-        ) : (
-          <div style={{ flex: '1' }} />
-        )}
-      </div>
-    )
-  }
-
-  const TickerData = () => {
-    const { adaUsdTicker, adaUsdChange24 } = useTicker()
-
-    return (
-      <div
-        className='flex-col'
-        style={{
-          width: '100px',
-          padding: '0.5rem',
-          backgroundColor: 'var(--opacity-white)',
-          borderRadius: '1rem',
-        }}
-      >
-        <Image
-          src='/assets/images/cardano-logo-1024x1024.png'
-          alt='Cardano logo'
-          width={50}
-          height={50}
-        />
-        <ChangeGreenRed
-          value={adaUsdTicker}
-          prefix={ADA_SYMBOL}
-          scale='1.2'
-          style={{
-            width: '100%',
-            marginTop: '0.3rem',
-            color: 'var(--cardano-blue)',
-          }}
-        />
-        <ChangeGreenRed
-          value={adaUsdChange24}
-          suffix='%'
-          invert
-          withCaret
-          scale='0.7'
-        />
-      </div>
-    )
-  }
 
   return (
     <header
