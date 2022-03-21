@@ -1,55 +1,77 @@
-import { useState } from 'react'
-import { useMarket } from '../contexts/MarketContext'
-import { useData } from '../contexts/DataContext'
-import { useScreenSize } from '../contexts/ScreenSizeContext'
-import traits from '../data/traits'
-import { MenuItem, Select } from '@mui/material'
+// import { useState } from 'react'
+// import { useMarket } from '../contexts/MarketContext'
+// import { useData } from '../contexts/DataContext'
+// import { useScreenSize } from '../contexts/ScreenSizeContext'
+// import traits from '../data/traits'
+// import { MenuItem, Select } from '@mui/material'
 import Header from '../components/Header'
-import Toggle from '../components/Toggle'
-import Loading from '../components/Loading'
-import MarketAssets from '../components/MarketAssets'
+// import Toggle from '../components/Toggle'
+// import Loading from '../components/Loading'
+// import MarketAssets from '../components/MarketAssets'
 
-const BLANK = '-'
+// const BLANK = '-'
 
 export default function Markets() {
-  const { isMobile } = useScreenSize()
-  const { blockfrostData } = useData()
-  const { listedAssets } = useMarket()
-  const [filters, setFilters] = useState({})
-  const [highToLow, setHighToLow] = useState(false)
+  // const { isMobile } = useScreenSize()
+  // const { blockfrostData } = useData()
+  // const { listedAssets } = useMarket()
+  // const [filters, setFilters] = useState({})
+  // const [highToLow, setHighToLow] = useState(false)
 
-  const renderAssets = () => {
-    const assetsWithMetaData = listedAssets.map((obj) => ({
-      ...obj,
-      attributes: blockfrostData.assets.find(
-        ({ asset }) => asset === obj.assetId
-      ).onchain_metadata.attributes,
-    }))
+  // const renderAssets = () => {
+  //   const assetsWithMetaData = listedAssets.map((obj) => ({
+  //     ...obj,
+  //     attributes: blockfrostData.assets.find(
+  //       ({ asset }) => asset === obj.assetId
+  //     ).onchain_metadata.attributes,
+  //   }))
 
-    const filteredAssets = assetsWithMetaData.filter((obj) => {
-      let isOk = true
+  //   const filteredAssets = assetsWithMetaData.filter((obj) => {
+  //     let isOk = true
 
-      Object.entries(filters).forEach(([key, value]) => {
-        if (value && value !== BLANK && obj.attributes[key] !== value) {
-          isOk = false
-        }
-      })
+  //     Object.entries(filters).forEach(([key, value]) => {
+  //       if (value && value !== BLANK && obj.attributes[key] !== value) {
+  //         isOk = false
+  //       }
+  //     })
 
-      return isOk
-    })
+  //     return isOk
+  //   })
 
-    const sortedAssets = filteredAssets.sort((a, b) =>
-      highToLow ? b.price - a.price : a.price - b.price
-    )
+  //   const sortedAssets = filteredAssets.sort((a, b) =>
+  //     highToLow ? b.price - a.price : a.price - b.price
+  //   )
 
-    return sortedAssets
-  }
+  //   return sortedAssets
+  // }
 
   return (
     <main className='home-main'>
       <Header />
 
-      <div className='flex-row' style={{ flexWrap: 'wrap' }}>
+      <p
+        style={{
+          maxWidth: '420px',
+          color: 'var(--yellow)',
+          textAlign: 'center',
+          fontSize: '1.2rem',
+        }}
+      >
+        <strong>Temporarily down!</strong>
+        <br />
+        <br />
+        Due to recent jpg.store migrations; some API's have been affected, and
+        are currently under maintenance.
+        <br />
+        <br />
+        Please bear 🐻 with me as I fix things and make some improvements to the
+        community API!
+        <br />
+        <br />
+        Seen you soon...
+      </p>
+
+      {/* <div className='flex-row' style={{ flexWrap: 'wrap' }}>
         {Object.entries(traits).map(([key, val]) => (
           <Select
             key={`select-${key}`}
@@ -73,7 +95,6 @@ export default function Markets() {
             ))}
           </Select>
         ))}
-
         <div
           style={{
             width: '150px',
@@ -106,7 +127,7 @@ export default function Markets() {
         />
       ) : (
         <Loading />
-      )}
+      )} */}
     </main>
   )
 }
