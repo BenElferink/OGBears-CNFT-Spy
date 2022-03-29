@@ -8,7 +8,7 @@ module.exports = async (req, res) => {
         const sold = req.query.sold == 'true'
         let page = (() => {
           const num = Number(req.query.page)
-          return isNaN(num) ? 0 : num >= 0 ? num : 0
+          return isNaN(num) ? 1 : num >= 1 ? num : 1
         })()
 
         const data = (await crawlJPG({ sold, page })).map((item) =>

@@ -1,11 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 
-const CNFT_LISTED_URI = '/api/listings/cnft?page=0'
-const CNFT_SOLD_URI = '/api/listings/cnft?page=0&sold=true'
-const JPG_LISTED_URI = '/api/listings/jpg?page=0'
-const JPG_SOLD_URI = '/api/listings/jpg?page=0&sold=true'
-
 const CNFT_ENDPOINT = '/api/listings/cnft'
 const JPG_ENDPOINT = '/api/listings/jpg'
 

@@ -6,7 +6,7 @@ const JPG_URI = 'https://server.jpgstoreapis.com/policy'
 const crawlJPG = (options = {}) => {
   const policyId = options.policyId ?? BEAR_POLICY_ID
   const sold = options.sold ?? false
-  const page = options.page ?? 0
+  const page = options.page ?? 1
 
   return new Promise((resolve, reject) => {
     Axios.get(`${JPG_URI}/${policyId}/${sold ? 'sales' : 'listings'}?page=${page}`, {

@@ -34,7 +34,7 @@ const getSalmonFloor = async () => {
   const jpgFetchedData = (
     await crawlJPG({
       sold: false,
-      page: 0,
+      page: 1,
       policyId: SALMON_POLICY_ID,
     })
   ).sort((a, b) => a.price_lovelace - b.price_lovelace)
