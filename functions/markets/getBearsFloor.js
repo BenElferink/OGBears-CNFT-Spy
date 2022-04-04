@@ -1,5 +1,5 @@
 const crawlCNFT = require('./crawlCNFT')
-const crawlJPG = require('./crawlJPG')
+const crawlJpgFloor = require('./crawlJpgFloor')
 
 const getBearsFloor = async (bearsJsonFile, blockfrostJsonFile) => {
   const floorData = {}
@@ -70,35 +70,16 @@ const getBearsFloor = async (bearsJsonFile, blockfrostJsonFile) => {
     cnftFloorData[type] = { floor: thisFloor, timestamp: Date.now() }
   }
 
-  let jpgFetchedData = []
-
-  for (let i = 0; true; i++) {
-    console.log(`crawling jpg.store for listings on page ${i}`)
-    const data = await crawlJPG({ sold: false, page: i })
-    console.log(`got ${data.length} listings from jpg.store`)
-
-    if (!data.length) {
-      break
-    }
-
-    jpgFetchedData = jpgFetchedData.concat(data)
-  }
-
-  jpgFetchedData = jpgFetchedData.sort((a, b) => a.price_lovelace - b.price_lovelace)
+  console.log('crawling jpg.store')
+  const jpgFetchedData = await crawlJpgFloor()
+  console.log(`got ${jpgFetchedData.length} listings from jpg.store`)
 
   for (const { type } of bearsJsonFile.bears) {
     let thisFloor = null
 
     for (const listing of jpgFetchedData) {
-      const blockfrostAsset = blockfrostJsonFile.assets.find((item) => item.asset === listing.asset_id)
-
-      if (!blockfrostAsset) {
-        thisFloor = null
-        break
-      }
-
-      if (blockfrostAsset.onchain_metadata.attributes.Type === type) {
-        thisFloor = listing.price_lovelace / 1000000
+      if (listing.traits['attributes / Type'].toLowerCase() === type.toLowerCase()) {
+        thisFloor = Number(listing.listing_lovelace) / 1000000
         break
       }
     }
