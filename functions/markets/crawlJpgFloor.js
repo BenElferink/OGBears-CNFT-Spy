@@ -5,7 +5,7 @@ const JPG_URI = 'https://server.jpgstoreapis.com'
 
 const crawlJpgFloor = (options = {}) => {
   const policyId = options.policyId ?? BEAR_POLICY_ID
-  const size = options.size ?? 1000
+  const size = options.size ?? 10000
 
   return new Promise((resolve, reject) => {
     Axios.get(
