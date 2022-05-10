@@ -16,11 +16,13 @@ const crawlCNFT = (options = {}) => {
     sold: options.sold ?? false,
   }
 
-  return new Promise((resolve, reject) => {
-    Axios.post(CNFT_URI, payload, { headers: { 'Content-Type': 'application/json' } })
-      .then((response) => resolve(response.data.results.filter((item) => item.assets.length === 1)))
-      .catch((error) => reject(error))
-  })
+  return Promise.resolve([])
+
+  // return new Promise((resolve, reject) => {
+  //   Axios.post(CNFT_URI, payload, { headers: { 'Content-Type': 'application/json' } })
+  //     .then((response) => resolve(response.data.results.filter((item) => item.assets.length === 1)))
+  //     .catch((error) => reject(error))
+  // })
 }
 
 module.exports = crawlCNFT
