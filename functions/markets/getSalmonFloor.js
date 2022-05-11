@@ -13,8 +13,6 @@ const getSalmonFloor = async () => {
 
   const fetchedData = await crawlJPG({ policyId: SALMON_POLICY_ID })
 
-  console.log(fetchedData[0]);
-
   if (fetchedData.length) {
     floorData[TYPE].floor = Number(fetchedData[0].listing_lovelace) / 1000000
   }
