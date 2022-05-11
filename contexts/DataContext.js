@@ -23,7 +23,7 @@ export function useData() {
 
 // export the provider (handle all the logic here)
 export function DataProvider({ children }) {
-  const [cubMode, setCubMode] = useState(false)
+  const [cubMode, setCubMode] = useState(true)
   const [onChainData, setOnChainData] = useState({})
   const [bearsFloorData, setBearsFloorData] = useState(bearsFloorJsonFile)
   const [cubsFloorData, setCubsFloorData] = useState(cubsFloorJsonFile)
