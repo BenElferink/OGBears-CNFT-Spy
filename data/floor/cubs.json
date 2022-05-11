@@ -1,7 +1,1 @@
-{
-  "Black": [{ "floor": 100, "timestamp": 1652216400000 }],
-  "Brown": [{ "floor": 105, "timestamp": 1652216400000 }],
-  "Polar Bear": [{ "floor": 179, "timestamp": 1652216400000 }],
-  "Zombie": [{ "floor": 400, "timestamp": 1652216400000 }],
-  "Icy": [{ "floor": 1998, "timestamp": 1652216400000 }]
-}
+{"Black":[{"floor":100,"timestamp":1652216400000},{"floor":100,"timestamp":1652227200000}],"Brown":[{"floor":105,"timestamp":1652216400000},{"floor":120,"timestamp":1652227200000}],"Polar Bear":[{"floor":179,"timestamp":1652216400000},{"floor":179,"timestamp":1652227200000}],"Zombie":[{"floor":400,"timestamp":1652216400000},{"floor":400,"timestamp":1652227200000}],"Icy":[{"floor":1998,"timestamp":1652216400000},{"floor":1650,"timestamp":1652227200000}]}
