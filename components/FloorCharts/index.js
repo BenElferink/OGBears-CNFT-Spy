@@ -12,16 +12,16 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
 function FloorCharts() {
   const { isMobile, chartWidth } = useScreenSize()
-  const { floorData, bearsData } = useData()
+  const { floorData, bearsTraitsData } = useData()
 
   const [showThirtyDay, setShowThirtyDay] = useState(!isMobile)
   const [selectedType, setSelectedType] = useLocalStorage('ogb-selected-type', 'All')
 
   const chartOptions = getChartOptions(floorData, showThirtyDay)
   const chartSeries = getChartSeries(
-    selectedType === 'All' ? bearsData.bears : bearsData.bears.filter(({ type }) => type === selectedType),
+    selectedType === 'All' ? bearsTraitsData.types : bearsTraitsData.types.filter((type) => type === selectedType),
     floorData,
-    showThirtyDay,
+    showThirtyDay
   )
 
   return (
@@ -38,7 +38,7 @@ function FloorCharts() {
 
         <Select value={selectedType} onChange={(e) => setSelectedType(e.target.value)}>
           <MenuItem value='All'>All</MenuItem>
-          {bearsData.bears.map(({ type }) => (
+          {bearsTraitsData.types.map((type) => (
             <MenuItem key={type} value={type}>
               {type}
             </MenuItem>

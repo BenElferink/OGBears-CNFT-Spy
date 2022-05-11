@@ -1,14 +1,13 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import axios from 'axios'
-import bearsJsonFile from '../data/bears'
-import blockfrostJsonFile from '../data/blockfrost'
-import cnftToolsRanksJsonFile from '../data/cnftToolsRanks'
-import floorJsonFile from '../data/floor'
+import bearsBlockfrostJsonFile from '../data/blockfrost/bears'
+import bearsTraitsJsonFile from '../data/traits/bears'
+import bearsRanksJsonFile from '../data/cnftToolsRanks/bears'
+import bearsFloorJsonFile from '../data/floor/bears'
 import { BEAR_POLICY_ID } from '../constants/policy-ids'
 
-// const FLOOR_DATA_URI = 'https://raw.githubusercontent.com/belferink1996/og-bears-cnft-spy/main/data/floor.json'
-const FLOOR_DATA_LIVE_URI = '/api/floor'
-const ON_CHAIN_DATA_URI = `https://api.opencnft.io/1/policy/${BEAR_POLICY_ID}`
+const BEAR_FLOOR_DATA_LIVE_URI = '/api/floor/bears'
+const BEAR_ON_CHAIN_DATA_URI = `https://api.opencnft.io/1/policy/${BEAR_POLICY_ID}`
 
 // init context
 const DataContext = createContext()
@@ -20,16 +19,16 @@ export function useData() {
 
 // export the provider (handle all the logic here)
 export function DataProvider({ children }) {
-  const bearsData = bearsJsonFile
-  const blockfrostData = blockfrostJsonFile
-  const cnftToolsRanks = cnftToolsRanksJsonFile
-  const [floorData, setFloorData] = useState(floorJsonFile)
+  const bearsBlockfrostData = bearsBlockfrostJsonFile
+  const bearsTraitsData = bearsTraitsJsonFile
+  const bearsRanksData = bearsRanksJsonFile
+  const [floorData, setFloorData] = useState(bearsFloorJsonFile)
   const [onChainData, setOnChainData] = useState({})
 
   useEffect(() => {
     // Add LIVE floor data to the imported snapshots
     axios
-      .get(FLOOR_DATA_LIVE_URI)
+      .get(BEAR_FLOOR_DATA_LIVE_URI)
       .then(({ data }) =>
         setFloorData((prev) => {
           const newState = { ...prev }
@@ -43,9 +42,9 @@ export function DataProvider({ children }) {
       )
       .catch((error) => console.error(error))
 
-    // Get on-chain data from opnecnft.op
+    // Get on-chain data from opencnft.io
     axios
-      .get(ON_CHAIN_DATA_URI)
+      .get(BEAR_ON_CHAIN_DATA_URI)
       .then(({ data }) => setOnChainData(data))
       .catch((error) => console.error(error))
 
@@ -73,9 +72,9 @@ export function DataProvider({ children }) {
   return (
     <DataContext.Provider
       value={{
-        bearsData,
-        blockfrostData,
-        cnftToolsRanks,
+        bearsTraitsData,
+        bearsBlockfrostData,
+        bearsRanksData,
         floorData,
         onChainData,
       }}

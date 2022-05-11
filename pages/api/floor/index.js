@@ -1,12 +1,10 @@
-import bearsJsonFile from '../../../data/bears'
-import blockfrostJsonFile from '../../../data/blockfrost'
 import getBearsFloor from '../../../functions/markets/getBearsFloor'
 
 export default async (req, res) => {
   try {
     switch (req.method) {
       case 'GET': {
-        const floorData = await getBearsFloor(bearsJsonFile, blockfrostJsonFile)
+        const floorData = await getBearsFloor()
 
         res.status(200).json(floorData)
         break

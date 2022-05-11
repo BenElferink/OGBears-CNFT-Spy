@@ -1,10 +1,10 @@
-const blockfrostJsonFile = require('../../data/blockfrost')
+const bearsBlockfrostJsonFile = require('../../data/blockfrost/bears')
 const { BEAR_POLICY_ID } = require('../../constants/policy-ids')
 const getImageFromIPFS = require('../../functions/getImageFromIPFS')
 
 const formatJpgItem = (item, { sold }) => {
   const { asset_id, listing_id } = item
-  const blockfrostAsset = blockfrostJsonFile.assets.find(
+  const blockfrostAsset = bearsBlockfrostJsonFile.assets.find(
     ({ asset }) => asset === asset_id
   )
 

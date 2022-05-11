@@ -1,11 +1,11 @@
-const blockfrostJsonFile = require('../../data/blockfrost')
+const bearsBlockfrostJsonFile = require('../../data/blockfrost/bears')
 const { BEAR_POLICY_ID } = require('../../constants/policy-ids')
 const getImageFromIPFS = require('../../functions/getImageFromIPFS')
 const toHex = require('../toHex')
 
 const formatCnftItem = (item, { sold }) => {
   const assetId = `${BEAR_POLICY_ID}${toHex(item.assets[0].assetId)}`
-  const blockfrostAsset = blockfrostJsonFile.assets.find(({ asset }) => asset === assetId)
+  const blockfrostAsset = bearsBlockfrostJsonFile.assets.find(({ asset }) => asset === assetId)
 
   if (!blockfrostAsset) {
     return {

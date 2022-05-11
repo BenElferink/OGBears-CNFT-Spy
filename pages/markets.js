@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useMarket } from '../contexts/MarketContext'
 import { useData } from '../contexts/DataContext'
 import { useScreenSize } from '../contexts/ScreenSizeContext'
-import traits from '../data/traits'
 import { MenuItem, Select } from '@mui/material'
 import Header from '../components/Header'
 import Toggle from '../components/Toggle'
@@ -13,7 +12,7 @@ const BLANK = '-'
 
 export default function Markets() {
   const { isMobile } = useScreenSize()
-  const { blockfrostData } = useData()
+  const { bearsTraitsData, bearsBlockfrostData } = useData()
   const { listedAssets } = useMarket()
   const [filters, setFilters] = useState({})
   const [highToLow, setHighToLow] = useState(false)
@@ -21,7 +20,7 @@ export default function Markets() {
   const renderAssets = () => {
     const assetsWithMetaData = listedAssets.map((obj) => ({
       ...obj,
-      attributes: blockfrostData.assets.find(({ asset }) => asset === obj.assetId).onchain_metadata.attributes,
+      attributes: bearsBlockfrostData.assets.find(({ asset }) => asset === obj.assetId).onchain_metadata.attributes,
     }))
 
     const filteredAssets = assetsWithMetaData.filter((obj) => {
@@ -46,7 +45,7 @@ export default function Markets() {
       <Header />
 
       <div className='flex-row' style={{ flexWrap: 'wrap' }}>
-        {Object.entries(traits).map(([key, val]) => (
+        {Object.entries(bearsTraitsData.traits).map(([key, val]) => (
           <Select
             key={`select-${key}`}
             value={filters[key] ?? BLANK}

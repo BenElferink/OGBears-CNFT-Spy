@@ -9,7 +9,7 @@ import { ADA_SYMBOL } from '../../../constants/ada'
 import { BEAR_POLICY_ID } from '../../../constants/policy-ids'
 
 function AddAsset({ openDrawer, setOpenDrawer, adding, setAdding, setAssets }) {
-  const { blockfrostData } = useData()
+  const { bearsBlockfrostData } = useData()
 
   const [addBearId, setAddBearId] = useState('')
   const [addBearIdError, setAddBearIdError] = useState(false)
@@ -33,7 +33,7 @@ function AddAsset({ openDrawer, setOpenDrawer, adding, setAdding, setAssets }) {
     }
 
     const assetId = `${BEAR_POLICY_ID}${toHex(addBearIdTrimmed)}`
-    const blockfrostAsset = blockfrostData.assets.find((item) => item.asset === assetId)
+    const blockfrostAsset = bearsBlockfrostData.assets.find((item) => item.asset === assetId)
 
     if (!blockfrostAsset) {
       setAdding(false)

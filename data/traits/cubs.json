@@ -1,0 +1,81 @@
+{
+  "types": ["Black", "Brown", "Polar Bear", "Zombie", "Icy"],
+  "traits": {
+    "Type": [
+      { "value": "Black", "label": "", "count": 369, "percent": 36.03515625 },
+      { "value": "Brown", "label": "", "count": 323, "percent": 31.54296875 },
+      { "value": "Polar Bear", "label": "", "count": 263, "percent": 25.68359375 },
+      { "value": "Zombie", "label": "", "count": 49, "percent": 4.78515625 },
+      { "value": "Icy", "label": "", "count": 20, "percent": 1.953125 }
+    ],
+    "Clothes": [
+      { "value": "Empty", "label": "", "count": 129, "percent": 12.59765625 },
+      { "value": "White Vest", "label": "", "count": 93, "percent": 9.08203125 },
+      { "value": "Black Vest", "label": "", "count": 89, "percent": 8.69140625 },
+      { "value": "Pant/Shirt (Fish)", "label": "", "count": 87, "percent": 8.49609375 },
+      { "value": "Pant/Shirt (Owl)", "label": "", "count": 86, "percent": 8.3984375 },
+      { "value": "Pant/Shirt (Dino)", "label": "", "count": 86, "percent": 8.3984375 },
+      { "value": "Romper", "label": "", "count": 82, "percent": 8.0078125 },
+      { "value": "Pant/Shirt (Car)", "label": "", "count": 77, "percent": 7.51953125 },
+      { "value": "Pant/Shirt (Bear)", "label": "", "count": 69, "percent": 6.73828125 },
+      { "value": "Body Suit", "label": "", "count": 59, "percent": 5.76171875 },
+      { "value": "Formal Wear with Bow Tie", "label": "", "count": 48, "percent": 4.6875 },
+      { "value": "Bathrobe", "label": "", "count": 38, "percent": 3.7109375 },
+      { "value": "Blue Formal Wear ", "label": "", "count": 29, "percent": 2.83203125 },
+      { "value": "Police Uniform", "label": "", "count": 26, "percent": 2.5390625 },
+      { "value": "Sheikh Costume", "label": "", "count": 10, "percent": 0.9765625 },
+      { "value": "Military Uniform", "label": "", "count": 10, "percent": 0.9765625 },
+      { "value": "Space Suit", "label": "", "count": 6, "percent": 0.5859375 }
+    ],
+    "Eyewear": [
+      { "value": "Empty", "label": "", "count": 626, "percent": 61.1328125 },
+      { "value": "Pixel Glasses", "label": "", "count": 122, "percent": 11.9140625 },
+      { "value": "Star Glasses", "label": "", "count": 115, "percent": 11.23046875 },
+      { "value": "Heart Glasses", "label": "", "count": 110, "percent": 10.7421875 },
+      { "value": "Mask", "label": "", "count": 39, "percent": 3.80859375 },
+      { "value": "VR Headset", "label": "", "count": 7, "percent": 0.68359375 },
+      { "value": "BTC Glasses", "label": "", "count": 5, "percent": 0.48828125 }
+    ],
+    "Headwear": [
+      { "value": "Empty", "label": "", "count": 480, "percent": 46.875 },
+      { "value": "Cap", "label": "", "count": 266, "percent": 25.9765625 },
+      { "value": "Spy Hat", "label": "", "count": 87, "percent": 8.49609375 },
+      { "value": "Sailors Hat", "label": "", "count": 82, "percent": 8.0078125 },
+      { "value": "Party Hat", "label": "", "count": 59, "percent": 5.76171875 },
+      { "value": "Police Cap", "label": "", "count": 27, "percent": 2.63671875 },
+      { "value": "Military Hat", "label": "", "count": 23, "percent": 2.24609375 }
+    ],
+    "Accessory": [
+      { "value": "Teddy Bear", "label": "", "count": 95, "percent": 9.27734375 },
+      { "value": "Game Controller", "label": "", "count": 87, "percent": 8.49609375 },
+      { "value": "Car", "label": "", "count": 77, "percent": 7.51953125 },
+      { "value": "Gift Box", "label": "", "count": 73, "percent": 7.12890625 },
+      { "value": "Blocks", "label": "", "count": 68, "percent": 6.640625 },
+      { "value": "Aeroplane", "label": "", "count": 68, "percent": 6.640625 },
+      { "value": "Feeder", "label": "", "count": 67, "percent": 6.54296875 },
+      { "value": "Fish", "label": "", "count": 58, "percent": 5.6640625 },
+      { "value": "House", "label": "", "count": 55, "percent": 5.37109375 },
+      { "value": "Water Gun", "label": "", "count": 55, "percent": 5.37109375 },
+      { "value": "Pacifier", "label": "", "count": 54, "percent": 5.2734375 },
+      { "value": "Salmon", "label": "", "count": 52, "percent": 5.078125 },
+      { "value": "Football", "label": "", "count": 51, "percent": 4.98046875 },
+      { "value": "Mobile Phone", "label": "", "count": 46, "percent": 4.4921875 },
+      { "value": "Heart", "label": "", "count": 39, "percent": 3.80859375 },
+      { "value": "Pistol", "label": "", "count": 32, "percent": 3.125 },
+      { "value": "Knife", "label": "", "count": 18, "percent": 1.7578125 },
+      { "value": "Pumpkin", "label": "", "count": 9, "percent": 0.87890625 },
+      { "value": "Rocket", "label": "", "count": 7, "percent": 0.68359375 },
+      { "value": "Cursed Doll", "label": "", "count": 6, "percent": 0.5859375 },
+      { "value": "Ice Spell", "label": "", "count": 5, "percent": 0.48828125 },
+      { "value": "Skull", "label": "", "count": 2, "percent": 0.1953125 }
+    ],
+    "Background": [
+      { "value": "Animals", "label": "", "count": 192, "percent": 18.75 },
+      { "value": "Moon", "label": "", "count": 180, "percent": 17.578125 },
+      { "value": "Bears", "label": "", "count": 177, "percent": 17.28515625 },
+      { "value": "Rainbow", "label": "", "count": 165, "percent": 16.11328125 },
+      { "value": "Butterflies", "label": "", "count": 159, "percent": 15.52734375 },
+      { "value": "Cactus", "label": "", "count": 151, "percent": 14.74609375 }
+    ]
+  }
+}

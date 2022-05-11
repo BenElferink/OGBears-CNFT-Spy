@@ -9,7 +9,7 @@
 This application is a free-to-use community tool for OGBears (Cardano NFT)!<br />
 It is capable of following features:
 
-1. See recently listed and recently sold Bears from [cnft.io](https://cnft.io) and [jpg.store](https://jpg.store), can be useful for "sniping" and locating trends.
+1. See recently listed and recently sold Bears from <strike>[cnft.io](https://cnft.io) and</strike> [jpg.store](https://jpg.store), can be useful for "sniping" and locating trends.
 2. Track "floor" prices for each Bear type through visualized data charts. Toggle between 7 days, and 30 days charts.
 3. Create a portfolio where you can track gain/loss on your Bears, compared to floor prices.
 
@@ -17,32 +17,17 @@ It is capable of following features:
 
 GET current (live) floor prices - for Bears:
 ```
-https://ogbears.vercel.app/api/floor
+https://ogbears.vercel.app/api/floor/bears
+```
+
+GET current (live) floor prices - for Cubs:
+```
+https://ogbears.vercel.app/api/floor/cubs
 ```
 
 GET current (live) floor prices - for Salmon Trophy:
 ```
 https://ogbears.vercel.app/api/floor/salmon
-```
-
-GET listed items on [cnft.io](https://cnft.io):
-```
-https://ogbears.vercel.app/api/listings/cnft?page=0
-```
-
-GET sold items from [cnft.io](https://cnft.io):
-```
-https://ogbears.vercel.app/api/listings/cnft?page=0&sold=true
-```
-
-GET listed items on [jpg.store](https://jpg.store):
-```
-https://ogbears.vercel.app/api/listings/jpg?page=1
-```
-
-GET sold items from [jpg.store](https://jpg.store):
-```
-https://ogbears.vercel.app/api/listings/jpg?page=1&sold=true
 ```
 
 ## Access AWS virtual machine
