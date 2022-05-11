@@ -11,8 +11,8 @@ import { BLACK, BROWN, POLAR_MALE, POLAR_FEMALE, ZOMBIE, ICY } from '../../const
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
 function FloorCharts() {
+  const { cubMode, floorData, traitsData } = useData()
   const { isMobile, chartWidth } = useScreenSize()
-  const { floorData, traitsData } = useData()
 
   const [showThirtyDay, setShowThirtyDay] = useState(!isMobile)
   const [selectedType, setSelectedType] = useLocalStorage('ogb-selected-type', 'All')
@@ -52,12 +52,16 @@ function FloorCharts() {
         options={{
           ...chartOptions,
           colors:
-            selectedType === 'All'
+            selectedType === 'All' && !cubMode
               ? [BROWN, BLACK, POLAR_MALE, POLAR_FEMALE, ZOMBIE, ICY]
+              : selectedType === 'All' && cubMode
+              ? [BROWN, BLACK, POLAR_MALE, ZOMBIE, ICY]
               : selectedType === 'Brown'
               ? [BROWN]
               : selectedType === 'Black'
               ? [BLACK]
+              : selectedType === 'Polar Bear'
+              ? [POLAR_MALE]
               : selectedType === 'Polar Bear (Male)'
               ? [POLAR_MALE]
               : selectedType === 'Polar Bear (Female)'
