@@ -9,14 +9,14 @@ import { TextField } from '@mui/material'
 
 export default function Rarity() {
   const { isMobile } = useScreenSize()
-  const { bearsBlockfrostData, bearsRanksData } = useData()
+  const { blockfrostData, ranksData } = useData()
   const [highToLow, setHighToLow] = useState(false)
   const [search, setSearch] = useState('')
 
   const renderAssets = () => {
-    const assets = bearsBlockfrostData.assets.map((obj) => {
+    const assets = blockfrostData.assets.map((obj) => {
       const bearId = obj.onchain_metadata.name.replace('BEAR', '')
-      const rank = Number(bearsRanksData[bearId])
+      const rank = Number(ranksData[bearId])
 
       return {
         assetId: obj.asset,

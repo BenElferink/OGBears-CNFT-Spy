@@ -12,7 +12,7 @@ const BLANK = '-'
 
 export default function Markets() {
   const { isMobile } = useScreenSize()
-  const { bearsTraitsData, bearsBlockfrostData } = useData()
+  const { traitsData, blockfrostData } = useData()
   const { listedAssets } = useMarket()
   const [filters, setFilters] = useState({})
   const [highToLow, setHighToLow] = useState(false)
@@ -20,7 +20,7 @@ export default function Markets() {
   const renderAssets = () => {
     const assetsWithMetaData = listedAssets.map((obj) => ({
       ...obj,
-      attributes: bearsBlockfrostData.assets.find(({ asset }) => asset === obj.assetId).onchain_metadata.attributes,
+      attributes: blockfrostData.assets.find(({ asset }) => asset === obj.assetId).onchain_metadata.attributes,
     }))
 
     const filteredAssets = assetsWithMetaData.filter((obj) => {
@@ -45,7 +45,7 @@ export default function Markets() {
       <Header />
 
       <div className='flex-row' style={{ flexWrap: 'wrap' }}>
-        {Object.entries(bearsTraitsData.traits).map(([key, val]) => (
+        {Object.entries(traitsData.traits).map(([key, val]) => (
           <Select
             key={`select-${key}`}
             value={filters[key] ?? BLANK}

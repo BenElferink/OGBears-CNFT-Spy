@@ -1,16 +1,10 @@
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { useData } from '../../contexts/DataContext'
 import { useScreenSize } from '../../contexts/ScreenSizeContext'
 import { IconButton } from '@mui/material'
-import {
-  CreditCard,
-  Fingerprint,
-  HomeRounded,
-  LocalGroceryStore,
-  MenuRounded,
-  Star,
-} from '@mui/icons-material'
+import { CreditCard, Fingerprint, HomeRounded, LocalGroceryStore, MenuRounded, Star } from '@mui/icons-material'
 import BaseButton from '../BaseButton'
 import Modal from '../Modal'
 import Tip from '../Modal/Tip'
@@ -22,6 +16,7 @@ const Portfolio = dynamic(() => import('../Modal/Portfolio'), { ssr: false })
 
 function Header() {
   const router = useRouter()
+  const { cubMode } = useData()
   const { isMobile, chartWidth } = useScreenSize()
   const [openMobileMenu, setOpenMobileMenu] = useState(false)
   const [openPortfolio, setOpenPortfolio] = useState(false)
@@ -53,12 +48,7 @@ function Header() {
         <br />
       )}
 
-      <Modal
-        title=''
-        hideElement={!isMobile}
-        open={!isMobile || openMobileMenu}
-        onClose={() => setOpenMobileMenu(false)}
-      >
+      <Modal title='' hideElement={!isMobile} open={!isMobile || openMobileMenu} onClose={() => setOpenMobileMenu(false)}>
         <nav
           className='flex-evenly'
           style={
@@ -72,13 +62,7 @@ function Header() {
               : undefined
           }
         >
-          <BaseButton
-            label='Home'
-            icon={HomeRounded}
-            onClick={() => router.push('/')}
-            bearTheme
-            selected={router.route === '/'}
-          />
+          <BaseButton label='Home' icon={HomeRounded} onClick={() => router.push('/')} bearTheme selected={router.route === '/'} />
           <BaseButton
             label='Markets'
             icon={LocalGroceryStore}
@@ -86,18 +70,16 @@ function Header() {
             bearTheme
             selected={router.route === '/markets'}
           />
-          <BaseButton
-            label='Rarity'
-            icon={Star}
-            onClick={() => router.push('/rarity')}
-            bearTheme
-            selected={router.route === '/rarity'}
-          />
+          <BaseButton label='Rarity' icon={Star} onClick={() => router.push('/rarity')} bearTheme selected={router.route === '/rarity'} />
           <BaseButton
             label='Portfolio'
             icon={Fingerprint}
             onClick={() => {
-              setOpenPortfolio(true)
+              if (cubMode) {
+                alert('Portfolio with Cubs support coming soon!')
+              } else {
+                setOpenPortfolio(true)
+              }
               setOpenMobileMenu(false)
             }}
             bearTheme

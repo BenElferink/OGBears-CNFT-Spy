@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import axios from 'axios'
+import { useData } from './DataContext'
 
 // init context
 const MarketContext = createContext()
@@ -11,12 +12,15 @@ export function useMarket() {
 
 // export the provider (handle all the logic here)
 export function MarketProvider({ children }) {
-  const [listedAssets, setListedAssets] = useState([])
-  const [soldAssets, setSoldAssets] = useState([])
+  const { cubMode } = useData()
+  const [listedBears, setListedBears] = useState([])
+  const [listedCubs, setListedCubs] = useState([])
+  const [soldBears, setSoldBears] = useState([])
+  const [soldCubs, setSoldCubs] = useState([])
 
-  const getListedBears = async ({ sold, page }) => {
+  const fetchListings = async ({ type = 'bears', sold, page }) => {
     try {
-      const res = (await axios.get(`/api/listings/bears?sold=${sold}&page=${page}`)).data
+      const res = (await axios.get(`/api/listings/${type}?sold=${sold}&page=${page}`)).data
       return res
     } catch (error) {
       console.error(error)
@@ -26,15 +30,23 @@ export function MarketProvider({ children }) {
 
   const fetchAndSetListed = () => {
     // Get all LIVE listings from marketplaces
-    getListedBears({ sold: false, page: 0 }).then((jpgItems) => {
-      setListedAssets(jpgItems.sort((a, b) => new Date(b.date) - new Date(a.date)))
+    fetchListings({ type: 'bears', sold: false, page: 0 }).then((jpgItems) => {
+      setListedBears(jpgItems.sort((a, b) => new Date(b.date) - new Date(a.date)))
+    })
+
+    fetchListings({ type: 'cubs', sold: false, page: 0 }).then((jpgItems) => {
+      setListedCubs(jpgItems.sort((a, b) => new Date(b.date) - new Date(a.date)))
     })
   }
 
   const fetchAndSetSold = () => {
     // Get all SOLD listings from marketplaces
-    getListedBears({ sold: true, page: 0 }).then((jpgItems) => {
-      setSoldAssets(jpgItems.sort((a, b) => new Date(b.date) - new Date(a.date)))
+    fetchListings({ type: 'bears', sold: true, page: 0 }).then((jpgItems) => {
+      setSoldBears(jpgItems.sort((a, b) => new Date(b.date) - new Date(a.date)))
+    })
+
+    fetchListings({ type: 'cubs', sold: true, page: 0 }).then((jpgItems) => {
+      setSoldCubs(jpgItems.sort((a, b) => new Date(b.date) - new Date(a.date)))
     })
   }
 
@@ -42,6 +54,9 @@ export function MarketProvider({ children }) {
     fetchAndSetListed()
     fetchAndSetSold()
   }, []) // eslint-disable-line
+
+  const listedAssets = cubMode ? listedCubs : listedBears
+  const soldAssets = cubMode ? soldCubs : soldBears
 
   return (
     <MarketContext.Provider
