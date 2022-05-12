@@ -1,7 +1,6 @@
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { useData } from '../../contexts/DataContext'
 import { useScreenSize } from '../../contexts/ScreenSizeContext'
 import { IconButton } from '@mui/material'
 import { CreditCard, Fingerprint, HomeRounded, LocalGroceryStore, MenuRounded, Star } from '@mui/icons-material'
@@ -16,7 +15,6 @@ const Portfolio = dynamic(() => import('../Modal/Portfolio'), { ssr: false })
 
 function Header() {
   const router = useRouter()
-  const { cubMode } = useData()
   const { isMobile, chartWidth } = useScreenSize()
   const [openMobileMenu, setOpenMobileMenu] = useState(false)
   const [openPortfolio, setOpenPortfolio] = useState(false)
@@ -75,11 +73,7 @@ function Header() {
             label='Portfolio'
             icon={Fingerprint}
             onClick={() => {
-              if (cubMode) {
-                alert('Portfolio with Cubs support coming soon!')
-              } else {
-                setOpenPortfolio(true)
-              }
+              setOpenPortfolio(true)
               setOpenMobileMenu(false)
             }}
             bearTheme

@@ -6,10 +6,10 @@ import { Button, Drawer, TextField } from '@mui/material'
 import { AddCircle } from '@mui/icons-material'
 import Loading from '../../Loading'
 import { ADA_SYMBOL } from '../../../constants/ada'
-import { BEAR_POLICY_ID } from '../../../constants/policy-ids'
+import { BEAR_POLICY_ID, CUB_POLICY_ID } from '../../../constants/policy-ids'
 
 function AddAsset({ openDrawer, setOpenDrawer, adding, setAdding, setAssets }) {
-  const { blockfrostData } = useData()
+  const { cubMode, blockfrostData } = useData()
 
   const [addBearId, setAddBearId] = useState('')
   const [addBearIdError, setAddBearIdError] = useState(false)
@@ -22,7 +22,7 @@ function AddAsset({ openDrawer, setOpenDrawer, adding, setAdding, setAssets }) {
     let priceValid = false
     const addBearIdTrimmed = Number(addBearId.replace('#', ''))
 
-    if (addBearIdTrimmed >= 1 && addBearIdTrimmed <= 10000) idValid = true
+    if (addBearIdTrimmed >= 1 && addBearIdTrimmed <= blockfrostData.count) idValid = true
     if (addBearPrice) priceValid = true
 
     if (!idValid || !priceValid) {
@@ -32,7 +32,7 @@ function AddAsset({ openDrawer, setOpenDrawer, adding, setAdding, setAssets }) {
       return
     }
 
-    const assetId = `${BEAR_POLICY_ID}${toHex(addBearIdTrimmed)}`
+    const assetId = cubMode ? `${CUB_POLICY_ID}${toHex('CUB' + addBearIdTrimmed)}` : `${BEAR_POLICY_ID}${toHex(addBearIdTrimmed)}`
     const blockfrostAsset = blockfrostData.assets.find((item) => item.asset === assetId)
 
     if (!blockfrostAsset) {
@@ -78,6 +78,7 @@ function AddAsset({ openDrawer, setOpenDrawer, adding, setAdding, setAssets }) {
 
       return [...prev, payload].sort((a, b) => a.id - b.id)
     })
+
     setAdding(false)
     setOpenDrawer(false)
     setAddBearId('')
@@ -94,9 +95,10 @@ function AddAsset({ openDrawer, setOpenDrawer, adding, setAdding, setAssets }) {
           margin: '1rem auto',
           padding: '0.5rem 1rem',
           alignItems: 'unset',
-        }}>
+        }}
+      >
         <TextField
-          label='Bear ID'
+          label={`${cubMode ? 'Cub' : 'Bear'} ID`}
           placeholder='#5935'
           varient='outlined'
           value={addBearId}
@@ -123,13 +125,7 @@ function AddAsset({ openDrawer, setOpenDrawer, adding, setAdding, setAssets }) {
         {adding ? (
           <Loading color='var(--brown)' />
         ) : (
-          <Button
-            variant='contained'
-            color='secondary'
-            size='large'
-            startIcon={<AddCircle />}
-            onClick={addAsset}
-            sx={{ margin: '0.4rem 0' }}>
+          <Button variant='contained' color='secondary' size='large' startIcon={<AddCircle />} onClick={addAsset} sx={{ margin: '0.4rem 0' }}>
             Add
           </Button>
         )}

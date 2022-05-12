@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic'
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useScreenSize } from '../../../contexts/ScreenSizeContext'
 import { useData } from '../../../contexts/DataContext'
 import { useLocalStorage } from '../../../hooks'
@@ -14,17 +14,27 @@ import { GREEN, RED } from '../../../constants/colors'
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
 function Portfolio({ open, onClose }) {
+  const { cubMode, floorData } = useData()
   const { isMobile, chartWidth } = useScreenSize()
-  const { floorData } = useData()
 
   const [assets, setAssets] = useLocalStorage('ogb-assets', [])
-  const [adding, setAdding] = useState(false)
+  const [bearAssets, setBearAssets] = useLocalStorage('ogb-bear-assets', assets ?? [])
+  const [cubAssets, setCubAssets] = useLocalStorage('ogb-cub-assets', [])
 
+  useEffect(() => {
+    // clear old storage for new storage
+    if (!bearAssets.length && assets.length) {
+      setBearAssets(assets)
+      setAssets([])
+    }
+  }, [assets])
+
+  const [adding, setAdding] = useState(false)
   const [openDrawer, setOpenDrawer] = useState(false)
   const [showThirtyDay, setShowThirtyDay] = useState(!isMobile)
 
   const chartOptions = getChartOptions(floorData, showThirtyDay)
-  const chartSeries = getPortfolioSeries(assets, floorData, showThirtyDay)
+  const chartSeries = getPortfolioSeries(cubMode ? cubAssets : bearAssets, floorData, showThirtyDay)
 
   return (
     <Fragment>
@@ -32,14 +42,14 @@ function Portfolio({ open, onClose }) {
         <Balance
           totalPayed={(() => {
             let val = 0
-            assets.forEach(({ payed }) => {
+            ;(cubMode ? cubAssets : bearAssets).forEach(({ payed }) => {
               val += payed
             })
             return val
           })()}
           totalBalance={(() => {
             let val = 0
-            assets.forEach(({ type }) => {
+            ;(cubMode ? cubAssets : bearAssets).forEach(({ type }) => {
               val += floorData[type][floorData[type].length - 1]?.floor ?? 0
             })
             return val
@@ -47,10 +57,7 @@ function Portfolio({ open, onClose }) {
         />
 
         <section className='chart-container'>
-          <div
-            className='flex-row'
-            style={{ width: '100%', justifyContent: 'space-evenly' }}
-          >
+          <div className='flex-row' style={{ width: '100%', justifyContent: 'space-evenly' }}>
             <Toggle
               labelLeft='7d'
               labelRight='30d'
@@ -66,13 +73,7 @@ function Portfolio({ open, onClose }) {
             type='area'
             options={{
               ...chartOptions,
-              colors: [
-                'var(--yellow)',
-                chartSeries[1].data[0] <
-                chartSeries[1].data[chartSeries[1].data.length - 1]
-                  ? GREEN
-                  : RED,
-              ],
+              colors: ['var(--yellow)', chartSeries[1].data[0] < chartSeries[1].data[chartSeries[1].data.length - 1] ? GREEN : RED],
               grid: {
                 show: false,
               },
@@ -82,8 +83,8 @@ function Portfolio({ open, onClose }) {
         </section>
 
         <MyAssets
-          assets={assets}
-          setAssets={setAssets}
+          assets={cubMode ? cubAssets : bearAssets}
+          setAssets={cubMode ? setCubAssets : setBearAssets}
           setOpenDrawer={setOpenDrawer}
           adding={adding}
         />
@@ -94,7 +95,7 @@ function Portfolio({ open, onClose }) {
         setOpenDrawer={setOpenDrawer}
         adding={adding}
         setAdding={setAdding}
-        setAssets={setAssets}
+        setAssets={cubMode ? setCubAssets : setBearAssets}
       />
     </Fragment>
   )
