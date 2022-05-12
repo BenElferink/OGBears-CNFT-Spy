@@ -6,7 +6,7 @@ import Loading from './Loading'
 import AssetCard from './AssetCard'
 
 function ScrollAssetsList({ sold = false }) {
-  const { isDesktop } = useScreenSize()
+  const { isMobile } = useScreenSize()
   const { listedAssets, soldAssets } = useMarket()
   const [displayNum, setDisplayNum] = useState(10)
 
@@ -18,7 +18,7 @@ function ScrollAssetsList({ sold = false }) {
     const isScrolledToBottom = Math.floor(scrollTop) === Math.floor(scrollHeight - clientHeight)
     const isScrolledToRight = Math.floor(scrollLeft) === Math.floor(scrollWidth - clientWidth)
 
-    if ((isDesktop && isScrolledToBottom) || (!isDesktop && isScrolledToRight)) {
+    if ((isMobile && isScrolledToRight) || (!isMobile && isScrolledToBottom)) {
       setDisplayNum((prev) => prev + 10)
     }
   }
@@ -34,7 +34,8 @@ function ScrollAssetsList({ sold = false }) {
           fontWeight: 'bold',
           color: 'whitesmoke',
           textShadow: '-1px 1px 3px black',
-        }}>
+        }}
+      >
         {title}
       </Typography>
 
@@ -50,7 +51,7 @@ function ScrollAssetsList({ sold = false }) {
                 itemUrl={itemUrl}
                 spanArray={[store, `${sold ? 'Sold:' : 'Listed:'} ${new Date(date).toLocaleString()}`]}
               />
-            ) : null,
+            ) : null
           )
         ) : (
           <Loading />
