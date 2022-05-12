@@ -58,6 +58,9 @@ export function MarketProvider({ children }) {
   const listedAssets = cubMode ? listedCubs : listedBears
   const soldAssets = cubMode ? soldCubs : soldBears
 
+  console.log('listedAssets', listedAssets)
+  console.log('soldAssets', soldAssets)
+
   return (
     <MarketContext.Provider
       value={{

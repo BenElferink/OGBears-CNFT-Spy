@@ -79,26 +79,6 @@ export function DataProvider({ children }) {
       .get(OPENCNFT_API + (cubMode ? CUB_POLICY_ID : BEAR_POLICY_ID))
       .then(({ data }) => setOnChainData(data))
       .catch((error) => console.error(error))
-
-    // Example for "onChainData"
-    // {
-    //   "attribution": "NOTICE: © 2021 OpenCNFT. Just include the source of the data (opencnft.io) ;)",
-    //   "policy": "a23836ef3b4d0ad3ed1c28bd30e754e208ae7ea0a23e809354d67e0d",
-    //   "thumbnail": "ipfs://QmfZiV23oARUPcNogNj4qRZx9S7cywPwPsutEDpKyJKgWt",
-    //   "total_volume": 622711000000,
-    //   "first_sale": 1646150030,
-    //   "total_tx": 4820,
-    //   "total_assets_sold": 3581,
-    //   "asset_minted": 7968,
-    //   "asset_holders": 2301,
-    //   "highest_sale": {
-    //       "asset_name": "1363",
-    //       "name": "a23836ef3b4d0ad3ed1c28bd30e754e208ae7ea0a23e809354d67e0d.1363",
-    //       "price": 3899000000
-    //   },
-    //   "floor_price": 81000000,
-    //   "floor_price_marketplace": "jpg.store"
-    // }
   }, [cubMode]) // eslint-disable-line
 
   return (
