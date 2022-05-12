@@ -9,9 +9,9 @@
 This application is a free-to-use community tool for OGBears (Cardano NFT)!<br />
 It is capable of following features:
 
-1. See recently listed and recently sold Bears from <strike>[cnft.io](https://cnft.io) and</strike> [jpg.store](https://jpg.store), can be useful for "sniping" and locating trends.
-2. Track "floor" prices for each Bear type through visualized data charts. Toggle between 7 days, and 30 days charts.
-3. Create a portfolio where you can track gain/loss on your Bears, compared to floor prices.
+1. See recently listed and recently sold Bears and Cubs from [jpg.store](https://jpg.store), can be useful for "sniping" and locating trends.
+2. Track "floor" prices for each Bear and Cub type through visualized data charts. Toggle between 7 days, and 30 days charts.
+3. Create a portfolio where you can track gain/loss on your Bears and Cubs, compared to floor prices.
 
 ## Public API
 
