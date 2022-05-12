@@ -9,32 +9,27 @@ import { TextField } from '@mui/material'
 
 export default function Rarity() {
   const { isMobile } = useScreenSize()
-  const { blockfrostData, ranksData } = useData()
+  const { cubMode, blockfrostData, ranksData } = useData()
   const [highToLow, setHighToLow] = useState(false)
   const [search, setSearch] = useState('')
 
   const renderAssets = () => {
     const assets = blockfrostData.assets.map((obj) => {
-      const bearId = obj.onchain_metadata.name.replace('BEAR', '')
+      const bearId = obj.onchain_metadata.name.replace(cubMode ? 'OGBears Cub #' : 'BEAR', '')
       const rank = Number(ranksData[bearId])
 
       return {
         assetId: obj.asset,
         bearId,
         name: obj.onchain_metadata.name,
-        rank,
+        rank: isNaN(rank) ? 'none' : rank,
         imageUrl: getImageFromIPFS(obj.onchain_metadata.image),
-        itemUrl: `https://cnft.tools/ogbears/${bearId}`,
+        itemUrl: `https://cnft.tools/${cubMode ? 'ogbears-cubs' : 'ogbears'}/${bearId}`,
       }
     })
 
-    const filteredAssets = assets.filter(
-      (obj) => !search || obj.bearId === search
-    )
-
-    const sortedAssets = filteredAssets.sort((a, b) =>
-      highToLow ? b.rank - a.rank : a.rank - b.rank
-    )
+    const filteredAssets = assets.filter((obj) => !search || obj.bearId === search)
+    const sortedAssets = filteredAssets.sort((a, b) => (highToLow ? b.rank - a.rank : a.rank - b.rank))
 
     return sortedAssets
   }
@@ -59,11 +54,7 @@ export default function Rarity() {
 
       <div className='flex-row' style={{ flexWrap: 'wrap' }}>
         <div style={styles.filter}>
-          <TextField
-            placeholder='Bear #ID'
-            value={search}
-            onChange={(e) => setSearch(String(e.target.value))}
-          />
+          <TextField placeholder='Bear #ID' value={search} onChange={(e) => setSearch(String(e.target.value))} />
         </div>
 
         <div style={styles.filter}>
@@ -78,11 +69,7 @@ export default function Rarity() {
         </div>
       </div>
 
-      <MarketAssets
-        data={renderAssets()}
-        extraHeightMobile={220}
-        extraHeightDesktop={58}
-      />
+      <MarketAssets data={renderAssets()} extraHeightMobile={220} extraHeightDesktop={58} />
     </main>
   )
 }

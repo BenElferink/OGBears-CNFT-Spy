@@ -10,7 +10,7 @@ function OnChainData() {
 
   return (
     <div className={isMobile ? 'flex-evenly' : 'flex-col'} style={{ color: 'white' }}>
-      {/* <Toggle labelLeft='Bears' labelRight='Cubs' showIcons={false} state={{ value: cubMode, setValue: setCubMode }} style={{ margin: '0.5rem' }} /> */}
+      <Toggle labelLeft='Bears' labelRight='Cubs' showIcons={false} state={{ value: cubMode, setValue: setCubMode }} style={{ margin: '0.5rem' }} />
 
       {onChainData.asset_minted ? (
         <Tooltip followCursor title='Number of minted assets'>
