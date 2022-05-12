@@ -5,13 +5,17 @@ import { useScreenSize } from '../contexts/ScreenSizeContext'
 import getImageFromIPFS from '../functions/getImageFromIPFS'
 import MarketAssets from '../components/MarketAssets'
 import Toggle from '../components/Toggle'
-import { TextField } from '@mui/material'
+import { MenuItem, Select, TextField } from '@mui/material'
+
+const BLANK = '-'
 
 export default function Rarity() {
   const { isMobile } = useScreenSize()
-  const { cubMode, blockfrostData, ranksData } = useData()
-  const [highToLow, setHighToLow] = useState(false)
+  const { cubMode, blockfrostData, traitsData, ranksData } = useData()
+
   const [search, setSearch] = useState('')
+  const [highToLow, setHighToLow] = useState(false)
+  const [filters, setFilters] = useState({})
 
   const renderAssets = () => {
     const assets = blockfrostData.assets.map((obj) => {
@@ -25,10 +29,28 @@ export default function Rarity() {
         rank: isNaN(rank) ? 'none' : rank,
         imageUrl: getImageFromIPFS(obj.onchain_metadata.image),
         itemUrl: `https://cnft.tools/${cubMode ? 'ogbears-cubs' : 'ogbears'}/${bearId}`,
+        attributes: obj.onchain_metadata.attributes,
       }
     })
 
-    const filteredAssets = assets.filter((obj) => !search || obj.bearId === search)
+    const filteredAssets = assets.filter((obj) => {
+      let isOk = false
+
+      if (!search || !Object.keys(filters).length) {
+        isOk = true
+      } else if (search && obj.bearId.indexOf(search) === 0) {
+        isOk = true
+      }
+
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value && value !== BLANK && obj.attributes[key] !== value) {
+          isOk = false
+        }
+      })
+
+      return isOk
+    })
+
     const sortedAssets = filteredAssets.sort((a, b) => (highToLow ? b.rank - a.rank : a.rank - b.rank))
 
     return sortedAssets
@@ -67,6 +89,25 @@ export default function Rarity() {
             }}
           />
         </div>
+
+        {Object.entries(traitsData.traits).map(([key, val]) => (
+          <Select
+            key={`select-${key}`}
+            value={filters[key] ?? BLANK}
+            onChange={(e) => setFilters((prev) => ({ ...prev, [key]: e.target.value }))}
+            style={{
+              fontSize: isMobile ? '0.8rem' : '1rem',
+              backgroundColor: filters[key] && filters[key] !== BLANK ? 'var(--yellow)' : 'unset',
+            }}
+          >
+            <MenuItem value={BLANK}>{key}</MenuItem>
+            {val.map(({ value, percent }) => (
+              <MenuItem key={`select-${key}-item-${value}`} value={value}>
+                {percent.toFixed(2)}% - {value}
+              </MenuItem>
+            ))}
+          </Select>
+        ))}
       </div>
 
       <MarketAssets data={renderAssets()} extraHeightMobile={220} extraHeightDesktop={58} />

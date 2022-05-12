@@ -1,6 +1,5 @@
-// import dynamic from 'next/dynamic'
+import dynamic from 'next/dynamic'
 import { Fragment, useState } from 'react'
-import Chart from 'react-apexcharts'
 import { useScreenSize } from '../../../contexts/ScreenSizeContext'
 import { useData } from '../../../contexts/DataContext'
 import { useLocalStorage } from '../../../hooks'
@@ -12,7 +11,7 @@ import MyAssets from './MyAssets'
 import AddAsset from './AddAsset'
 import Toggle from '../../Toggle'
 import { GREEN, RED } from '../../../constants/colors'
-// const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
 function Portfolio({ open, onClose }) {
   const { isMobile, chartWidth } = useScreenSize()

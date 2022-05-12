@@ -1,22 +1,20 @@
-// import dynamic from 'next/dynamic'
+import dynamic from 'next/dynamic'
 import { useState } from 'react'
-import Chart from 'react-apexcharts'
 import { useScreenSize } from '../../contexts/ScreenSizeContext'
 import { useData } from '../../contexts/DataContext'
-import { useLocalStorage } from '../../hooks'
 import getChartOptions from '../../functions/chart/getChartOptions'
 import getChartSeries from '../../functions/chart/getChartSeries'
 import { MenuItem, Select } from '@mui/material'
 import Toggle from '../Toggle'
 import { BLACK, BROWN, POLAR_MALE, POLAR_FEMALE, ZOMBIE, ICY } from '../../constants/colors'
-// const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
 function FloorCharts() {
   const { cubMode, floorData, traitsData } = useData()
   const { isMobile, chartWidth } = useScreenSize()
 
   const [showThirtyDay, setShowThirtyDay] = useState(!isMobile)
-  const [selectedType, setSelectedType] = useLocalStorage('ogb-selected-type', 'All')
+  const [selectedType, setSelectedType] = useState('All')
 
   const chartOptions = getChartOptions(floorData, showThirtyDay)
   const chartSeries = getChartSeries(

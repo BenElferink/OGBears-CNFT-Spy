@@ -33,6 +33,13 @@ export function DataProvider({ children }) {
   const ranksData = cubMode ? cubsRanksJsonFile : bearsRanksJsonFile
   const floorData = cubMode ? cubsFloorData : bearsFloorData
 
+  console.log('cubMode', cubMode)
+  console.log('onChainData', onChainData)
+  console.log('blockfrostData', blockfrostData)
+  console.log('traitsData', traitsData)
+  console.log('ranksData', ranksData)
+  console.log('floorData', floorData)
+
   // Add LIVE floor data to the imported snapshots
   useEffect(() => {
     axios
