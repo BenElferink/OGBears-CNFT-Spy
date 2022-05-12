@@ -30,32 +30,24 @@ export function MarketProvider({ children }) {
 
   const fetchAndSetListed = () => {
     // Get all LIVE listings from marketplaces
-    fetchListings({ type: 'bears', sold: false, page: 1 })
-      .then((jpgItems) => {
-        setListedBears(jpgItems)
-      })
-      .catch((error) => console.error(error))
+    fetchListings({ type: 'bears', sold: false, page: 1 }).then((jpgItems) => {
+      setListedBears(jpgItems)
+    })
 
-    fetchListings({ type: 'cubs', sold: false, page: 1 })
-      .then((jpgItems) => {
-        setListedCubs(jpgItems)
-      })
-      .catch((error) => console.error(error))
+    fetchListings({ type: 'cubs', sold: false, page: 1 }).then((jpgItems) => {
+      setListedCubs(jpgItems)
+    })
   }
 
   const fetchAndSetSold = () => {
     // Get all SOLD listings from marketplaces
-    fetchListings({ type: 'bears', sold: true, page: 1 })
-      .then((jpgItems) => {
-        setSoldBears(jpgItems)
-      })
-      .catch((error) => console.error(error))
+    fetchListings({ type: 'bears', sold: true, page: 1 }).then((jpgItems) => {
+      setSoldBears(jpgItems)
+    })
 
-    fetchListings({ type: 'cubs', sold: true, page: 1 })
-      .then((jpgItems) => {
-        setSoldCubs(jpgItems)
-      })
-      .catch((error) => console.error(error))
+    fetchListings({ type: 'cubs', sold: true, page: 1 }).then((jpgItems) => {
+      setSoldCubs(jpgItems)
+    })
   }
 
   useEffect(() => {
