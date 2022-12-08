@@ -28,25 +28,25 @@ export default function Rarity() {
         name: obj.onchain_metadata.name,
         rank: isNaN(rank) ? 'none' : rank,
         imageUrl: getImageFromIPFS(obj.onchain_metadata.image),
-        itemUrl: `https://cnft.tools/${cubMode ? 'ogbears-cubs' : 'ogbears'}/${bearId}`,
+        itemUrl: `https://cnft.tools/${cubMode ? 'ogbearscubs' : 'ogbears'}/${bearId}`,
         attributes: obj.onchain_metadata.attributes,
       }
     })
 
     const filteredAssets = assets.filter((obj) => {
-      let isOk = false
+      let isOk = true
 
-      if (!search || !Object.keys(filters).length) {
-        isOk = true
-      } else if (search && obj.bearId.indexOf(search) === 0) {
-        isOk = true
+      if (search && obj.bearId.indexOf(search) !== 0) {
+        isOk = false
       }
 
-      Object.entries(filters).forEach(([key, value]) => {
-        if (value && value !== BLANK && obj.attributes[key] !== value) {
-          isOk = false
-        }
-      })
+      if (Object.keys(filters).length) {
+        Object.entries(filters).forEach(([key, value]) => {
+          if (value && value !== BLANK && obj.attributes[key] !== value) {
+            isOk = false
+          }
+        })
+      }
 
       return isOk
     })
