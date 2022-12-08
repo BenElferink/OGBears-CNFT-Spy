@@ -10,7 +10,7 @@ const getJpgItems = (options = {}) => {
     console.log('crawling jpg.store')
 
     Axios.get(`https://server.jpgstoreapis.com/policy/${policyId}/${sold ? 'sales' : 'listings'}?page=${page}`, {
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Accept-Encoding': 'application/json' },
     })
       .then((response) => {
         const payload = response.data
